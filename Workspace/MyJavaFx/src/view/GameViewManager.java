@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Random;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -26,9 +28,15 @@ public class GameViewManager {
 	private int angle;
 	private AnimationTimer gameTimer;
 	
+	private final static String METEOR_BROWN_IMG = "view/resources/meteorBrown_med1.png";
+	
+	private ImageView[] brownMeteors;
+	Random randomPositionGenerator;
+	
 	public GameViewManager() {
 		initializeStage();
 		createKeyListener();
+		randomPositionGenerator = new Random();
 	}
 	
 	private void createKeyListener() {
@@ -69,10 +77,41 @@ public class GameViewManager {
 		this.menuStage = menuStage;
 		this.menuStage.hide();
 		createShip();
+		createGameElements();
 		createGameLoop();
 		gameStage.show();
 	}
 	
+	private void createGameElements() {
+		brownMeteors = new ImageView[3];
+		for(int i = 0;i<brownMeteors.length; i++) {
+			brownMeteors[i] = new ImageView(METEOR_BROWN_IMG);
+			setNewElemPos(brownMeteors[i]);
+			gamePane.getChildren().add(brownMeteors[i]);
+		}
+	}
+	
+	private void moveGameElems() {
+		for(int i = 0;i<brownMeteors.length;i++) {
+			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY()+7);
+			brownMeteors[i].setRotate(brownMeteors[i].getRotate()+4);
+		}
+	}
+	
+	private void checkIfElemsAreBehindShipAndRelocate() {
+		for(int i = 0;i<brownMeteors.length;i++) {
+			if(brownMeteors[i].getLayoutY() > 900) {
+				setNewElemPos(brownMeteors[i]);
+			}
+		}
+	}
+	
+	private void setNewElemPos(ImageView image) {
+		image.setLayoutX(randomPositionGenerator.nextInt(370));
+		image.setLayoutY(-(randomPositionGenerator.nextInt(3200) + 600));//3200
+		
+	
+	}
 	private void createShip() {
 		ship = new ImageView("view/resources/playerShip1_orange.png");
 		ship.setX(GAME_WIDTH / 2 - 49); //600/2-49 = 251
@@ -84,6 +123,8 @@ public class GameViewManager {
 		gameTimer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+				moveGameElems();
+				checkIfElemsAreBehindShipAndRelocate();
 				moveShip();
 				
 			}
