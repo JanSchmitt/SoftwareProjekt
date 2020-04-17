@@ -33,6 +33,9 @@ public class GameViewManager {
 	private ImageView[] brownMeteors;
 	Random randomPositionGenerator;
 	
+	public final static int SHIP_RADIUS = 37;
+	public final static int METEOR_RADIUS = 21;
+	
 	public GameViewManager() {
 		initializeStage();
 		createKeyListener();
@@ -125,6 +128,7 @@ public class GameViewManager {
 			public void handle(long now) {
 				moveGameElems();
 				checkIfElemsAreBehindShipAndRelocate();
+				checkIfElemsCollide();
 				moveShip();
 				
 			}
@@ -175,6 +179,18 @@ public class GameViewManager {
 			}
 			ship.setRotate(angle);
 		}
+	}
+	
+	private void checkIfElemsCollide() {
+		for(int i = 0;i<brownMeteors.length;i++) {
+			if(METEOR_RADIUS + SHIP_RADIUS > calculateDistance(ship.getLayoutX(), brownMeteors[i].getLayoutX(), ship.getLayoutY(), brownMeteors[i].getLayoutY())) {
+				setNewElemPos(brownMeteors[i]);
+			}
+		}
+	}
+	
+	private double calculateDistance(double x1, double x2, double y1, double y2) {
+		return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 	}
 }
 
