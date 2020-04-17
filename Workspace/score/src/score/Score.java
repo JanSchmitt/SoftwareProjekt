@@ -1,11 +1,7 @@
 package score;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,11 +15,15 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 	Button buttonAdd;
 	Button buttonStart;
 	Button buttonEnd;
+	Button buttonRemove;
 	Stage window;
 	int score = 0;
 	int highscore = 0;
 	Scene scene;
 	AnimationTimer timer;
+	boolean running = false;
+	int counter = 1;
+	int gain = 100;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -40,6 +40,7 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 					
 				}
 				SceneSet();
+				gain = 100;
 			}	
 		};
 		timer.start();
@@ -48,11 +49,22 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 		if(event.getSource() == buttonStart) {
 			startTime();
+			running = true;
 		}
 		
-		if(event.getSource() == buttonEnd) {
+		if(event.getSource() == buttonEnd && running == true) {
 			timer.stop();
 			
+			if(score > highscore) {
+				highscore = score;
+				score = 0;
+			} else {
+				score = 0;
+			}
+			SceneSet();
+		} 
+		
+		if(event.getSource() == buttonEnd && running == false) {
 			if(score > highscore) {
 				highscore = score;
 				score = 0;
@@ -68,6 +80,11 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 			SceneSet();
 		}
 		
+		if(event.getSource() == buttonRemove) {
+			remove();
+			SceneSet();
+		}
+		
 	}
 
 	@Override
@@ -78,21 +95,32 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 
 	public void add10() {
 		score = score + 10;
+		gain = gain +10;
+	}
+	
+	public void remove() {
+			score = score - (counter*50);
+			counter = counter + 1;
+			gain = gain - (counter*50);
 	}
 	
 	public void SceneSet() {
 		VBox box1 = new VBox(20);
 		buttonAdd = new Button("Add Points");
+		buttonRemove = new Button("Remove Points");
 		buttonStart = new Button("Start");
 		buttonEnd = new Button("End");
 		Label label1 = new Label("Your current score: " + score);
 		Label label2 = new Label("Highscore: " + highscore);
-		box1.getChildren().addAll(buttonAdd, buttonStart, buttonEnd, label1, label2);
+		Label  label3 = new Label("Points this round: " + gain);
+		box1.getChildren().addAll(buttonAdd, buttonRemove, buttonStart, buttonEnd, label1, label2, label3);
 		scene = new Scene(box1, 400, 400);
 		window.setScene(scene);
 		buttonAdd.setOnAction(this);
+		buttonRemove.setOnAction(this);
 		buttonStart.setOnAction(this);
 		buttonEnd.setOnAction(this);
+		
 		window.show();
 	}
 }
