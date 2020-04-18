@@ -37,7 +37,6 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					
 				}
 				SceneSet();
 				gain = 100;
@@ -99,9 +98,9 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 	}
 	
 	public void remove() {
-			score = score - (counter*50);
+			score = score - (counter*500);
 			counter = counter + 1;
-			gain = gain - (counter*50);
+			gain = gain - (counter*500);
 	}
 	
 	public void SceneSet() {
