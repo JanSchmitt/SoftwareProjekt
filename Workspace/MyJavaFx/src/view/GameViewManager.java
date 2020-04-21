@@ -19,6 +19,7 @@ public class GameViewManager {
 	
 	private static final int GAME_WIDTH = 600;
 	private static final int GAME_HEIGHT = 800;
+	//player_size 99x75
 	
 	private Stage menuStage;
 	private ImageView ship;
