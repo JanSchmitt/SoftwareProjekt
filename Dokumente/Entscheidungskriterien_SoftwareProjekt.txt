@@ -1,0 +1,42 @@
+Shimmer3 IMU Unit
+	Positiv
+		Teuer
+		Echtzeitübertragung
+		Funktioniert auf jeden Fall, da Medizinischer Sensor
+
+	Negativ
+		Läuft über 3rd Party apps
+		Teuer
+		Lieferzeit?
+		Sehr teuer
+		400€+
+
+
+
+Polar H10
+	Positiv
+		Mittleres Preisfeld 100€
+		Pünktliche Lieferung da Amazon
+	
+	Negativ
+		Echtzeitübertragung?
+		Läuft über 3rd Party apps
+
+
+
+
+
+https://pulsesensor.com/products/pulse-sensor-amped
+	Positiv
+		Puls Sensor für Arduino
+		25€
+		Günstig
+		Arduino hab ich
+		Daten in Echtzeit ablesbar
+		Direkt mit PC verbunden
+		Keine 3rd Party Apps
+		Kein großer codeaufwand durch Heraussuchen aus apps
+	
+	Negativ
+		Reliability?
+		Lieferzeit?

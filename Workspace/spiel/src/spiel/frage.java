@@ -37,7 +37,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	TextField alter, gewicht, name;
 	GridPane layout3,layout1,layout2,layout4,layout5;
 	
-	// Globale Variablen
+	//Variablen
 	int Alter, Gewicht, sportlichkeit;
 	String Name, Sportlich;
 	int hfmax;
