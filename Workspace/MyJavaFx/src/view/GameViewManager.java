@@ -157,6 +157,8 @@ public class GameViewManager {
 	}
 	
 	private void createBackground() {
+		//GridPane, da Background zu klein Screen-size ist
+		//Überlagerung des Backgrounds als Gittereinheit
 		gridPane1 = new GridPane();
 		//when moves 2nd must cover the empty spot
 		gridPane2 = new GridPane();
@@ -164,26 +166,27 @@ public class GameViewManager {
 		for(int i = 0; i<16;i++) {
 			ImageView backgroundImage1 = new ImageView(BACKGROUND_IMG);
 			ImageView backgroundImage2 = new ImageView(BACKGROUND_IMG);
-			//set columns and rows
+			//set columns and rows 
+			//da background 256x256 muss für width = 800, col & rows = 4
 			GridPane.setConstraints(backgroundImage1, i%4, i/4);
 			GridPane.setConstraints(backgroundImage2, i%4, i/4);
 			gridPane1.getChildren().add(backgroundImage1);
 			gridPane2.getChildren().add(backgroundImage2);
 		}
-		gridPane2.setLayoutY(-1024);
+		gridPane2.setLayoutY(-GAME_HEIGHT); 
 		gamePane.getChildren().addAll(gridPane1, gridPane2);
 	}
 	
 	private void moveBackground() {
-		gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.5);
+		gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.5); 
 		gridPane2.setLayoutY(gridPane2.getLayoutY() + 0.5);
 		
-		if(gridPane1.getLayoutY() >=1024) {
-			gridPane1.setLayoutY(-1024);
+		if(gridPane1.getLayoutY() >=GAME_HEIGHT) {
+			gridPane1.setLayoutY(-GAME_HEIGHT);
 		}
 
-		if(gridPane2.getLayoutY() >=1024) {
-			gridPane2.setLayoutY(-1024);
+		if(gridPane2.getLayoutY() >=GAME_HEIGHT) {
+			gridPane2.setLayoutY(-GAME_HEIGHT);
 		}
 	}
 }
