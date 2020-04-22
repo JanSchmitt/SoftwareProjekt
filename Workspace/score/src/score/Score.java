@@ -93,14 +93,14 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 	}
 
 	public void add10() {
-		score = score + 10;
-		gain = gain +10;
+		score = score + 234;
+		gain = gain + 234;
 	}
 	
 	public void remove() {
-			score = score - (counter*500);
+			score = score - (counter*250);
 			counter = counter + 1;
-			gain = gain - (counter*500);
+			gain = gain - (counter*250);
 	}
 	
 	public void SceneSet() {
