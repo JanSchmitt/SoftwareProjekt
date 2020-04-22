@@ -3,6 +3,7 @@ package view;
 
 import java.util.Random;
 
+
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -40,8 +41,9 @@ public class GameViewManager {
 	
 	private boolean isLeftKeyPressed;
 	private boolean isRigtKeyPressed;
+	private boolean isSpaceKeyPressed;
 	private int angle;
-	
+	private int displayedShots = 0;
 	private AnimationTimer gameTimer;
 	
 	Random RAND;
@@ -55,7 +57,9 @@ public class GameViewManager {
 	private ImageView player;
 	private ImageView[] brownMeteors;
 	private ImageView[] greyMeteors;
+	//private ImageView laserShot;
 	
+	//private int MAX_SHOTS_SIZE = (brownMeteors.length + greyMeteors.length) * 2;
 	
 	public GameViewManager() {
 		initializeStage();
@@ -73,6 +77,9 @@ public class GameViewManager {
 				}else if(e.getCode() == KeyCode.RIGHT) {
 					isRigtKeyPressed = true;
 				}
+				/*else if(e.getCode() == KeyCode.SPACE) {
+					isSpaceKeyPressed = true;
+				}*/
 			}
 		});
 		
@@ -85,6 +92,11 @@ public class GameViewManager {
 				}else if(e.getCode() == KeyCode.RIGHT) {
 					isRigtKeyPressed = false;
 				}
+				/*
+				else if(e.getCode() == KeyCode.SPACE) {
+					isSpaceKeyPressed = false;
+				}
+				*/
 			}
 			
 		});
@@ -93,7 +105,7 @@ public class GameViewManager {
 	private void initializeStage() {
 		gamePane = new AnchorPane();
 		gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
-		gameStage = new Stage();
+		gameStage = new Stage();//eine Stage 
 		gameStage.setScene(gameScene);
 		gameStage.setResizable(false);
 	}
@@ -250,8 +262,24 @@ public class GameViewManager {
 			}
 			player.setRotate(angle);
 		}
+	}
+	/*
+	private void shoot() {
+		if(isSpaceKeyPressed && displayedShots < MAX_SHOTS_SIZE) {
+			createLaserShot(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2, player.getLayoutY() - 37/2);
+		}
+		//return new Shot(posX + size / 2 - Shot.size / 2, posY - Shot.size);
+	}
+	
+	
+	//Laser Shot
+	//////////////////////////
+	private void createLaserShot(double x, double y) {
+		laserShot = new ImageView("view/resources/laserGreen04.png");
+		displayedShots++;
 		
 	}
+	*/
 	
 	//Background
 	/////////////////////////////////

@@ -23,9 +23,9 @@ public class ViewManager {
 
 	private static final int HEIGHT = 768;
 	private static final int WIDTH = 1024;
-	private AnchorPane mainPane; //GUI
+	private AnchorPane mainPane; //Container mit 5 Logic-Regions: Top, Bottom, Left, Center, Right
 	private Scene mainScene;
-	private Stage mainStage;
+	private Stage mainStage; //neues fenster
 	
 	private final static int NEW_BUTTON_START_X = 100;
 	private final static int NEW_BUTTON_START_Y = 150;
