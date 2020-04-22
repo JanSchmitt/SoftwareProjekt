@@ -129,7 +129,7 @@ public class GameViewManager {
 	////////////////////////////////
 	private void createGameElements() {
 		//jeweils max 3 meteors generaten
-		brownMeteors = new ImageView[1];
+		brownMeteors = new ImageView[3];
 		for(int i = 0;i<brownMeteors.length; i++) {
 			//erzeugen der ImageView Objekte
 			brownMeteors[i] = new ImageView(METEOR_BROWN_IMG);
@@ -142,7 +142,7 @@ public class GameViewManager {
 			gamePane.getChildren().add(brownMeteors[i]);
 		}
 		
-		greyMeteors = new ImageView[0];
+		greyMeteors = new ImageView[3];
 		for(int i = 0;i<greyMeteors.length; i++) {
 			//auf selbe Größe wie Player setzen
 			greyMeteors[i] = new ImageView(METEOR_GREY_IMG);
@@ -159,8 +159,8 @@ public class GameViewManager {
 	private void setNewElementPosition(ImageView img) {
 		img.setLayoutX(RAND.nextInt(GAME_WIDTH - ENTITIES_SIZE));//370
 		//zahl beliebig
-		//img.setLayoutY(-RAND.nextInt(400));
-		img.setLayoutY(0);
+		img.setLayoutY(-RAND.nextInt(400));
+		//img.setLayoutY(0);
 	}
 	
 	private void moveGameElements() {
@@ -309,8 +309,13 @@ public class GameViewManager {
 		for(int i = 0; i < brownMeteors.length; i++) {
 			if( (distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
 					player.getLayoutX() + 372 + ENTITIES_SIZE/2, player.getLayoutY() + GAME_WIDTH - 90 - ENTITIES_SIZE/2)) <= (ENTITIES_SIZE/2 + ENTITIES_SIZE/2)) {
-				System.out.println("col");
 				setNewElementPosition(brownMeteors[i]);
+			}
+		}
+		for(int i = 0; i < greyMeteors.length; i++) {
+			if( (distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
+					player.getLayoutX() + 372 + ENTITIES_SIZE/2, player.getLayoutY() + GAME_WIDTH - 90 - ENTITIES_SIZE/2)) <= (ENTITIES_SIZE/2 + ENTITIES_SIZE/2)) {
+				setNewElementPosition(greyMeteors[i]);
 			}
 		}
 	}
