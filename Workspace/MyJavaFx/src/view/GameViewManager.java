@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class GameViewManager {
@@ -17,9 +18,9 @@ public class GameViewManager {
 	private Scene gameScene;
 	private Stage gameStage;
 	
-	private static final int GAME_WIDTH = 600;
-	private static final int GAME_HEIGHT = 800;
-	//private static final int SHIP_SIZE = 60;
+	private static final int GAME_WIDTH = 800;
+	private static final int GAME_HEIGHT = 750;
+	private static final int SHIP_SIZE = 60;
 	
 	private Stage menuStage;
 	private ImageView ship;
@@ -87,7 +88,11 @@ public class GameViewManager {
 	private void createShip() {
 		
 		ship = new ImageView("view/resources/playerShip1_orange.png");
-		ship.setX(GAME_WIDTH / 2 -49); //600/2-49 = 251  -49
+		
+		ship.setFitHeight(SHIP_SIZE);
+		ship.setFitWidth(SHIP_SIZE);
+		
+		ship.setX(GAME_WIDTH / 2 - SHIP_SIZE / 2); //600/2-49 = 251  -49
 		ship.setY(GAME_HEIGHT - 90); //-90
 		gamePane.getChildren().add(ship);
 	}
@@ -108,11 +113,12 @@ public class GameViewManager {
 	private void moveShip() {
 		//nach links
 		if(isLeftKeyPressed && !isRigtKeyPressed) {
+			System.out.println(ship.getLayoutX());
 			if(angle > -30) { //borders
 				angle -= 5;
 			}
 			ship.setRotate(angle);
-			if(ship.getLayoutX() > -249) {
+			if(ship.getLayoutX() > - GAME_WIDTH / 2 + SHIP_SIZE / 2) {
 				ship.setLayoutX(ship.getLayoutX() -3);
 			}
 		}
@@ -123,7 +129,7 @@ public class GameViewManager {
 				angle += 5;
 			}
 			ship.setRotate(angle);
-			if(ship.getLayoutX() < 248) {
+			if(ship.getLayoutX() < GAME_WIDTH / 2 - SHIP_SIZE / 2) {
 				ship.setLayoutX(ship.getLayoutX() +3);
 			}
 		}
@@ -155,12 +161,12 @@ public class GameViewManager {
 		//when moves 2nd must cover the empty spot
 		gridPane2 = new GridPane();
 		
-		for(int i = 0; i<12;i++) {
+		for(int i = 0; i<16;i++) {
 			ImageView backgroundImage1 = new ImageView(BACKGROUND_IMG);
 			ImageView backgroundImage2 = new ImageView(BACKGROUND_IMG);
 			//set columns and rows
-			GridPane.setConstraints(backgroundImage1, i% 3, i/3);
-			GridPane.setConstraints(backgroundImage2, i% 3, i/3);
+			GridPane.setConstraints(backgroundImage1, i%4, i/4);
+			GridPane.setConstraints(backgroundImage2, i%4, i/4);
 			gridPane1.getChildren().add(backgroundImage1);
 			gridPane2.getChildren().add(backgroundImage2);
 		}
