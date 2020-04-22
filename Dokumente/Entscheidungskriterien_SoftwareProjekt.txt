@@ -36,6 +36,7 @@ https://pulsesensor.com/products/pulse-sensor-amped
 		Direkt mit PC verbunden
 		Keine 3rd Party Apps
 		Kein großer codeaufwand durch Heraussuchen aus apps
+		Arduino Nano 20 Euro
 	
 	Negativ
 		Reliability?
