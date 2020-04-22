@@ -15,33 +15,47 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class GameViewManager {
-
+	
+	//constants
+	//{
+	//Window size
+	private static final int GAME_WIDTH = 804;
+	private static final int GAME_HEIGHT = 750;
+	//Entities size
+	private static final int ENTITIES_SIZE = 60;
+	//Collision Detection Radius
+	private final static int PLAYER_RADIUS = 30;
+	private final static int METEOR_RADIUS = 30;
+	//}
+	
+	//Ebenen
 	private AnchorPane gamePane;
 	private Scene gameScene;
 	private Stage gameStage;
-	
-	private static final int GAME_WIDTH = 800;
-	private static final int GAME_HEIGHT = 750;
-	private static final int ENTITIES_SIZE = 60;
-	
 	private Stage menuStage;
-	private ImageView ship;
+	
+	//Gridpane for Background IMG
+	private GridPane gridPane1;
+	private GridPane gridPane2;
 	
 	private boolean isLeftKeyPressed;
 	private boolean isRigtKeyPressed;
 	private int angle;
+	
 	private AnimationTimer gameTimer;
 	
-	private GridPane gridPane1;
-	private GridPane gridPane2;
-	public final static String BACKGROUND_IMG = "view/resources/blue.png";
+	Random RAND;
 	
+	//IMG URL
+	public final static String BACKGROUND_IMG = "view/resources/blue.png";
 	private final static String METEOR_GREY_IMG = "view/resources/meteorGrey_med1.png";
 	private final static String METEOR_BROWN_IMG = "view/resources/meteorBrown_med1.png";
 	
+	//IMG Objects to create
+	private ImageView player;
 	private ImageView[] brownMeteors;
 	private ImageView[] greyMeteors;
-	Random RAND;
+	
 	
 	public GameViewManager() {
 		initializeStage();
@@ -88,7 +102,7 @@ public class GameViewManager {
 		this.menuStage = menuStage;
 		this.menuStage.hide();
 		createBackground();
-		createShip();
+		createPlayer();
 		createGameElements();
 		
 		createGameLoop();
@@ -103,24 +117,24 @@ public class GameViewManager {
 				moveBackground();
 				moveGameElements();
 				checkIfElemetsAreUnderShip();
+				collision();
 				moveShip();
-				
 			}
 		};
 		gameTimer.start();
 	}
 	
 	
-	//Meteors
+	//Meteors(Enemies)
 	////////////////////////////////
 	private void createGameElements() {
 		//jeweils max 3 meteors generaten
-		brownMeteors = new ImageView[3];
+		brownMeteors = new ImageView[1];
 		for(int i = 0;i<brownMeteors.length; i++) {
 			//erzeugen der ImageView Objekte
 			brownMeteors[i] = new ImageView(METEOR_BROWN_IMG);
 			
-			//auf selbe Größe wie Player setzen
+			//auf selbe Größe wie Player setzen = 60x60
 			brownMeteors[i].setFitHeight(ENTITIES_SIZE);
 			brownMeteors[i].setFitWidth(ENTITIES_SIZE);
 			//
@@ -128,7 +142,7 @@ public class GameViewManager {
 			gamePane.getChildren().add(brownMeteors[i]);
 		}
 		
-		greyMeteors = new ImageView[3];
+		greyMeteors = new ImageView[0];
 		for(int i = 0;i<greyMeteors.length; i++) {
 			//auf selbe Größe wie Player setzen
 			greyMeteors[i] = new ImageView(METEOR_GREY_IMG);
@@ -145,17 +159,19 @@ public class GameViewManager {
 	private void setNewElementPosition(ImageView img) {
 		img.setLayoutX(RAND.nextInt(GAME_WIDTH - ENTITIES_SIZE));//370
 		//zahl beliebig
-		img.setLayoutY(-RAND.nextInt(400));
+		//img.setLayoutY(-RAND.nextInt(400));
+		img.setLayoutY(0);
 	}
 	
 	private void moveGameElements() {
 		for(int i = 0; i < brownMeteors.length; i++) {
-			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4);
+			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4); //speed
 			brownMeteors[i].setRotate(brownMeteors[i].getRotate()+4);
+			//System.out.println(brownMeteors[i].getLayoutX() + "     " + brownMeteors[i].getLayoutY());
 		}
 		
 		for(int i = 0; i < greyMeteors.length; i++) {
-			greyMeteors[i].setLayoutY(greyMeteors[i].getLayoutY() + 3); 
+			greyMeteors[i].setLayoutY(greyMeteors[i].getLayoutY() + 3); //speed 
 			greyMeteors[i].setRotate(greyMeteors[i].getRotate()-4);
 		}
 	}
@@ -176,18 +192,18 @@ public class GameViewManager {
 		}
 	}
 	
-	//Ship(Player)
+	//Player(Ship)
 	///////////////////////////
-	private void createShip() {
+	private void createPlayer() {
 		
-		ship = new ImageView("view/resources/playerShip1_orange.png");
+		player = new ImageView("view/resources/playerShip1_orange.png");
 		
-		ship.setFitHeight(ENTITIES_SIZE);
-		ship.setFitWidth(ENTITIES_SIZE);
+		player.setFitHeight(ENTITIES_SIZE);
+		player.setFitWidth(ENTITIES_SIZE);
 		
-		ship.setX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2); //600/2-49 = 251  -49
-		ship.setY(GAME_HEIGHT - 90); //-90
-		gamePane.getChildren().add(ship);
+		player.setX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2); //600/2-49 = 251  -49
+		player.setY(GAME_HEIGHT - 90); //-90
+		gamePane.getChildren().add(player);
 	}
 	
 	private void moveShip() {
@@ -196,9 +212,10 @@ public class GameViewManager {
 			if(angle > -30) { //borders
 				angle -= 5;
 			}
-			ship.setRotate(angle);
-			if(ship.getLayoutX() > - GAME_WIDTH / 2 + ENTITIES_SIZE / 2) {
-				ship.setLayoutX(ship.getLayoutX() -3);
+			player.setRotate(angle);
+			if(player.getLayoutX() > - GAME_WIDTH / 2 + ENTITIES_SIZE / 2) {
+				player.setLayoutX(player.getLayoutX() -3);
+				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
 		}
 		
@@ -207,9 +224,10 @@ public class GameViewManager {
 			if(angle < 30) {
 				angle += 5;
 			}
-			ship.setRotate(angle);
-			if(ship.getLayoutX() < GAME_WIDTH / 2 - ENTITIES_SIZE / 2) {
-				ship.setLayoutX(ship.getLayoutX() +3);
+			player.setRotate(angle);
+			if(player.getLayoutX() < GAME_WIDTH / 2 - ENTITIES_SIZE / 2) {
+				player.setLayoutX(player.getLayoutX() +3);
+				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
 		}
 		
@@ -220,7 +238,7 @@ public class GameViewManager {
 			}else if(angle > 0) {
 				angle -= 5;
 			}
-			ship.setRotate(angle);
+			player.setRotate(angle);
 		}
 		
 		//pos beibehalten
@@ -230,7 +248,7 @@ public class GameViewManager {
 			}else if(angle > 0) {
 				angle -= 5;
 			}
-			ship.setRotate(angle);
+			player.setRotate(angle);
 		}
 		
 	}
@@ -270,6 +288,38 @@ public class GameViewManager {
 			gridPane2.setLayoutY(-GAME_HEIGHT);
 		}
 	}
+	/*
+	private void collision() {
+		for(int i = 0; i < brownMeteors.length; i++) {
+			if(ENTITIES_SIZE + ENTITIES_SIZE > distance(player.getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutX() + PLAYER_RADIUS/2, 
+					player.getLayoutY() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + PLAYER_RADIUS/2)) {
+				setNewElementPosition(brownMeteors[i]);
+			}
+		}
+		for(int i = 0; i < greyMeteors.length; i++) {
+			if(ENTITIES_SIZE + ENTITIES_SIZE > distance(player.getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, 
+					player.getLayoutY() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() + ENTITIES_SIZE/2)) {
+				setNewElementPosition(greyMeteors[i]);
+			}
+		}
+	}
+	*/
+	
+	private void collision() {
+		for(int i = 0; i < brownMeteors.length; i++) {
+			if( (distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
+					player.getLayoutX() + 372 + ENTITIES_SIZE/2, player.getLayoutY() + GAME_WIDTH - 90 - ENTITIES_SIZE/2)) <= (ENTITIES_SIZE/2 + ENTITIES_SIZE/2)) {
+				System.out.println("col");
+				setNewElementPosition(brownMeteors[i]);
+			}
+		}
+	}
+	
+	
+	private double distance(double x1, double y1, double x2, double y2) {
+		return (Math.sqrt(Math.pow( (x1-x2), 2) + Math.pow( (y1-y2), 2)));
+	}
+	
 }
 
 
