@@ -213,8 +213,10 @@ public class GameViewManager {
 		player.setFitHeight(ENTITIES_SIZE);
 		player.setFitWidth(ENTITIES_SIZE);
 		
-		player.setX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2); //600/2-49 = 251  -49
-		player.setY(GAME_HEIGHT - 90); //-90
+		//player.setX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2); //600/2-49 = 251  -49
+		//player.setY(GAME_HEIGHT - 90); //-90
+		player.setLayoutX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2);
+		player.setLayoutY(GAME_HEIGHT - 90);
 		gamePane.getChildren().add(player);
 	}
 	
@@ -225,7 +227,8 @@ public class GameViewManager {
 				angle -= 5;
 			}
 			player.setRotate(angle);
-			if(player.getLayoutX() > - GAME_WIDTH / 2 + ENTITIES_SIZE / 2) {
+			//if(player.getLayoutX() > - GAME_WIDTH / 2 + ENTITIES_SIZE / 2) {
+			if(player.getLayoutX() > 0) {
 				player.setLayoutX(player.getLayoutX() -3);
 				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
@@ -237,7 +240,8 @@ public class GameViewManager {
 				angle += 5;
 			}
 			player.setRotate(angle);
-			if(player.getLayoutX() < GAME_WIDTH / 2 - ENTITIES_SIZE / 2) {
+			//if(player.getLayoutX() < GAME_WIDTH / 2 - ENTITIES_SIZE / 2) {
+			if(player.getLayoutX() < GAME_WIDTH - ENTITIES_SIZE) {
 				player.setLayoutX(player.getLayoutX() +3);
 				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
@@ -316,23 +320,23 @@ public class GameViewManager {
 			gridPane2.setLayoutY(-GAME_HEIGHT);
 		}
 	}
-	/*
+	
 	private void collision() {
 		for(int i = 0; i < brownMeteors.length; i++) {
-			if(ENTITIES_SIZE + ENTITIES_SIZE > distance(player.getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutX() + PLAYER_RADIUS/2, 
-					player.getLayoutY() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + PLAYER_RADIUS/2)) {
+			if( distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
+					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(brownMeteors[i]);
 			}
 		}
 		for(int i = 0; i < greyMeteors.length; i++) {
-			if(ENTITIES_SIZE + ENTITIES_SIZE > distance(player.getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, 
-					player.getLayoutY() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() + ENTITIES_SIZE/2)) {
+			if( distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
+					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(greyMeteors[i]);
 			}
 		}
 	}
-	*/
 	
+	/*
 	private void collision() {
 		for(int i = 0; i < brownMeteors.length; i++) {
 			if( (distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
@@ -347,7 +351,7 @@ public class GameViewManager {
 			}
 		}
 	}
-	
+	*/
 	
 	private double distance(double x1, double y1, double x2, double y2) {
 		return (Math.sqrt(Math.pow( (x1-x2), 2) + Math.pow( (y1-y2), 2)));
