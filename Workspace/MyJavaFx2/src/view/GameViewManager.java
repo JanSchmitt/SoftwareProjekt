@@ -3,7 +3,12 @@ package view;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -11,8 +16,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
 
 public class GameViewManager {
 	
@@ -36,7 +43,7 @@ public class GameViewManager {
 	private GridPane gridPane2;
 	
 	private int angle;
-	
+
 	private AnimationTimer gameTimer;
 	
 	Random RAND;
@@ -56,8 +63,11 @@ public class GameViewManager {
 	private ImageView player;
 	private ImageView[] brownMeteors;
 	private ImageView[] greyMeteors;
+	//private ImageView[] laserShot;
 	private ImageView laserShot;
+	
 	private ArrayList<Node> lasers = new ArrayList<Node>();
+	
 	
 	
 	public GameViewManager() {
@@ -82,13 +92,14 @@ public class GameViewManager {
 						newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2 , player.getLayoutY());
 						lasers.add(newLaserShot);
 						gamePane.getChildren().add(newLaserShot);
-						System.out.println("+1");
 						shooting = true;
 					}
+					
+					
 				}
 			}
 		});
-	
+		
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -104,6 +115,17 @@ public class GameViewManager {
 			}
 			
 		});
+	}
+	
+	private void shootLaser() {
+		for(int i = 0; i<lasers.size(); i++) {
+			if(lasers.get(i).getLayoutY() > 0) {
+				lasers.get(i).relocate(lasers.get(i).getLayoutX(), lasers.get(i).getLayoutY() - 3);
+			}
+			else {
+				lasers.remove(i);
+			}
+		}
 	}
 
 	private void initializeStage() {
@@ -135,6 +157,7 @@ public class GameViewManager {
 				moveBackground();
 				moveGameElements();
 				shootLaser();
+				//shoot();
 				checkIfElemetsAreUnderShip();
 				collision();
 				moveShip();
@@ -277,21 +300,87 @@ public class GameViewManager {
 			player.setRotate(angle);
 		}
 	}
-	
-	//Lasershot 13x37 (width x height)
-	///////////////////////////
-	private void shootLaser() {
-		for(int i = 0; i<lasers.size(); i++) {
-			if(lasers.get(i).getLayoutY() > -37) { //wenn unterhalb des windows 
-				lasers.get(i).relocate(lasers.get(i).getLayoutX(), lasers.get(i).getLayoutY() - 3); //um 3 pixel nach oben bewegen
-			}
-			else { //wenn oberhalb des windows 
-				lasers.remove(i);
-				System.out.println("remove");
-			}
+	/*
+	private void checkIfShot() {
+		if(isSpaceKeyPressed) {
+			laserShot = new ImageView(LASER_IMG);
+			laserShot.setLayoutX(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2);
+			laserShot.setLayoutY(player.getLayoutY());
+			
+			//laserShot[i].setVisible(false);
+			gamePane.getChildren().add(laserShot); //200millies warten
+			
+			
+			
+			//moveLaserShot();
+
+
+			
 		}
 	}
 	
+	private void moveLaserShot() {
+	
+		if(laserShot.getLayoutY() + 37 > 0) {
+			laserShot.relocate(laserShot.getLayoutX(), laserShot.getLayoutY() - 5);	
+			//laserShot.setLayoutY(laserShot.getLayoutY() - 2);
+			
+		}else if(laserShot.getLayoutY() + 37 < 0) {
+			gamePane.getChildren().remove(laserShot);
+			System.out.println("R");
+		}	
+	}
+	
+	/*
+	private void shoot() {
+		if(isSpaceKeyPressed && displayedShots < MAX_SHOTS_SIZE) {
+			createLaserShot(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2, player.getLayoutY());
+		}
+		//return new Shot(posX + size / 2 - Shot.size / 2, posY - Shot.size);
+	}
+	*/
+	
+	//Laser Shot (13x37) (width,height)
+	//////////////////////////
+	/*
+	private void createLaserShot() {
+		laserShot = new ImageView[maxLaserShots];
+		for(int i = 0;i<laserShot.length; i++) {
+			//erzeugen der ImageView Objekte
+			laserShot[i] = new ImageView(LASER_IMG);
+			laserShot[i].setLayoutX(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2);
+			laserShot[i].setLayoutY(player.getLayoutY());
+			//laserShot[i].setVisible(false);
+			gamePane.getChildren().add(laserShot[i]);
+		}
+	}
+	
+	private void moveLaserShots(double x, double y, int delta) {
+		for(int i = 0; i < laserShot.length; i++) {
+			laserShot[i].setLayoutX(laserShot[i].getLayoutX() + delta);
+		}
+	}
+	
+	private void shoot() {
+		if(isSpaceKeyPressed) {
+			toShootLaser[currentLaserShot] = true;
+		}
+		if(toShootLaser[currentLaserShot] && currentLaserShot < laserShot.length) {
+			laserShot[currentLaserShot].setLayoutY(laserShot[currentLaserShot].getLayoutY() - 2);
+		}
+
+		
+	}
+/*
+	private void moveLaserShot() {
+		if(laserShot.getLayoutY() + 37 > 0) {
+			laserShot.setLayoutY(laserShot.getLayoutY() - 2);
+		}else if(laserShot.getLayoutY() + 37 < 0) {
+			gamePane.getChildren().remove(laserShot);
+			displayedShots--;
+		}	
+	}
+	*/
 	//Background
 	/////////////////////////////////
 	private void createBackground() {
@@ -329,43 +418,36 @@ public class GameViewManager {
 	}
 	
 	private void collision() {
-		//player vs brown Meteor
 		for(int i = 0; i < brownMeteors.length; i++) {
 			if( distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(brownMeteors[i]);
 			}
 		}
-		//player vs grey Meteor
 		for(int i = 0; i < greyMeteors.length; i++) {
 			if( distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(greyMeteors[i]);
 			}
 		}
-		//laser vs brown Meteor
-		for(int i = 0; i < lasers.size(); i++) {
-			for(int j = 0; j < brownMeteors.length; j++) {
-				if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {
-					setNewElementPosition(brownMeteors[j]);
-					gamePane.getChildren().remove(lasers.get(i));
-					lasers.remove(lasers.get(i));
-				}
+	}
+	
+	/*
+	private void collision() {
+		for(int i = 0; i < brownMeteors.length; i++) {
+			if( (distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
+					player.getLayoutX() + 372 + ENTITIES_SIZE/2, player.getLayoutY() + GAME_WIDTH - 90 - ENTITIES_SIZE/2)) <= (ENTITIES_SIZE/2 + ENTITIES_SIZE/2)) {
+				setNewElementPosition(brownMeteors[i]);
+			}
+		}
+		for(int i = 0; i < greyMeteors.length; i++) {
+			if( (distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() + ENTITIES_SIZE/2,
+					player.getLayoutX() + 372 + ENTITIES_SIZE/2, player.getLayoutY() + GAME_WIDTH - 90 - ENTITIES_SIZE/2)) <= (ENTITIES_SIZE/2 + ENTITIES_SIZE/2)) {
+				setNewElementPosition(greyMeteors[i]);
 			}
 		}
 	}
-			/*
-			//laser vs grey Meteor
-			else if( distance(lasers.get(i).getLayoutX() + 13/2, lasers.get(i).getLayoutY() - 37/2,
-					greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE/2 + 13/2) {
-				setNewElementPosition(greyMeteors[i]);
-				lasers.remove(i);
-			} 
-			*/
-	
-		
-		
-	
+	*/
 	
 	private double distance(double x1, double y1, double x2, double y2) {
 		return (Math.sqrt(Math.pow( (x1-x2), 2) + Math.pow( (y1-y2), 2)));
