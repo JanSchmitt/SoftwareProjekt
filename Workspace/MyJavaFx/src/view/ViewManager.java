@@ -52,7 +52,7 @@ public class ViewManager {
 	
 	//Timer
 	private static final int minutes = 5;
-	private static final Integer STARTTIME = 6;  //minutes * 60;
+	private static final Integer STARTTIME = 2;  //minutes * 60;
     private Timeline timeline;
     private Integer timeSeconds = STARTTIME;
 
@@ -108,16 +108,22 @@ public class ViewManager {
 		MyButton startButton = new MyButton("PLAY");
 		addMenuButton(startButton);
 		
+		//Kein Focus auf Startbutton, sonst bei Return zum Startmenu als focused = true ausgewählt und man kann zur GameStage durch irgendeinen Tastendruck
+		startButton.setFocusTraversable(false);  
+		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {  //Button event handler
+			
 			public void handle(ActionEvent event) {
-		        if (timeline != null) {
+				if (timeline != null) {
 		            timeline.stop();
 		     
 		        }
 		        GameViewManager gameManager = new GameViewManager();
 				gameManager.createNewGame(mainStage); //geht in Fkt createNewGame(..) in Class GameViewManager
+				
+				
 		        
-		        timeSeconds = STARTTIME;
+				timeSeconds = STARTTIME;
 		 
 		        // update timerLabel
 		        timeline = new Timeline();
@@ -136,7 +142,9 @@ public class ViewManager {
 		                            System.out.println("stop");
 		                            gameManager.gameStage.close();
 		                            gameManager.gameTimer.stop();
+		                            
 		                            gameManager.menuStage.show();
+		                            
 		                        }
 		                    
 							}

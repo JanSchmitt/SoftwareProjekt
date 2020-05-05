@@ -119,7 +119,8 @@ public class GameViewManager {
 	
 	public void createNewGame(Stage menuStage) {
 		this.menuStage = menuStage;
-		this.menuStage.hide();
+		//this.menuStage.hide();
+		this.menuStage.close();
 		createBackground();
 		createPlayer();
 		createGameElements();
