@@ -2,10 +2,24 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,8 +29,12 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
-import javafx.stage.Stage;
+
 import model.MyButton;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 
 
 public class ViewManager {
@@ -32,6 +50,14 @@ public class ViewManager {
 	
 	List<MyButton> menuButtons;
 	
+	//Timer
+	private static final int minutes = 5;
+	private static final Integer STARTTIME = 2;  //minutes * 60;
+    private Timeline timeline;
+    private Integer timeSeconds = STARTTIME;
+
+    
+    
 	public ViewManager() {
 		menuButtons = new ArrayList<>();
 		mainPane = new AnchorPane();
@@ -55,7 +81,7 @@ public class ViewManager {
 	}
 	
 	private void createButtons() {
-		createStartButton();
+		createStartButton2();
 		createScoresButton();
 		createHelpButton();
 		createCreditsButton();
@@ -72,9 +98,60 @@ public class ViewManager {
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				GameViewManager gameManager = new GameViewManager();
-				gameManager.createNewGame(mainStage);
+				gameManager.createNewGame(mainStage); //geht in Fkt createNewGame(..) in Class GameViewManager
 			}
 			
+		});
+	}
+
+	private void createStartButton2() {
+		MyButton startButton = new MyButton("PLAY");
+		addMenuButton(startButton);
+		
+		//Kein Focus auf Startbutton, sonst bei Return zum Startmenu als focused = true ausgewählt und man kann zur GameStage durch irgendeinen Tastendruck
+		startButton.setFocusTraversable(false);  
+		
+		startButton.setOnAction(new EventHandler<ActionEvent>() {  //Button event handler
+			
+			public void handle(ActionEvent event) {
+				if (timeline != null) {
+		            timeline.stop();
+		     
+		        }
+		        GameViewManager gameManager = new GameViewManager();
+				gameManager.createNewGame(mainStage); //geht in Fkt createNewGame(..) in Class GameViewManager
+				
+				
+		        
+				timeSeconds = STARTTIME;
+		 
+		        // update timerLabel
+		        timeline = new Timeline();
+		        timeline.setCycleCount(Timeline.INDEFINITE);
+		        timeline.getKeyFrames().add(
+		                new KeyFrame(Duration.seconds(1),
+		                  new EventHandler<ActionEvent>() {
+		                    // KeyFrame event handler
+
+							@Override
+							public void handle(ActionEvent event) {
+							    timeSeconds--;
+		                        // update timerLabel
+		                        if (timeSeconds <= 0) {
+		                            timeline.stop();
+		                            System.out.println("stop");
+		                            gameManager.gameStage.close();
+		                            gameManager.gameTimer.stop();
+		                            
+		                            gameManager.menuStage.show();
+		                            
+		                        }
+		                    
+							}
+		                }));
+		        
+		        timeline.playFromStart();
+		    }
 		});
 	}
 	
