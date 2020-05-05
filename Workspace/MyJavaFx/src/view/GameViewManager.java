@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 
@@ -82,10 +86,12 @@ public class GameViewManager {
 						newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2 , player.getLayoutY());
 						lasers.add(newLaserShot);
 						gamePane.getChildren().add(newLaserShot);
-						System.out.println("+1");
+						System.out.println("size: " +lasers.size());
 						shooting = true;
 					}
 				}
+				//e.consume();
+				
 			}
 		});
 	
@@ -100,7 +106,7 @@ public class GameViewManager {
 				}else if(e.getCode() == KeyCode.SPACE) {
 					shooting = false;
 				}
-				e.consume();
+				//e.consume();
 			}
 			
 		});
@@ -162,7 +168,7 @@ public class GameViewManager {
 			gamePane.getChildren().add(brownMeteors[i]);
 		}
 		
-		greyMeteors = new ImageView[3];
+		greyMeteors = new ImageView[0];
 		for(int i = 0;i<greyMeteors.length; i++) {
 			//auf selbe Größe wie Player setzen
 			greyMeteors[i] = new ImageView(METEOR_GREY_IMG);
@@ -185,7 +191,7 @@ public class GameViewManager {
 	
 	private void moveGameElements() {
 		for(int i = 0; i < brownMeteors.length; i++) {
-			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4); //speed
+			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4); //speed //4
 			brownMeteors[i].setRotate(brownMeteors[i].getRotate()+4);
 			//System.out.println(brownMeteors[i].getLayoutX() + "     " + brownMeteors[i].getLayoutY());
 		}
@@ -239,7 +245,7 @@ public class GameViewManager {
 			if(player.getLayoutX() > 0) {
 				player.setLayoutX(player.getLayoutX() -3);
 				//moveLaserShots(player.getLayoutX(), player.getLayoutY(), -3);
-				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
+				//System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
 		}
 		
@@ -253,7 +259,7 @@ public class GameViewManager {
 			if(player.getLayoutX() < GAME_WIDTH - ENTITIES_SIZE) {
 				player.setLayoutX(player.getLayoutX() +3);
 				//moveLaserShots(player.getLayoutX(), player.getLayoutY(), 3);
-				System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
+				//System.out.println(player.getLayoutX() + "     " + player.getLayoutY());
 			}
 		}
 		
@@ -282,12 +288,14 @@ public class GameViewManager {
 	///////////////////////////
 	private void shootLaser() {
 		for(int i = 0; i<lasers.size(); i++) {
-			if(lasers.get(i).getLayoutY() > -37) { //wenn unterhalb des windows 
+			if(lasers.get(i).getLayoutY() > -lasers.get(i).getBoundsInParent().getHeight()  ) { //-37 wenn unterhalb des windows 
 				lasers.get(i).relocate(lasers.get(i).getLayoutX(), lasers.get(i).getLayoutY() - 3); //um 3 pixel nach oben bewegen
 			}
 			else { //wenn oberhalb des windows 
+				
+				gamePane.getChildren().remove(lasers.get(i));
 				lasers.remove(i);
-				System.out.println("remove");
+				System.out.println(lasers.size());
 			}
 		}
 	}
@@ -343,18 +351,27 @@ public class GameViewManager {
 				setNewElementPosition(greyMeteors[i]);
 			}
 		}
+		
+		
 		//laser vs brown Meteor
 		for(int i = 0; i < lasers.size(); i++) {
-			for(int j = 0; j < brownMeteors.length; j++) {
-				if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {
+			for(int j = 0; j < brownMeteors.length; j++) { // 0 - 2 -> 3elem
+				if(lasers.size() < 1) break;
+				//else if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {
+				//else if( distance(lasers.get(i).getLayoutX() + 13/2, lasers.get(i).getLayoutY() - 37/2,
+				//brownMeteors[j].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[j].getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE/2 + 13/2) {
+				if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 					setNewElementPosition(brownMeteors[j]);
 					gamePane.getChildren().remove(lasers.get(i));
-					lasers.remove(lasers.get(i));
+					lasers.remove(i);
+					System.out.println(lasers.size());
 				}
 			}
-		}
+			if(lasers.size() < 1) break;
+		}		
 	}
-			/*
+	
+		/*
 			//laser vs grey Meteor
 			else if( distance(lasers.get(i).getLayoutX() + 13/2, lasers.get(i).getLayoutY() - 37/2,
 					greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE/2 + 13/2) {
