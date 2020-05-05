@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -12,9 +11,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 
@@ -30,20 +26,20 @@ public class GameViewManager {
 	//}
 	
 	//Ebenen
-	private AnchorPane gamePane;
-	private Scene gameScene;
-	private Stage gameStage;
-	private Stage menuStage;
+	public AnchorPane gamePane;
+	public Scene gameScene;
+	public Stage gameStage;
+	public Stage menuStage;
 	
 	//Gridpane for Background IMG
 	private GridPane gridPane1;
 	private GridPane gridPane2;
 	
-	private int angle;
-	
-	private AnimationTimer gameTimer;
-	
+	//Timer
+	public AnimationTimer gameTimer;
+    
 	Random RAND;
+	private int angle;
 	
 	//KeyEvents
 	private boolean isLeftKeyPressed;
@@ -118,18 +114,18 @@ public class GameViewManager {
 		gameStage = new Stage();//eine Stage 
 		gameStage.setScene(gameScene);
 		gameStage.setResizable(false);
+		
 	}
 	
 	public void createNewGame(Stage menuStage) {
 		this.menuStage = menuStage;
 		this.menuStage.hide();
-
 		createBackground();
 		createPlayer();
-		//createLaserShot();
 		createGameElements();
 		
 		createGameLoop();
+		
 		gameStage.setTitle("Biofeedback Anwendung");
 		gameStage.show();
 	}
@@ -150,7 +146,7 @@ public class GameViewManager {
 		gameTimer.start();
 	}
 	
-	
+
 	//Meteors(Enemies)
 	////////////////////////////////
 	private void createGameElements() {
