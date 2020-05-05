@@ -80,7 +80,7 @@ public class GameViewManager {
 				}else if(e.getCode() == KeyCode.RIGHT) {
 					isRigtKeyPressed = true;
 				}else if(e.getCode() == KeyCode.SPACE) {
-					if(!shooting) {
+					if(!shooting) { //wenn leertaste losgelassen wurde
 						laserShot = new ImageView(LASER_IMG);
 						Node newLaserShot = laserShot;
 						newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2 , player.getLayoutY());
@@ -168,7 +168,7 @@ public class GameViewManager {
 			gamePane.getChildren().add(brownMeteors[i]);
 		}
 		
-		greyMeteors = new ImageView[0];
+		greyMeteors = new ImageView[3];
 		for(int i = 0;i<greyMeteors.length; i++) {
 			//auf selbe Größe wie Player setzen
 			greyMeteors[i] = new ImageView(METEOR_GREY_IMG);
@@ -356,18 +356,27 @@ public class GameViewManager {
 		//laser vs brown Meteor
 		for(int i = 0; i < lasers.size(); i++) {
 			for(int j = 0; j < brownMeteors.length; j++) { // 0 - 2 -> 3elem
-				if(lasers.size() < 1) break;
-				//else if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {
-				//else if( distance(lasers.get(i).getLayoutX() + 13/2, lasers.get(i).getLayoutY() - 37/2,
-				//brownMeteors[j].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[j].getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE/2 + 13/2) {
 				if(lasers.get(i).getBoundsInParent().intersects(brownMeteors[j].getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 					setNewElementPosition(brownMeteors[j]);
 					gamePane.getChildren().remove(lasers.get(i));
 					lasers.remove(i);
 					System.out.println(lasers.size());
+					break; //kein fehler mehr durch index out of bounds verletzung
 				}
 			}
-			if(lasers.size() < 1) break;
+		}	
+		
+		for(int i = 0; i < lasers.size(); i++) {
+			for(int j = 0; j < greyMeteors.length; j++) { // 0 - 2 -> 3elem
+				if(lasers.get(i).getBoundsInParent().intersects(greyMeteors[j].getBoundsInParent())) {	// bounds of a node in it's parent coordinates
+					setNewElementPosition(greyMeteors[j]);
+					gamePane.getChildren().remove(lasers.get(i));
+					lasers.remove(i);
+					System.out.println(lasers.size());
+					break; //kein fehler mehr durch index out of bounds verletzung
+				}
+			}
+			
 		}		
 	}
 	
