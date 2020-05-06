@@ -14,7 +14,7 @@ public class Data {
 				"SYSDBA", "masterkey");
 		Statement stmt = connection.createStatement();
 
-		stmt.executeUpdate("INSERT INTO SPIELER VALUES (3, 'Tim', 3)");
+		stmt.executeUpdate("INSERT INTO SPIELER VALUES (4, 'Felix', 123545)");
 		
 		ResultSet rs = stmt.executeQuery("SELECT SCORE FROM SPIELER");
 		
