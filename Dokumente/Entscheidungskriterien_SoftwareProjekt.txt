@@ -26,6 +26,10 @@ Polar H10
 
 
 
+
+
+
+https://www.sparkfun.com/products/11574
 https://pulsesensor.com/products/pulse-sensor-amped
 	Positiv
 		Puls Sensor für Arduino
@@ -41,3 +45,59 @@ https://pulsesensor.com/products/pulse-sensor-amped
 	Negativ
 		Reliability?
 		Lieferzeit?
+
+
+
+
+
+
+
+
+https://www.antratek.de/onestepcheckout/?countryCode=DE
+	positiv
+		wie oben
+	negativ
+		Umsatzsteueridentifikationsnummer?
+		Nur rechnungsadresse keine Lieferadresse
+
+
+
+
+https://www.reichelt.de/entwicklerboards-herzschlag-sensor-debo-sens-heart-p239108.html?PROVID=2788&gclid=Cj0KCQjw7qn1BRDqARIsAKMbHDZdhSUGUDDQXlu3Lxlj3PBdoZpTW3N4LussXvS9EK22a-cz7t4CJGsaAlEsEALw_wcB&&r=1
+	positiv
+		billiger
+		wie pulssensor.com
+	negativ
+		wieso so billig im vergleich zu anderen?
+		Kein Band mitgeliefert
+
+
+
+https://www.dfrobot.com/product-1510.html
+	positiv
+		3 Kontakte
+
+	negativ
+		aus USA
+		Probleme Rechnung Liefer
+
+
+
+https://eckstein-shop.de/DFRobot-Gravity-Analog-Heart-Rate-Monitor-Sensor-ECG-For-Arduino?gclid=Cj0KCQjw7qn1BRDqARIsAKMbHDaQIPeshpeSoFzMeIvPprtnYVdxnkpSiJlTJb1g3_W4AdHeYPw2tu8aAj7mEALw_wcB
+	positiv
+		wie oben
+		Europa
+		3 Kontakte
+		
+	negativ
+		Kompliziertere Inbetriebnahme
+		möglicherweise Komplizierter als ein Sensor für finger
+		nicht jeder ist damit einverstanden Sensoren an den Brustkorb zu kleben
+
+
+https://www.amazon.de/Klebeshop24-SELBSTKLEBEND-Kletthaftung-Klebehaftung-industrielles/dp/B01MUGJ447/ref=pd_sbs_60_5/257-2209837-7973804?_encoding=UTF8&pd_rd_i=B01MUGJ447&pd_rd_r=60bba9dc-97c6-4285-85b0-ef38ee305ead&pd_rd_w=kOdIr&pd_rd_wg=pfPUh&pf_rd_p=42bf0ad8-ce6f-4127-a2f0-106727020a41&pf_rd_r=TXCEREFQYYA5M7GW1PKS&psc=1&refRID=TXCEREFQYYA5M7GW1PKS
+Velcro Band für Sensoren ohne Finger strap
+
+
+
+
