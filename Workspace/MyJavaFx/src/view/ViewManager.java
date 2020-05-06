@@ -44,7 +44,7 @@ public class ViewManager {
 	private AnchorPane mainPane; //Container mit 5 Logic-Regions: Top, Bottom, Left, Center, Right
 	private Scene mainScene;
 	private Stage mainStage; //neues fenster
-	
+
 	private final static int NEW_BUTTON_START_X = 100;
 	private final static int NEW_BUTTON_START_Y = 150;
 	
@@ -52,7 +52,7 @@ public class ViewManager {
 	
 	//Timer
 	private static final int minutes = 5;
-	private static final Integer STARTTIME = 2;  //minutes * 60;
+	private static final Integer STARTTIME = 10;  //minutes * 60;
     private Timeline timeline;
     private Integer timeSeconds = STARTTIME;
 
@@ -78,6 +78,7 @@ public class ViewManager {
 		button.setLayoutY(NEW_BUTTON_START_Y + menuButtons.size() *100);
 		menuButtons.add(button);
 		mainPane.getChildren().add(button);
+		
 	}
 	
 	private void createButtons() {
@@ -108,7 +109,8 @@ public class ViewManager {
 		MyButton startButton = new MyButton("PLAY");
 		addMenuButton(startButton);
 		
-		//Kein Focus auf Startbutton, sonst bei Return zum Startmenu als focused = true ausgewählt und man kann zur GameStage durch irgendeinen Tastendruck
+		//Kein Focus auf Startbutton, sonst bei Return zum Startmenu als focused = true ausgewählt 
+		//und man kann zur GameStage durch irgendeinen Tastendruck
 		startButton.setFocusTraversable(false);  
 		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {  //Button event handler
@@ -120,9 +122,7 @@ public class ViewManager {
 		        }
 		        GameViewManager gameManager = new GameViewManager();
 				gameManager.createNewGame(mainStage); //geht in Fkt createNewGame(..) in Class GameViewManager
-				
-				
-		        
+
 				timeSeconds = STARTTIME;
 		 
 		        // update timerLabel
