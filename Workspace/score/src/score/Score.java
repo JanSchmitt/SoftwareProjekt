@@ -97,7 +97,7 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 		gain = gain + 234;
 	}
 	
-	public void remove() {
+	public void remove() {	
 			score = score - (counter*250);
 			counter = counter + 1;
 			gain = gain - (counter*250);
