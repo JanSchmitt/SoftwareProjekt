@@ -6,26 +6,39 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.InfoLabel;
+import timer.Score;
 
 public class GameViewManager {
 	
 	//constants
 	//{
 	//Window size
-	private static final int GAME_WIDTH = 800;
-	private static final int GAME_HEIGHT = 750;
+	
+	private static final int WINDOW_WIDTH = 1440;
+	private static final int WINDOW_HEIGHT = 800;
+	
+	private static final int GAME_WIDTH = 1008; //0.7*WINDOW_WIDTH
+	private static final int GAME_HEIGHT = 800;
+	
+	private static final int RIGHT_PANE_WIDTH = WINDOW_WIDTH - GAME_WIDTH;       //0.3*WINDOW_WIDTH = //432
+	private static final int RIGHT_PANE_HEIGHT = 800;
 	//Entities size
 	private static final int ENTITIES_SIZE = 60;
 	//}
 	
 	//Ebenen
+	public AnchorPane anchor0;
+	public SplitPane splitPane;
 	public AnchorPane gamePane;
+	public AnchorPane rightPane;
 	public Scene gameScene;
 	public Stage gameStage;
 	public Stage menuStage;
@@ -58,11 +71,22 @@ public class GameViewManager {
 	private ImageView laserShot;
 	private ArrayList<Node> lasers = new ArrayList<Node>();
 	
+	private InfoLabel scoreLabel;
+	private int score;
 	
 	public GameViewManager() {
+		
+		
 		initializeStage();
+		
 		createKeyListener();
 		RAND = new Random();
+	}
+	
+	
+	private void startGameTimer() {
+		Score sc = new Score();
+		sc.startTime();
 	}
 	
 	private void createKeyListener() {
@@ -110,8 +134,38 @@ public class GameViewManager {
 	private void initializeStage() {
 		
 		
+		anchor0 = new AnchorPane();
+		anchor0.setLayoutX(0);
+		anchor0.setLayoutY(0);
+		anchor0.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT); //breite vom fenster
+		anchor0.setMinSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		anchor0.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		//splitPane = new SplitPane();
+		//splitPane.setDividerPositions(0.7);
+		//splitPane.setPrefSize(1440.0, 800.0);
+		
+		//Linke Pane: SpaceInvadors
 		gamePane = new AnchorPane();
-		gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
+		//gamePane.boundsInLocalProperty();
+		//gamePane.boundsInParentProperty();
+		gamePane.setLayoutX(0);
+		gamePane.setLayoutY(0);
+		gamePane.setPrefSize(GAME_WIDTH, GAME_HEIGHT); //1008,800
+	
+		//Rechte Pane: Minispiele etc
+		rightPane = new AnchorPane();
+		
+		rightPane.setLayoutX(GAME_WIDTH);
+		rightPane.setLayoutY(0);
+		rightPane.setPrefSize(RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT);  //432
+		
+		
+		//splitPane.getChildrenUnmodifiable().addAll(gamePane, rightPane);
+		anchor0.getChildren().addAll(gamePane, rightPane);
+		
+		
+		//gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
+		gameScene = new Scene(anchor0);
 		gameStage = new Stage();//eine Stage 
 		gameStage.setScene(gameScene);
 		gameStage.setResizable(false);
@@ -136,6 +190,7 @@ public class GameViewManager {
 		gameTimer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+				startGameTimer();
 				moveBackground();
 				moveGameElements();
 				shootLaser();
@@ -148,10 +203,18 @@ public class GameViewManager {
 		gameTimer.start();
 	}
 	
+	
 
 	//Meteors(Enemies)
 	////////////////////////////////
 	private void createGameElements() {
+		
+		//Score Label
+		scoreLabel = new InfoLabel("Score: 00");
+		scoreLabel.setLayoutX(RIGHT_PANE_WIDTH/2 - scoreLabel.IMG_WIDTH/2);
+		scoreLabel.setLayoutY(20);
+		rightPane.getChildren().add(scoreLabel);
+		
 		//jeweils max 3 meteors generaten
 		brownMeteors = new ImageView[3];
 		for(int i = 0;i<brownMeteors.length; i++) {
@@ -225,11 +288,15 @@ public class GameViewManager {
 		player.setFitHeight(ENTITIES_SIZE);
 		player.setFitWidth(ENTITIES_SIZE);
 		
-		//player.setX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2); //600/2-49 = 251  -49
-		//player.setY(GAME_HEIGHT - 90); //-90
 		player.setLayoutX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2);
 		player.setLayoutY(GAME_HEIGHT - 90);
+		
 		gamePane.getChildren().add(player);
+		
+		//ImageView player2 = new ImageView("view/resources/playerShip1_orange.png");
+		//player2.setLayoutX(0);
+		//player2.setLayoutY(GAME_HEIGHT - 90);
+		//rightPane.getChildren().add(player2);
 	}
 	
 	private void moveShip() {
@@ -309,11 +376,18 @@ public class GameViewManager {
 		
 		for(int i = 0; i<16;i++) {
 			ImageView backgroundImage1 = new ImageView(BACKGROUND_IMG);
+			//size von bild(256x256 p), size anpassen dass gridpane auf vier geteilt wird
+			backgroundImage1.setFitHeight(GAME_WIDTH /4); 
+			backgroundImage1.setFitWidth(GAME_WIDTH/4);
+		
 			ImageView backgroundImage2 = new ImageView(BACKGROUND_IMG);
+			backgroundImage2.setFitHeight(GAME_WIDTH /4);
+			backgroundImage2.setFitWidth(GAME_WIDTH/4);
+			
 			//set columns and rows 
-			//da background 256x256 muss für width = 800, col & rows = 4
-			GridPane.setConstraints(backgroundImage1, i%4, i/4);
-			GridPane.setConstraints(backgroundImage2, i%4, i/4);
+			
+			GridPane.setConstraints(backgroundImage1, i%4, i/4); //4x4 grid
+			GridPane.setConstraints(backgroundImage2, i%4, i/4); //4x4 grid
 			gridPane1.getChildren().add(backgroundImage1);
 			gridPane2.getChildren().add(backgroundImage2);
 		}
@@ -333,6 +407,9 @@ public class GameViewManager {
 			gridPane2.setLayoutY(-GAME_HEIGHT);
 		}
 	}
+	
+	
+	
 	
 	private void collision() {
 		//player vs brown Meteor

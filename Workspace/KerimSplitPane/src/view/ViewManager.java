@@ -1,5 +1,6 @@
 package view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.util.Duration;
@@ -9,11 +10,13 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -38,12 +41,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 
 public class ViewManager {
-
+	/*
 	private static final int HEIGHT = 768;
 	private static final int WIDTH = 1024;
 	private AnchorPane mainPane; //Container mit 5 Logic-Regions: Top, Bottom, Left, Center, Right
 	private Scene mainScene;
-	private Stage mainStage; //neues fenster
+	 //neues fenster
 
 	private final static int NEW_BUTTON_START_X = 100;
 	private final static int NEW_BUTTON_START_Y = 150;
@@ -69,11 +72,28 @@ public class ViewManager {
 		createBackground();
 		createLogo();
 	}
+	*/
 	
+	private Stage mainStage;
+    public ViewManager() throws Exception{
+    	Parent root = FXMLLoader.load(getClass().getResource("/view/View.fxml"));
+    	Scene scene = new Scene(root);
+    	scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
+    	
+    	GameViewManager gm = new GameViewManager();
+    	mainStage = new Stage();
+    	mainStage.setScene(scene);
+    	mainStage.setTitle("Biofeedback Anwendung");
+    	
+    }
+    
 	public Stage getMainStage() {
 		return mainStage;
 	}
 	
+	
+	
+	/*
 	private void addMenuButton(MyButton button) {
 		button.setLayoutX(NEW_BUTTON_START_X);
 		button.setLayoutY(NEW_BUTTON_START_Y + menuButtons.size() *100);
@@ -90,22 +110,11 @@ public class ViewManager {
 		createExitButton();
 	}
 	
-	private void createStartButton() {
-		MyButton startButton = new MyButton("PLAY");
-		addMenuButton(startButton);
-		
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
+	
+	
+	
 
-			@Override
-			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				GameViewManager gameManager = new GameViewManager();
-				gameManager.createNewGame(mainStage); //geht in Fkt createNewGame(..) in Class GameViewManager
-			}
-			
-		});
-	}
-
+	/*
 	private void createStartButton2() {
 		MyButton startButton = new MyButton("PLAY");
 		addMenuButton(startButton);
@@ -206,4 +215,6 @@ public class ViewManager {
 		mainPane.getChildren().add(logo);
 		
 	}
+	
+	*/
 }
