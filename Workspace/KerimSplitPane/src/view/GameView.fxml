@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GameController">
    <children>
-      <SplitPane dividerPositions="0.7" prefHeight="900.0" prefWidth="1438.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="890.0" prefWidth="996.0" SplitPane.resizableWithParent="false">
-               <children>
-                  <ImageView fx:id="ship" fitHeight="80.0" fitWidth="80.0" focusTraversable="true" layoutX="469.0" layoutY="733.0" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../PNG/spaceshooter/PNG/Player/playerShip1_orange.png" />
-                     </image>
-                     <viewport>
-                        <Rectangle2D />
-                     </viewport>
-                  </ImageView>
-               </children></AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="868.0" prefWidth="303.0" SplitPane.resizableWithParent="false" />
-        </items>
-      </SplitPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="890.0" prefWidth="996.0">
+         <children>
+            <ImageView fx:id="ship" fitHeight="80.0" fitWidth="80.0" focusTraversable="true" layoutX="469.0" layoutY="733.0" onKeyPressed="#handleOnKeyPressed" onKeyReleased="#handleOnKeyReleased" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../PNG/spaceshooter/PNG/Player/playerShip1_orange.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </children>
+      </AnchorPane>
+    <AnchorPane layoutX="1017.0" layoutY="-20.0" minHeight="0.0" minWidth="0.0" prefHeight="911.0" prefWidth="415.0">
+         <children>
+            <Label layoutX="112.0" layoutY="191.0" prefHeight="64.0" prefWidth="110.0" text="Label" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
