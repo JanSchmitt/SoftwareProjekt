@@ -30,6 +30,7 @@ public class MainMenuController {
 		GameViewManager gameManager = new GameViewManager();
 		gameManager.createNewGame(window);
 		
+		
 		//window.setScene(gameScene);
 		//window.setResizable(false);
 		//window.show();

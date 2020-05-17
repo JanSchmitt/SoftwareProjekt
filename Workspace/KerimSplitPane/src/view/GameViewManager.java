@@ -72,22 +72,15 @@ public class GameViewManager {
 	private ArrayList<Node> lasers = new ArrayList<Node>();
 	
 	private InfoLabel scoreLabel;
-	private int score;
+	private Score sc;
 	
 	public GameViewManager() {
-		
-		
+
 		initializeStage();
-		
 		createKeyListener();
 		RAND = new Random();
 	}
 	
-	
-	private void startGameTimer() {
-		Score sc = new Score();
-		sc.startTime();
-	}
 	
 	private void createKeyListener() {
 		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -100,13 +93,16 @@ public class GameViewManager {
 					isRigtKeyPressed = true;
 				}else if(e.getCode() == KeyCode.SPACE) {
 					if(!shooting) { //wenn leertaste losgelassen wurde
-						laserShot = new ImageView(LASER_IMG);
-						Node newLaserShot = laserShot;
-						newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2 , player.getLayoutY());
-						lasers.add(newLaserShot);
-						gamePane.getChildren().add(newLaserShot);
-						System.out.println("size: " +lasers.size());
-						shooting = true;
+						if(sc.time % 2 == 0) {
+							laserShot = new ImageView(LASER_IMG);
+							Node newLaserShot = laserShot;
+							newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13/2 , player.getLayoutY());
+							lasers.add(newLaserShot);
+							gamePane.getChildren().add(newLaserShot);
+							System.out.println("size: " +lasers.size());
+							shooting = true;
+						}
+						
 					}
 				}
 				//e.consume();
@@ -176,6 +172,10 @@ public class GameViewManager {
 		this.menuStage = menuStage;
 		//this.menuStage.hide();
 		this.menuStage.close();
+		
+		sc = new Score();
+		sc.startTimer();
+		
 		createBackground();
 		createPlayer();
 		createGameElements();
@@ -190,19 +190,19 @@ public class GameViewManager {
 		gameTimer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				startGameTimer();
 				moveBackground();
 				moveGameElements();
 				shootLaser();
 				checkIfElemetsAreUnderShip();
 				collision();
 				moveShip();
+				updateScoreLabel();
+				
 				
 			}
 		};
 		gameTimer.start();
 	}
-	
 	
 
 	//Meteors(Enemies)
@@ -210,7 +210,7 @@ public class GameViewManager {
 	private void createGameElements() {
 		
 		//Score Label
-		scoreLabel = new InfoLabel("Score: 00");
+		scoreLabel = new InfoLabel("Score: " + sc.score);
 		scoreLabel.setLayoutX(RIGHT_PANE_WIDTH/2 - scoreLabel.IMG_WIDTH/2);
 		scoreLabel.setLayoutY(20);
 		rightPane.getChildren().add(scoreLabel);
@@ -409,7 +409,9 @@ public class GameViewManager {
 	}
 	
 	
-	
+	private double distance(double x1, double y1, double x2, double y2) {
+		return (Math.sqrt(Math.pow( (x1-x2), 2) + Math.pow( (y1-y2), 2)));
+	}
 	
 	private void collision() {
 		//player vs brown Meteor
@@ -417,6 +419,10 @@ public class GameViewManager {
 			if( distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(brownMeteors[i]);
+				
+				//Update score -
+				sc.score -= 3 * sc.collisionCounter;                    
+				sc.collisionCounter++;
 			}
 		}
 		//player vs grey Meteor
@@ -424,6 +430,10 @@ public class GameViewManager {
 			if( distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
 				setNewElementPosition(greyMeteors[i]);
+
+				//Update score -
+				sc.score -= 3 * sc.collisionCounter;
+				sc.collisionCounter++;
 			}
 		}
 		
@@ -436,6 +446,9 @@ public class GameViewManager {
 					gamePane.getChildren().remove(lasers.get(i));
 					lasers.remove(i);
 					System.out.println(lasers.size());
+					
+					//Update score +
+					sc.score += 1; 
 					break; //kein fehler mehr durch index out of bounds verletzung
 				}
 			}
@@ -448,6 +461,9 @@ public class GameViewManager {
 					gamePane.getChildren().remove(lasers.get(i));
 					lasers.remove(i);
 					System.out.println(lasers.size());
+					
+					//Update score +
+					sc.score += 1; 
 					break; //kein fehler mehr durch index out of bounds verletzung
 				}
 			}
@@ -455,22 +471,11 @@ public class GameViewManager {
 		}		
 	}
 	
-		/*
-			//laser vs grey Meteor
-			else if( distance(lasers.get(i).getLayoutX() + 13/2, lasers.get(i).getLayoutY() - 37/2,
-					greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE/2 + 13/2) {
-				setNewElementPosition(greyMeteors[i]);
-				lasers.remove(i);
-			} 
-			*/
-	
 		
-		
-	
-	
-	private double distance(double x1, double y1, double x2, double y2) {
-		return (Math.sqrt(Math.pow( (x1-x2), 2) + Math.pow( (y1-y2), 2)));
-	}
+	private void updateScoreLabel() {
+		String textToSet = "Score: ";
+		scoreLabel.setText(textToSet + sc.score);
+	}	
 	
 }
 

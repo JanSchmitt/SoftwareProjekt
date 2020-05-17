@@ -150,6 +150,7 @@ public class ViewManager {
 		                        if (timeSeconds <= 0) {
 		                            timeline.stop();
 		                            System.out.println("stop");
+		                            
 		                            gameManager.gameStage.close();
 		                            gameManager.gameTimer.stop();
 		                            
