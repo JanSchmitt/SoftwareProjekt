@@ -26,13 +26,12 @@ public class Merken extends Application implements EventHandler<ActionEvent> {
 	TextField text;
 	String message;
 	int gamepoints = 100;
-	//Image image =  new Image("https://media.istockphoto.com/vectors/binary-background-data-and-technology-decryption-and-encryption-10-vector-id689249328");
-	//ImageView mv = new ImageView(image);
 	
 
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 	
 	public int createRandomNumber() {
 		Random rnd = new Random();
@@ -70,8 +69,9 @@ public class Merken extends Application implements EventHandler<ActionEvent> {
 		weiter3.setOnAction(this);
 		window.setScene(scene3);
 		window.setTitle("Minispiel: Zahlen merken");
+		weiter3.setFocusTraversable(false);
 		
-		/*scene3.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		/*weiter3.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent ek) {
 				if(ek.getCode() == KeyCode.ENTER) {

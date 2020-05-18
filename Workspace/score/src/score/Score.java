@@ -35,7 +35,7 @@ public class Score extends Application implements EventHandler<ActionEvent> {
 			public void handle(long now) {
 				score = score + 100;
 				try {
-					Thread.sleep(1000);
+					timer.wait(1000);
 				} catch (InterruptedException e) {
 				}
 				SceneSet();
