@@ -1,176 +1,170 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.sound.sampled.*;
 import java.io.File;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-public class Reaktionstest extends Application implements EventHandler<KeyEvent>{
+public class Reaktionstest extends Application implements EventHandler<KeyEvent> {
 	Stage win;
-	Scene s;
+	Scene s, end;
+	Timeline timeline;
 	BorderPane b;
-	Label l;
+	Label l1, l2, l3;
 	Circle c;
-	Timer  timer1, timer2,t3,sou;
-	TimerTask  task, z, play;
-	int zeit;
-	int time = 0 ;
-	boolean ende = false;
-	int i= 1;
-	int Versuch1,Versuch2,Versuch3;
-	
+	Timer timer1, timer2, timer3;
+	TimerTask task;
+	int i = 0;
+	int points, V1, V2, V3;
+	File Beep = new File("Beep.wav");
+	boolean key = false;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
-	public void start(Stage reactio){
-		File Beep = new File("Beep.wav");
-		reactio.setTitle("Reaktionstest");
-		b = new BorderPane();
-		l = new Label("Klicken Sie 'ENTER' sobald sich die Farbe ändert oder ein Ton zu hören ist");
-		c = new Circle(100);
-		c.setStroke(Color.BLACK);
-		c.setFill(Color.WHITE);
-		b.setCenter(c);
-		b.setTop(l);
-		s = new Scene(b,400,400);
-		reactio.setScene(s);
-		reactio.show();
-		task = new TimerTask() {
-			public void run() {
-				c.setFill(Color.GREEN);
-			}
-		};
-		play = new TimerTask() {
-			public void run() {
-				playMusic(Beep);
-			}
-		};
-		z = new TimerTask() {
-			public void run() {
-				time = time + 1;
-			}
-		};
-		time();
+	public void start(Stage reactio) {
 		win = reactio;
-		s.setOnKeyPressed(this);
-	}
-	
-	
-	public void end() {
-		System.out.println(i);
-		timer1.cancel();
-		timer2.cancel();
-		if(i<3) {
-			i++;
-			win.close();
-			start(new Stage());
-		}else {
-			i++;
-			System.out.println(i);
-			endscreen();
-		}
-	}
+		newScene();
 		
-	public void endscreen() {
-		BorderPane Bo = new BorderPane();
-		Label l1 = new Label();
-		Label l2 = new Label();
-		Label l3 = new Label();
-		if(Versuch1 >= 0) {
-			l1.setText("Zeit: " + (1000-Versuch1) +"ms." + Versuch1+ "Punkte extra");
-		}else {
-			l1.setText("Zu früh gedrückt oder zu lange gebraucht. " + Versuch1 + " Punkte abzug");
-		}
-		if(Versuch2 >= 0) {
-			l2.setText("Zeit: " + (1000-Versuch2) +"ms." + Versuch2+ "Punkte extra");
-		}else {
-			l2.setText("Zu früh gedrückt oder zu lange gebraucht. " + Versuch1 + " Punkte abzug");
-		}
-		if(Versuch3 >= 0) {
-			l3.setText("Zeit: " + (1000-Versuch3) +"ms." + Versuch3+ "Punkte extra");
-		}else {
-			l3.setText("Zu früh gedrückt oder zu lange gebraucht. " + Versuch1 + " Punkte abzug");
-		}
-		Bo.setTop(l1);
-		Bo.setCenter(l2);
-		Bo.setBottom(l3);
-		s = new Scene(Bo,400,400);
-		win.setScene(s);
-		s.setOnKeyPressed(this);
-	}
-	
-	public void Score(int k) {
-		if(k == 1) {
-			if(i == 1) {
-				Versuch1 = (1000-time);
-			}else if (i == 2) {
-				Versuch2 = (1000-time);
-			}else if ( i == 3) {
-				Versuch3 = (1000-time);
-			}	
-		}else if (k == 0) {
-			if(i == 1) {
-				Versuch1 = -500;
-			}else if (i == 2) {
-				Versuch2 = -500;
-			}else if ( i == 3) {
-				Versuch3 = -500;
+		
+		
+		
+		
+		task = new TimerTask() {
+			@Override
+			public void run() {
+				checkForKey();
+				if(key == true) {
+					timer1.cancel();
+					//task.cancel();
+					System.out.println("Hier");
+					i++;
+					time();
+				} else {
+					points = points - 1;
+				}	
 			}
-		}
-		
+		};
 	}
 	
+	public void checkForKey() {
+		key  = false;
+		new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if ((event.getCode() == KeyCode.ENTER) && (i <= 3)) {
+					if (i == 1) {
+						System.out.println("Hier");
+						V1 = points;
+					} else if (i == 2) {
+						V2 = points;
+					} else if (i == 3) {
+						V3 = points;
+					}
+					key = true;
+				} else {
+					key = false;
+				}
+			}
+		};
+	}
+
 	public void time() {
-		timer1 = new Timer();
-		timer2 = new Timer();
-		Random zahl = new Random();
-		sou = new Timer();
-		zeit = zahl.nextInt(10);
-		zeit = 1000* zeit;
-		timer1.schedule(task, zeit);
-		sou.schedule(play, zeit);
-		timer2.scheduleAtFixedRate(z,zeit,1);
+		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				timeline.stop();
+				newScene();
+			}
+		}));
+		timeline.play();
+	};
+
+	public void newScene() {
+		if (i == 0) {
+			win.setTitle("Reaktionstest");
+			b = new BorderPane();
+			c = new Circle(100);
+			c.setStroke(Color.BLACK);
+			c.setFill(Color.WHITE);
+			b.setCenter(c);
+			s = new Scene(b, 400, 400);
+			win.setScene(s);
+			win.show();
+			i++;
+			time();
+		} else if (i == 1) {
+			c.setFill(Color.GREEN);
+			timer1 = new Timer();
+			System.out.println("Hier");
+			points = 1000;
+			timer1.scheduleAtFixedRate(task, 1, 1);
+			win.setScene(s);
+		} else if (i == 2) {
+			playMusic(Beep);
+			timer2 = new Timer();
+			points = 1000;
+			timer2.scheduleAtFixedRate(task, 1, 1);
+		} else if (i == 3) {
+			playMusic(Beep);
+			c.setFill(Color.BLUE);
+			timer3 = new Timer();
+			points = 1000;
+			timer3.scheduleAtFixedRate(task, 1, 1);
+		} else if (i == 4) {
+			timeline.stop();
+			VBox v = new VBox(8);
+			v.getChildren().addAll(l1, l2, l3);
+			end = new Scene(v, 400, 400);
+		} else if (i == 5) {
+			win.close();
+		}
+	}
+
+	public static void playMusic(File sound) {
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(sound));
+			clip.start();
+
+			Thread.sleep(clip.getMicrosecondLength() / 1000);
+		} catch (Exception e) {
+			System.out.println("Fehler");
+		}
 	}
 
 	@Override
 	public void handle(KeyEvent event) {
-		if((event.getCode() == KeyCode.ENTER)&& (i<= 3)) {
-			if(time > 0) {
-				Score(1);
-				end();
-			}else if(time <= 0) {
-				Score(0);
-				end();
+
+		if ((event.getCode() == KeyCode.ENTER) && (i <= 3)) {
+			if (i == 1) {
+				timer1.cancel();
+				System.out.println("Hier");
+				V1 = points;
+
+			} else if (i == 2) {
+				V2 = points;
+			} else if (i == 3) {
+				V3 = points;
 			}
-		}else if((event.getCode() == KeyCode.ENTER)&& ( i == 4)) {
-			win.close();
 		}
+		i++;
+		time();
 	}
-	
-	
-	public static void playMusic(File sound) {
-		try {
-		    Clip clip = AudioSystem.getClip();
-		    clip.open(AudioSystem.getAudioInputStream(sound));
-		    clip.start();
-		    
-		    Thread.sleep(clip.getMicrosecondLength()/1000);
-		}catch(Exception e) {
-			System.out.println("Fehler");
-		}
-	}
-	
+
 }
