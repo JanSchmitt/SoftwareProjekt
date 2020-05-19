@@ -87,11 +87,11 @@ public class GameViewManager {
 
 			@Override
 			public void handle(KeyEvent e) {
-				if(e.getCode() == KeyCode.LEFT) {
+				if(e.getCode() == KeyCode.A) { //LEFT
 					isLeftKeyPressed = true;
-				}else if(e.getCode() == KeyCode.RIGHT) {
+				}else if(e.getCode() == KeyCode.D) { //RIGHT
 					isRigtKeyPressed = true;
-				}else if(e.getCode() == KeyCode.SPACE) {
+				}else if(e.getCode() == KeyCode.SPACE) { 
 					if(!shooting) { //wenn leertaste losgelassen wurde
 						if(sc.time % 2 == 0) {
 							laserShot = new ImageView(LASER_IMG);
@@ -103,10 +103,9 @@ public class GameViewManager {
 							shooting = true;
 						}
 						
+						
 					}
 				}
-				//e.consume();
-				
 			}
 		});
 	
@@ -114,14 +113,13 @@ public class GameViewManager {
 
 			@Override
 			public void handle(KeyEvent e) {
-				if(e.getCode() == KeyCode.LEFT) {
+				if(e.getCode() == KeyCode.A) {
 					isLeftKeyPressed = false;
-				}else if(e.getCode() == KeyCode.RIGHT) {
+				}else if(e.getCode() == KeyCode.D) {
 					isRigtKeyPressed = false;
 				}else if(e.getCode() == KeyCode.SPACE) {
 					shooting = false;
 				}
-				//e.consume();
 			}
 			
 		});

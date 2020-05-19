@@ -11,12 +11,11 @@ public class Score {
 	public int time = 0;
 	public int score = 0;
 	int highscore = 0;
-	public static int collisionCounter = 1;
-
+	public int collisionCounter = 1;
 	
 	
 	public void startTimer() {
-		 Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		 Timeline timl_1s = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 
 			  @Override
 			  public void handle(ActionEvent event) {
@@ -33,11 +32,10 @@ public class Score {
 				  //System.out.println("this is called every 1 seconds on UI thread " + score);
 			  }
 			}));
-			fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
-			fiveSecondsWonder.play();
+		 timl_1s.setCycleCount(Timeline.INDEFINITE);
+		 timl_1s.play();
               
 	}
-	
 	
 }
 
