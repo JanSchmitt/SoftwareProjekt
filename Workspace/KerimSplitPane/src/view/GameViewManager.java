@@ -126,18 +126,14 @@ public class GameViewManager {
 	}
 
 	private void initializeStage() {
-		
-		
+
 		anchor0 = new AnchorPane();
 		anchor0.setLayoutX(0);
 		anchor0.setLayoutY(0);
 		anchor0.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT); //breite vom fenster
 		anchor0.setMinSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		anchor0.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		//splitPane = new SplitPane();
-		//splitPane.setDividerPositions(0.7);
-		//splitPane.setPrefSize(1440.0, 800.0);
-		
+	
 		//Linke Pane: SpaceInvadors
 		gamePane = new AnchorPane();
 		//gamePane.boundsInLocalProperty();
