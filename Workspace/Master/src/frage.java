@@ -29,8 +29,8 @@ import javafx.stage.Stage;
 public class frage extends Application implements EventHandler<ActionEvent> {
 	// FX Bestandteile
 	CheckBox box1,box2,box3;
-	Button start, weiter1, weiter2, weiter3,spielstart;
-	Scene scene1, scene2, scene3,scene4 ,scene5;
+	Button spielstart, weiter1;
+	Scene scene2, scene5;
 	Label label1,label2, label3,label4,label5;
 	Label nameLabel, ageLabel, gewLabel, hfLabel, FVLabel, StressLabel, RuheLabel;
 	Stage window;
@@ -58,7 +58,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		window.setOnCloseRequest(e -> window.close() );
 		
 		//Fragebogen
-		weiter1 = new Button("Click to continue");
+		weiter1 = new Button("Weiter");
 		layout2 = new GridPane();
 		
 		label2 = new Label("Name");
@@ -103,22 +103,22 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 			
 			if((isString(name.getText()) == true)&&(isInt(alter.getText())== true)&&(isInt(gewicht.getText())== true)&&((handleOptions(box1)==1)^(handleOptions(box2)==1)^(handleOptions(box3)==1))){
 				
-				System.out.println("User heisst " + name.getText());
+				System.out.println("Nutzer heisst " + name.getText());
 				Name = name.getText();
-				System.out.println("User ist " + alter.getText() + " Jahre alt");
+				System.out.println("Nutzer ist " + alter.getText() + " Jahre alt");
 				Alter = Integer.parseInt(alter.getText());
-				System.out.println("User ist " + gewicht.getText() + " Kilo schwer");
+				System.out.println("Nutzer ist " + gewicht.getText() + " Kilo schwer");
 				Gewicht = Integer.parseInt(gewicht.getText());
 				if(box1.isSelected()== true){
-					System.out.println("User ist sportlich");
+					System.out.println("Nutzer ist sportlich");
 					Sportlich = "Sportlich";
 					sportlichkeit = 1;
 				}else if(box2.isSelected()== true) {
-					System.out.println("User ist normal");
+					System.out.println("Nutzer ist normal");
 					Sportlich = "Normal";
 					sportlichkeit = 2;
 				}else if (box3.isSelected()== true) {
-					System.out.println("User ist unsportlich");
+					System.out.println("Nutzer ist unsportlich");
 					Sportlich = "Unsportlich";
 					sportlichkeit = 0;
 				}
