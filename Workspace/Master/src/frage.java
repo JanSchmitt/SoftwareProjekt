@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 
 public class frage extends Application implements EventHandler<ActionEvent> {
 	// FX Bestandteile
-	CheckBox box1,box2,box3;
+	CheckBox box1,box3;
 	Button spielstart, weiter1;
 	Scene scene2, scene5;
 	Label label1,label2, label3,label4,label5;
@@ -69,7 +69,6 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		gewicht = new TextField();
 		label5 = new Label("Sind Sie sportlich?");
 		box1 = new CheckBox("Sportlich");
-		box2 = new CheckBox("Normal");
 		box3 = new CheckBox("Unsportlich");
 		
 		layout2.setPadding(new Insets(20,20,20,20));
@@ -84,11 +83,10 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		GridPane.setConstraints(gewicht, 1, 3);
 		GridPane.setConstraints(label5, 0, 5);
 		GridPane.setConstraints(box1, 1, 5);
-		GridPane.setConstraints(box2, 1, 6);
-		GridPane.setConstraints(box3, 1, 7);
-		GridPane.setConstraints(weiter1, 0,8);
+		GridPane.setConstraints(box3, 1, 6);
+		GridPane.setConstraints(weiter1, 0, 7);
 		
-		layout2.getChildren().addAll(label2,name,weiter1,label3, alter,gewicht,label4,box1,box2,box3,label5);
+		layout2.getChildren().addAll(label2,name,weiter1,label3, alter,gewicht,label4,box1,box3,label5);
 		scene2 = new Scene(layout2,400,320);		
 		
 		//Button und Stage
@@ -101,7 +99,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 		if(event.getSource()== weiter1) {
 			
-			if((isString(name.getText()) == true)&&(isInt(alter.getText())== true)&&(isInt(gewicht.getText())== true)&&((handleOptions(box1)==1)^(handleOptions(box2)==1)^(handleOptions(box3)==1))){
+			if((isString(name.getText()) == true)&&(isInt(alter.getText())== true)&&(isInt(gewicht.getText())== true)&&((handleOptions(box1)==1)^(handleOptions(box3)==1))){
 				
 				System.out.println("Nutzer heisst " + name.getText());
 				Name = name.getText();
@@ -112,11 +110,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 				if(box1.isSelected()== true){
 					System.out.println("Nutzer ist sportlich");
 					Sportlich = "Sportlich";
-					sportlichkeit = 1;
-				}else if(box2.isSelected()== true) {
-					System.out.println("Nutzer ist normal");
-					Sportlich = "Normal";
-					sportlichkeit = 2;
+					sportlichkeit = 1;				
 				}else if (box3.isSelected()== true) {
 					System.out.println("Nutzer ist unsportlich");
 					Sportlich = "Unsportlich";
