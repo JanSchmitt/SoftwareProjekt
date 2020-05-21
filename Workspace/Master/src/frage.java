@@ -31,10 +31,10 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	CheckBox box1,box3;
 	Button spielstart, weiter1;
 	Scene scene2, scene5;
-	Label label1,label2, label3,label4,label5;
+	Label label1,label3,label4,label5;
 	Label nameLabel, ageLabel, gewLabel, hfLabel, FVLabel, StressLabel, RuheLabel;
 	Stage window;
-	TextField alter, gewicht, name;
+	TextField alter, gewicht;
 	GridPane layout3,layout1,layout2,layout4,layout5;
 	
 	//Variablen
@@ -61,8 +61,6 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		weiter1 = new Button("Weiter");
 		layout2 = new GridPane();
 		
-		label2 = new Label("Name");
-		name = new TextField();		
 		label3 = new Label("Geben Sie Ihr Alter an");
 		alter = new TextField();
 		label4 = new Label("Geben Sie Ihr Gewicht an");		
@@ -75,8 +73,6 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		layout2.setVgap(10);
 		layout2.setHgap(10);
 		
-		GridPane.setConstraints(label2, 0, 0);
-		GridPane.setConstraints(name, 1, 0);		
 		GridPane.setConstraints(label3, 0, 2);
 		GridPane.setConstraints(alter, 1, 2);
 		GridPane.setConstraints(label4, 0, 3);
@@ -86,7 +82,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		GridPane.setConstraints(box3, 1, 6);
 		GridPane.setConstraints(weiter1, 0, 7);
 		
-		layout2.getChildren().addAll(label2,name,weiter1,label3, alter,gewicht,label4,box1,box3,label5);
+		layout2.getChildren().addAll(weiter1,label3, alter,gewicht,label4,box1,box3,label5);
 		scene2 = new Scene(layout2,400,320);		
 		
 		//Button und Stage
@@ -99,10 +95,8 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	public void handle(ActionEvent event) {
 		if(event.getSource()== weiter1) {
 			
-			if((isString(name.getText()) == true)&&(isInt(alter.getText())== true)&&(isInt(gewicht.getText())== true)&&((handleOptions(box1)==1)^(handleOptions(box3)==1))){
+			if((isInt(alter.getText())== true)&&(isInt(gewicht.getText())== true)&&((handleOptions(box1)==1)^(handleOptions(box3)==1))){
 				
-				System.out.println("Nutzer heisst " + name.getText());
-				Name = name.getText();
 				System.out.println("Nutzer ist " + alter.getText() + " Jahre alt");
 				Alter = Integer.parseInt(alter.getText());
 				System.out.println("Nutzer ist " + gewicht.getText() + " Kilo schwer");
