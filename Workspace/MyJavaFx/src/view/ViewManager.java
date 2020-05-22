@@ -114,6 +114,7 @@ public class ViewManager {
 		//und man kann zur GameStage durch irgendeinen Tastendruck
 		startButton.setFocusTraversable(false);  
 		
+		
 		startButton.setOnAction(new EventHandler<ActionEvent>() {  //Button event handler
 			
 			public void handle(ActionEvent event) {
