@@ -8,6 +8,7 @@ public class Initialization {
 			settings.iniTime=ini.get("OpSettings", "time");
 			settings.iniGamemode=ini.get("OpSettings", "gamemode");
 			settings.iniDifficulty=ini.get("OpSettings", "difficulty");
+			settings.iniPointRange=ini.get("OpSettings", "pointRange");
 		}catch(Exception e){
 			System.err.println(e.getMessage());
 		}
@@ -18,6 +19,7 @@ public class Initialization {
 			ini.put("OpSettings", "time", settings.time);
 			ini.put("OpSettings", "gamemode", settings.gamemode);
 			ini.put("OpSettings", "difficulty", settings.difficulty);
+			ini.put("OpSettings", "pointRange", settings.pointRange);
 			ini.store();
 		}catch(Exception e){
 			System.err.println(e.getMessage());

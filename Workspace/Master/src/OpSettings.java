@@ -12,9 +12,11 @@ import javafx.scene.control.TextField;
 
 
 public class OpSettings extends Application {
+	int pointRange;
 	int difficulty;
 	int gamemode;
 	int time;
+	String iniPointRange;
 	String iniDifficulty;
 	String iniGamemode;
 	String iniTime;
@@ -57,26 +59,33 @@ public class OpSettings extends Application {
 			difficultyDD.setValue(diffIni());
 			GridPane.setConstraints(difficultyDD,1,2);
 			
+			Label pointRangeLabel=new Label("Punktebereich:");
+			GridPane.setConstraints(pointRangeLabel,0,3);
+			
+			TextField pointRangeIn=new TextField();
+			pointRangeIn.setText(iniPointRange);
+			GridPane.setConstraints(pointRangeIn,1,3);
+			
 			Button applyButton=new Button("Übernehmen");
 			applyButton.setOnAction(e->{				
-			getGamemode(gamemodeDD);
-			getDifficulty(difficultyDD);
-			if(getTime(timeIn)){
-				ini.write(this);
-				primaryStage.close();
-				frage questions=new frage();
-				try {
-					questions.start(primaryStage);
-				}catch(Exception f) {
-					f.printStackTrace();
-				}							
+				getGamemode(gamemodeDD);
+				getDifficulty(difficultyDD);
+				if(getTime(timeIn)&&getPointRange(pointRangeIn)){
+					ini.write(this);
+					primaryStage.close();
+					frage questions=new frage();
+					try {
+						questions.start(primaryStage);
+					}catch(Exception f) {
+						f.printStackTrace();
+					}							
 			};			
 			
 			});
-			GridPane.setConstraints(applyButton,0,3);			
+			GridPane.setConstraints(applyButton,0,4);			
 			
 			//add scene with layout to stage
-			grid.getChildren().addAll(gmLabel,timeLabel,gamemodeDD,timeIn,diffLabel,difficultyDD,applyButton);
+			grid.getChildren().addAll(gmLabel,timeLabel,gamemodeDD,timeIn,diffLabel,difficultyDD,pointRangeLabel,pointRangeIn,applyButton);
 			Scene scene = new Scene(grid,400,320);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -94,14 +103,14 @@ public class OpSettings extends Application {
 		case "Neutral": gamemode=0; break;
 		case "Verstärkend": gamemode=2; break;
 		}
-		System.out.println("Spielmodus:"+gamemode);
+		System.out.println("Spielmodus: "+gamemode);
 	}
 	
 	//method to get selected time from textfield
 	public boolean getTime(TextField tf) {
 		try {
 			time=Integer.parseInt(tf.getText());
-			System.out.println("Zeit:"+time+"\n");
+			System.out.println("Zeit: "+time);
 			return true;
 		}catch(NumberFormatException e) {
 			System.out.println("Falsche Eingabe! Bitte eine Nummer eingeben");
@@ -109,15 +118,29 @@ public class OpSettings extends Application {
 		}		
 	}
 	
+	//method to get selected point range from textfield
+	public boolean getPointRange(TextField tf) {
+		try {
+			pointRange=Integer.parseInt(tf.getText());
+			System.out.println("Punktebereich: "+pointRange);
+			return true;
+		}catch(NumberFormatException e) {
+			System.out.println("Falsche Eingabe! Bitte eine Nummer eingeben");
+			return false;
+		}		
+	}
+	
+	//method to convert difficulty from chiocebox into number
 	public void getDifficulty(ChoiceBox<String> cb){
 		switch(cb.getValue()) {
 		case "Einfach": difficulty=0; break;
 		case "Normal": difficulty=1; break;
 		case "Schwer": difficulty=2; break;
 		}
-		System.out.println("Schwierigkeit"+difficulty);
+		System.out.println("Schwierigkeit: "+difficulty);
 	}
 	
+	//method to convert gamemode index into a word 
 	public String gmIni(){
 		switch(iniGamemode){
 		case "1": return "Entgegenwirken";
@@ -127,6 +150,7 @@ public class OpSettings extends Application {
 		}
 	}
 	
+	//method to convert dificulty index into a word
 	public String diffIni(){
 		switch(iniDifficulty){
 		case "0": return "Einfach";
