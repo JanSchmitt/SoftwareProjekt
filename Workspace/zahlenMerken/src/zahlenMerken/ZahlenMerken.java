@@ -4,6 +4,7 @@ import java.io.File;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -13,14 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ZahlenMerken extends Application {
 
-	boolean leicht = false;
-	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd;
+	boolean leicht = true;
+	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd, zeitleiste;
 	VBox box1, box2, box3, box4, box5, box6, box7, box8;
 	Label label1, label2, label3, label4, label5, label6, label7, label8;
 	Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8;
@@ -35,6 +37,7 @@ public class ZahlenMerken extends Application {
 	int zahl3 = 6682;
 	int zahl4 = 4005;
 	int zahl5 = 2508;
+	Rectangle r;
 
 	File sound2 = new File("7209.wav");
 	File sound4 = new File("4005.wav");
@@ -53,6 +56,15 @@ public class ZahlenMerken extends Application {
 			System.out.println("Fehler");
 		}
 	}
+	
+	public void zeitLeiste() {
+		zeitleiste = new Timeline();
+		zeitleiste.getKeyFrames().add(new KeyFrame(
+				Duration.seconds(5), 
+				new KeyValue(r.widthProperty() , 500)
+				));
+		zeitleiste.play();
+	}
 
 	@Override
 	public void start(Stage primaryScene) throws Exception {
@@ -70,14 +82,19 @@ public class ZahlenMerken extends Application {
 		label3.setFont(new Font("Cambria", 41));
 		label4 = new Label("       " + score);
 		label4.setFont(new Font("Cambria", 41));
-
-		box1.getChildren().addAll(label1, label2, label3, label4);
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		box1.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box1.getChildren().addAll(label1, label2, label3, label4, r);
 		scene1 = new Scene(box1, 500, 500);
 		window.setScene(scene1);
 		window.setTitle("Zahlen Merken");
 		window.show();
 
 		startWaitTime();
+		zeitLeiste();
 	}
 
 	public void startWaitTime() {
@@ -99,7 +116,12 @@ public class ZahlenMerken extends Application {
 		Label labelWait = new Label("Wartezeit! Nicht ablenken lassen!");
 		labelWait.setTextFill(Color.web("1968EB"));
 		labelWait.setFont(new Font("Cambria", 25));
-		box2.getChildren().addAll(labelWait);
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		box2.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box2.getChildren().addAll(labelWait, r);
 		scene2 = new Scene(box2, 500, 500);
 		window.setScene(scene2);
 
@@ -146,7 +168,7 @@ public class ZahlenMerken extends Application {
 		}));
 		tlWhite.setCycleCount(Timeline.INDEFINITE);
 		tlWhite.play();
-
+		zeitLeiste();
 	}
 
 	public void setLastScene() {
@@ -166,7 +188,12 @@ public class ZahlenMerken extends Application {
 				text.setText(newValue.replaceAll("[^\\d]", ""));
 			}
 		});
-		box4.getChildren().addAll(labelWait, text, label3, label4);
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		box4.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box4.getChildren().addAll(labelWait, text, label3, label4, r);
 		scene2 = new Scene(box4, 500, 500);
 		window.setScene(scene2);
 
@@ -192,6 +219,7 @@ public class ZahlenMerken extends Application {
 		}));
 		tlLeicht.setCycleCount(Timeline.INDEFINITE);
 		tlLeicht.play();
+		zeitLeiste();
 	}
 
 	public void setEndScene() {
@@ -207,7 +235,12 @@ public class ZahlenMerken extends Application {
 				text.setText(newValue.replaceAll("[^\\d]", ""));
 			}
 		});
-		box5.getChildren().addAll(labelEnd);
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		box5.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box5.getChildren().addAll(labelEnd, r);
 		scene2 = new Scene(box5, 500, 500);
 		window.setScene(scene2);
 
@@ -222,6 +255,7 @@ public class ZahlenMerken extends Application {
 		}));
 		tlEnd.setCycleCount(Timeline.INDEFINITE);
 		tlEnd.play();
+		zeitLeiste();
 	}
 
 	public void checkLeicht(String checker) {
@@ -326,16 +360,22 @@ public class ZahlenMerken extends Application {
 					text.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			});
+			r = new Rectangle();
+			r.setHeight(30);
+			r.setWidth(0);
+			r.setFill(Color.LAWNGREEN);	
 			label3 = new Label("Punktestand: ");
 			label3.setTextFill(Color.web("1968EB"));
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			box3.getChildren().addAll(label1, label2, label5, text, label3, label4);
+			box3.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			box3.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 			scene3 = new Scene(box3, 500, 500);
 			window.setScene(scene3);
 
 			startWaitTime();
+			zeitLeiste();
 		}
 	}
 
@@ -354,12 +394,18 @@ public class ZahlenMerken extends Application {
 			label3.setFont(new Font("Cambria", 41));
 			label4 = new Label("       " + score);
 			label4.setFont(new Font("Cambria", 41));
-			box6.getChildren().addAll(label1, label2, label3, label4);
+			r = new Rectangle();
+			r.setHeight(30);
+			r.setWidth(0);
+			r.setFill(Color.LAWNGREEN);	
+			box6.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			box6.getChildren().addAll(label1, label2, label3, label4, r);
 			scene6 = new Scene(box6, 500, 500);
 			window.setScene(scene6);
 			window.setTitle("Zahlen Merken");
 
 			startWaitTime();
+			zeitLeiste();
 		}
 	}
 
@@ -406,16 +452,22 @@ public class ZahlenMerken extends Application {
 					text.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			});
+			r = new Rectangle();
+			r.setHeight(30);
+			r.setWidth(0);
+			r.setFill(Color.LAWNGREEN);	
 			label3 = new Label("Punktestand: ");
 			label3.setTextFill(Color.web("1968EB"));
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			box7.getChildren().addAll(label1, label2, label5, text, label3, label4);
+			box7.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			box7.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 			scene7 = new Scene(box7, 500, 500);
 			window.setScene(scene7);
 
 			startWaitTime();
+			zeitLeiste();
 		}
 	}
 
@@ -432,7 +484,12 @@ public class ZahlenMerken extends Application {
 					text.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			});
-			box8.getChildren().addAll(labelWait, text);
+			r = new Rectangle();
+			r.setHeight(30);
+			r.setWidth(0);
+			r.setFill(Color.LAWNGREEN);	
+			box8.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			box8.getChildren().addAll(labelWait, text, r);
 			scene8 = new Scene(box8, 500, 500);
 			window.setScene(scene8);
 
@@ -458,6 +515,7 @@ public class ZahlenMerken extends Application {
 			}));
 			tlSchwer.setCycleCount(Timeline.INDEFINITE);
 			tlSchwer.play();
+			zeitLeiste();
 		}
 	}
 }
