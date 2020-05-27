@@ -1,4 +1,4 @@
-package zahlenMerken;
+package minispiele;
 
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
@@ -6,20 +6,26 @@ import javax.sound.sampled.Clip;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Application;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import javafx.scene.Scene;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 import javafx.util.Duration;
 
-public class ZahlenMerken extends Application {
+
+
+public class ZahlenMerken{
 
 	boolean leicht = true;
 	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd, zeitleiste;
@@ -28,7 +34,7 @@ public class ZahlenMerken extends Application {
 	Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8;
 	int vorherigeZahl, match;
 	int score = 0, endscore;
-	Stage window;
+	
 	int counter = 1, zahl = 0;
 	String checker;
 	TextField text;
@@ -43,10 +49,13 @@ public class ZahlenMerken extends Application {
 	File sound4 = new File("4005.wav");
 	File sound5 = new File("2508.wav");
 
-	public static void main(String[] args) {
-		launch(args);
+	private AnchorPane minispielPane;
+	
+	public ZahlenMerken(AnchorPane mP){
+		this.minispielPane = mP;
 	}
-
+	
+	
 	public static void playMusic(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
@@ -66,15 +75,15 @@ public class ZahlenMerken extends Application {
 		zeitleiste.play();
 	}
 
-	@Override
-	public void start(Stage primaryScene) throws Exception {
+	public void start() {
 
-		counter = 1;
-		window = primaryScene;
+		//counter = 1;
+		//window = primaryScene;
+		
 		box1 = new VBox(20);
 		label1 = new Label("Neue Zahl: ");
 		label1.setTextFill(Color.web("1968EB"));
-		label1.setFont(new Font("Cambria", 41));
+		label1.setFont(new Font("Cambria", 41)); //41
 		label2 = new Label("       " + zahl1);
 		label2.setFont(new Font("Cambria", 41));
 		label3 = new Label("Punktestand: ");
@@ -86,15 +95,13 @@ public class ZahlenMerken extends Application {
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box1.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box1.styleProperty().set("-fx-background-image: url(/BioTesting_Kerim/src/minispiele/resources/1.jpg)");
 		box1.getChildren().addAll(label1, label2, label3, label4, r);
-		scene1 = new Scene(box1, 500, 500);
-		window.setScene(scene1);
-		window.setTitle("Zahlen Merken");
-		window.show();
-
+		
+		
+		minispielPane.getChildren().add(box1);
 		startWaitTime();
-		zeitLeiste();
+		//zeitLeiste();
 	}
 
 	public void startWaitTime() {
@@ -120,10 +127,11 @@ public class ZahlenMerken extends Application {
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box2.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box2.styleProperty().set("-fx-background-image: url(/BioTesting_Kerim/src/minispiele/resources/1.jpg)");
+		
 		box2.getChildren().addAll(labelWait, r);
-		scene2 = new Scene(box2, 500, 500);
-		window.setScene(scene2);
+		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().add(box2);
 
 		tlWhite = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
@@ -181,7 +189,10 @@ public class ZahlenMerken extends Application {
 		label3.setFont(new Font("Cambria", 41));
 		label4 = new Label("       " + score);
 		label4.setFont(new Font("Cambria", 41));
+		///////////////////////////////////////////////
 		text = new TextField();
+		//text.setFocusTraversable(false);
+///////////////////////////////////////////////
 		text.setFont(new Font("Cambria", 30));
 		text.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue.matches("\\d*")) {
@@ -194,8 +205,12 @@ public class ZahlenMerken extends Application {
 		r.setFill(Color.LAWNGREEN);	
 		box4.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 		box4.getChildren().addAll(labelWait, text, label3, label4, r);
-		scene2 = new Scene(box4, 500, 500);
-		window.setScene(scene2);
+		
+		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().add(box4);
+		
+		//scene2 = new Scene(box4, 500, 500);
+		//window.setScene(scene2);
 
 		tlLeicht = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
@@ -228,7 +243,10 @@ public class ZahlenMerken extends Application {
 		Label labelEnd = new Label("Endpunkte: " + endscore);
 		labelEnd.setTextFill(Color.web("010203"));
 		labelEnd.setFont(new Font("Cambria", 50));
+///////////////////////////////////////////////
 		text = new TextField();
+		//text.setFocusTraversable(false);
+///////////////////////////////////////////////
 		text.setFont(new Font("Cambria", 30));
 		text.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue.matches("\\d*")) {
@@ -241,16 +259,19 @@ public class ZahlenMerken extends Application {
 		r.setFill(Color.LAWNGREEN);	
 		box5.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 		box5.getChildren().addAll(labelEnd, r);
-		scene2 = new Scene(box5, 500, 500);
-		window.setScene(scene2);
+		
 
+		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().add(box5);
+		
+		
 		tlEnd = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				tlEnd.stop();
 				// closing the window has to be taken out in final game
-				window.close();
+				minispielPane.getChildren().clear();
 			}
 		}));
 		tlEnd.setCycleCount(Timeline.INDEFINITE);
@@ -354,6 +375,9 @@ public class ZahlenMerken extends Application {
 			label5.setTextFill(Color.web("1968EB"));
 			label5.setFont(new Font("Cambria", 25));
 			text = new TextField();
+//////////////////////////////////////
+			//text.setFocusTraversable(false);
+			//////////////////////////////////////aaaa
 			text.setFont(new Font("Cambria", 30));
 			text.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!newValue.matches("\\d*")) {
@@ -371,8 +395,12 @@ public class ZahlenMerken extends Application {
 			label4.setFont(new Font("Cambria", 40));
 			box3.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 			box3.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
-			scene3 = new Scene(box3, 500, 500);
-			window.setScene(scene3);
+			
+			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().add(box3);
+			//scene3 = new Scene(box3, 500, 500);
+			//window.setScene(scene3);
+			
 
 			startWaitTime();
 			zeitLeiste();
@@ -400,9 +428,9 @@ public class ZahlenMerken extends Application {
 			r.setFill(Color.LAWNGREEN);	
 			box6.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 			box6.getChildren().addAll(label1, label2, label3, label4, r);
-			scene6 = new Scene(box6, 500, 500);
-			window.setScene(scene6);
-			window.setTitle("Zahlen Merken");
+			
+			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().add(box6);
 
 			startWaitTime();
 			zeitLeiste();
@@ -463,8 +491,8 @@ public class ZahlenMerken extends Application {
 			label4.setFont(new Font("Cambria", 40));
 			box7.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 			box7.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
-			scene7 = new Scene(box7, 500, 500);
-			window.setScene(scene7);
+			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().add(box7);
 
 			startWaitTime();
 			zeitLeiste();
@@ -490,8 +518,8 @@ public class ZahlenMerken extends Application {
 			r.setFill(Color.LAWNGREEN);	
 			box8.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
 			box8.getChildren().addAll(labelWait, text, r);
-			scene8 = new Scene(box8, 500, 500);
-			window.setScene(scene8);
+			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().add(box8);
 
 			tlSchwer = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
@@ -518,5 +546,6 @@ public class ZahlenMerken extends Application {
 			zeitLeiste();
 		}
 	}
+	
+	
 }
-
