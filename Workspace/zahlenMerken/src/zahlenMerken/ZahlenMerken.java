@@ -86,7 +86,7 @@ public class ZahlenMerken extends Application {
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box1.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box1.styleProperty().set("-fx-background-image: url(zahlenMerken/1.jpg)");
 		box1.getChildren().addAll(label1, label2, label3, label4, r);
 		scene1 = new Scene(box1, 500, 500);
 		window.setScene(scene1);
@@ -120,7 +120,7 @@ public class ZahlenMerken extends Application {
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box2.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box2.styleProperty().set("-fx-background-image: url(zahlenMerken/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
 		scene2 = new Scene(box2, 500, 500);
 		window.setScene(scene2);
@@ -192,7 +192,7 @@ public class ZahlenMerken extends Application {
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box4.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		box4.styleProperty().set("-fx-background-image: url(zahlenMerken/1.jpg)");
 		box4.getChildren().addAll(labelWait, text, label3, label4, r);
 		scene2 = new Scene(box4, 500, 500);
 		window.setScene(scene2);

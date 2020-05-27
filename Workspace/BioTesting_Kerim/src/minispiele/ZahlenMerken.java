@@ -95,7 +95,8 @@ public class ZahlenMerken{
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box1.styleProperty().set("-fx-background-image: url(/BioTesting_Kerim/src/minispiele/resources/1.jpg)");
+		//box1.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box1.getChildren().addAll(label1, label2, label3, label4, r);
 		
 		
@@ -127,8 +128,8 @@ public class ZahlenMerken{
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box2.styleProperty().set("-fx-background-image: url(/BioTesting_Kerim/src/minispiele/resources/1.jpg)");
-		
+		//box2.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box2);
@@ -203,7 +204,8 @@ public class ZahlenMerken{
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box4.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		//box4.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		//minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box4.getChildren().addAll(labelWait, text, label3, label4, r);
 		
 		minispielPane.getChildren().remove(0);
@@ -257,7 +259,8 @@ public class ZahlenMerken{
 		r.setHeight(30);
 		r.setWidth(0);
 		r.setFill(Color.LAWNGREEN);	
-		box5.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+		//minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		//box5.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box5.getChildren().addAll(labelEnd, r);
 		
 
@@ -393,7 +396,7 @@ public class ZahlenMerken{
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			box3.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			//box3.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 			box3.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 			
 			minispielPane.getChildren().remove(0);
@@ -426,7 +429,7 @@ public class ZahlenMerken{
 			r.setHeight(30);
 			r.setWidth(0);
 			r.setFill(Color.LAWNGREEN);	
-			box6.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			//box6.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 			box6.getChildren().addAll(label1, label2, label3, label4, r);
 			
 			minispielPane.getChildren().remove(0);
@@ -489,7 +492,7 @@ public class ZahlenMerken{
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			box7.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			//box7.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 			box7.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box7);
@@ -516,7 +519,7 @@ public class ZahlenMerken{
 			r.setHeight(30);
 			r.setWidth(0);
 			r.setFill(Color.LAWNGREEN);	
-			box8.styleProperty().set("-fx-background-image: url(/zahlenMerken/1.jpg)");
+			//box8.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 			box8.getChildren().addAll(labelWait, text, r);
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box8);
