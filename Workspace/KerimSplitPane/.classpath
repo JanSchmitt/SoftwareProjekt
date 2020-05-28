@@ -6,6 +6,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+=======
+<<<<<<< HEAD
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+=======
 	<classpathentry kind="lib" path="C:/git/SoftwareProjekt/javafx-sdk-11.0.2/lib/javafx.base.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -46,5 +52,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+>>>>>>> 521350dd00225b5cc06fe26ed8d2282a9f839c83
+>>>>>>> b4dc10a52b82d8d949874b2e1616e56ff50200a8
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
