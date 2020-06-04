@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.text.*;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -80,6 +81,9 @@ public class GameViewManager {
 	
 	//Biofeedback manager
 	private FeedbackManager feedback = new FeedbackManager(this);
+	
+	//text example
+	Text bsp;
 	
 	public GameViewManager() {
 
@@ -204,8 +208,7 @@ public class GameViewManager {
 				collision();
 				moveShip();
 				updateScoreLabel();
-				
-				
+				moveText();				
 			}
 		};
 		gameTimer.start();
@@ -221,6 +224,8 @@ public class GameViewManager {
 		scoreLabel.setLayoutX(RIGHT_PANE_WIDTH/2 - scoreLabel.IMG_WIDTH/2);
 		scoreLabel.setLayoutY(20);
 		rightPane.getChildren().add(scoreLabel);
+		bsp=new Text();
+		gamePane.getChildren().add(bsp);
 		
 		//jeweils max 3 meteors generaten
 		brownMeteors = new ImageView[3];
@@ -432,8 +437,8 @@ public class GameViewManager {
 			gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.2);
 			gridPane2.setLayoutY(gridPane2.getLayoutY() + 0.2);
 		}else if(feedback.getmode()==2) {
-			gridPane1.setLayoutY(gridPane1.getLayoutY() + 1);
-			gridPane2.setLayoutY(gridPane2.getLayoutY() + 1);
+			gridPane1.setLayoutY(gridPane1.getLayoutY() + 2);
+			gridPane2.setLayoutY(gridPane2.getLayoutY() + 2);
 		}
 		
 		if(gridPane1.getLayoutY() >=GAME_HEIGHT) {
@@ -514,6 +519,7 @@ public class GameViewManager {
 		scoreLabel.setText(textToSet + sc.score);
 	}	
 	
+	//changes Colors depending on gamemode change
 	public void changeColors(int mode) {
 		if(mode==0) {
 			Image newPlayer=new Image("view/resources/playerShip1_orange.png");
@@ -548,8 +554,23 @@ public class GameViewManager {
 			for(int i=0; i<brownMeteors.length; i++) {
 				greyMeteors[i].setImage(newMeteor2);
 			}
+			
+			bsp=new Text("  !!!HINWEIS!!!:   \nDies ist ein Beispiel");
+			bsp.setFont(new Font(40));
+			bsp.setLayoutX(0);
+			bsp.setLayoutY(0);
+			gamePane.getChildren().add(bsp);
 		}
 		
+	}
+	
+	//moves text example
+	private void moveText(){
+		if(bsp.getLayoutX()<=WINDOW_WIDTH) {
+			bsp.setLayoutX(bsp.getLayoutX()+5);
+			bsp.setLayoutY(bsp.getLayoutX()+5);
+			bsp.setRotate(bsp.getRotate()-1);
+		}
 	}
 	
 }

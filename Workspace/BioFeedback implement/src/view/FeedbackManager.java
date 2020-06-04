@@ -6,14 +6,14 @@ public class FeedbackManager {
 	private GameViewManager game;
 	private MusicLoader music;
 	private int mode=0;
-	boolean changeMode=false;
+	boolean changing=false;
 	
+	//constructor with GameViewManager input
 	public FeedbackManager(GameViewManager g) {
 		game=g;
 		music=new MusicLoader();
 		music.load("src/sound/resources/funk warte.wav");
-		music.play();
-		
+		music.play();		
 		
 	}
 	
@@ -22,7 +22,7 @@ public class FeedbackManager {
 		if(mode==m) {
 			return;
 		}else if(m==0||m==1||m==2) {
-			changeMode=true;
+			changing=true;
 			mode=m;
 			if(m==0){
 				music.load("src/sound/resources/funk warte.wav");
@@ -34,7 +34,7 @@ public class FeedbackManager {
 			music.play();
 			game.changeColors(mode);
 			game.createBackground();
-			changeMode=false;
+			changing=false;
 		}		
 	}
 	
@@ -43,7 +43,8 @@ public class FeedbackManager {
 		return mode;
 	}
 	
+	//answers if mode is currently changing
 	public boolean getChanging() {
-		return changeMode;
+		return changing;
 	}
 }
