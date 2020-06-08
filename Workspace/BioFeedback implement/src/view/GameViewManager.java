@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.text.*;
 import javafx.scene.control.SplitPane;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -83,7 +84,7 @@ public class GameViewManager {
 	private FeedbackManager feedback = new FeedbackManager(this);
 	
 	//text example
-	Text bsp;
+	//Text bsp;
 	
 	public GameViewManager() {
 
@@ -208,7 +209,7 @@ public class GameViewManager {
 				collision();
 				moveShip();
 				updateScoreLabel();
-				moveText();				
+				//moveText();				
 			}
 		};
 		gameTimer.start();
@@ -224,8 +225,6 @@ public class GameViewManager {
 		scoreLabel.setLayoutX(RIGHT_PANE_WIDTH/2 - scoreLabel.IMG_WIDTH/2);
 		scoreLabel.setLayoutY(20);
 		rightPane.getChildren().add(scoreLabel);
-		bsp=new Text();
-		gamePane.getChildren().add(bsp);
 		
 		//jeweils max 3 meteors generaten
 		brownMeteors = new ImageView[3];
@@ -517,7 +516,7 @@ public class GameViewManager {
 	private void updateScoreLabel() {
 		String textToSet = "Score: ";
 		scoreLabel.setText(textToSet + sc.score);
-	}	
+	}		
 	
 	//changes Colors depending on gamemode change
 	public void changeColors(int mode) {
@@ -555,21 +554,41 @@ public class GameViewManager {
 				greyMeteors[i].setImage(newMeteor2);
 			}
 			
+			/*
 			bsp=new Text("  !!!HINWEIS!!!:   \nDies ist ein Beispiel");
 			bsp.setFont(new Font(40));
 			bsp.setLayoutX(0);
 			bsp.setLayoutY(0);
 			gamePane.getChildren().add(bsp);
+			*/
 		}
 		
 	}
 	
+	/*
 	//moves text example
 	private void moveText(){
 		if(bsp.getLayoutX()<=WINDOW_WIDTH) {
 			bsp.setLayoutX(bsp.getLayoutX()+5);
 			bsp.setLayoutY(bsp.getLayoutX()+5);
 			bsp.setRotate(bsp.getRotate()-1);
+		}
+	}
+	*/
+	
+	//changes properties of score label
+	public void changeText(int m) {
+		if(m==0) {
+			scoreLabel.setFont(new Font(20));
+			scoreLabel.setEffect(null);
+		}if(m==1) {
+			scoreLabel.setFont(new Font(25));
+			scoreLabel.setEffect(null);
+		}if(m==2) {
+			scoreLabel.setFont(new Font(20));
+			BoxBlur blur=new BoxBlur();
+			blur.setIterations(2);
+			scoreLabel.setEffect(blur);
 		}
 	}
 	
