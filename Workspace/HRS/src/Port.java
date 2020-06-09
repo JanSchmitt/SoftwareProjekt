@@ -2,11 +2,15 @@ import java.util.Scanner;
 import com.fazecast.jSerialComm.SerialPort;
 
 public class Port {
-
-	public void rec(int c) {
-		int r = c;
 		int curr;
 		int sum = 0;
+		boolean ruhig = false;
+		boolean stress = false;
+		
+	public void rec(int c) {
+		
+		
+		int r = c;
 		SerialPort ports[] = SerialPort.getCommPorts();
 		System.out.println("Select a port");
 		int i = 1;
@@ -27,6 +31,13 @@ public class Port {
 		Scanner data = new Scanner(port.getInputStream());
 		while(data.hasNextLine()) {
 			curr = data.nextInt();
+			if(curr >= sum +20) {
+				ruhig = false;
+				stress = true;
+			}else if(curr <= sum -10) {
+				ruhig = true;
+				stress = false;
+			}
 			System.out.println(curr);
 			sum = sum + curr;
 			if(r > 1) {
