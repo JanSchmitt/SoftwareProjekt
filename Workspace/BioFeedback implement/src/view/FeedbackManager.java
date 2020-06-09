@@ -27,12 +27,13 @@ public class FeedbackManager {
 			if(m==0){
 				music.load("src/sound/resources/funk warte.wav");
 			}else if(m==1) {			
-				music.load("src/sound/resources/thief in the night.wav");
+				music.load("src/sound/resources/Quiet Place.wav");
 			}else if(m==2) {
 				music.load("src/sound/resources/rage.wav");
 			}
 			music.play();
 			game.changeColors(mode);
+			game.changeText(mode);
 			game.createBackground();
 			changing=false;
 		}		
