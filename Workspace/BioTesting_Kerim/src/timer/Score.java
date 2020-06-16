@@ -37,5 +37,9 @@ public class Score {
               
 	}
 	
+	public int getTime() {
+		return time;
+	}
+	
 }
 
