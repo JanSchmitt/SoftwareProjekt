@@ -10,6 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDBC"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ini"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jSerialComm/jSerialComm-2.6.2 (1).jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ini4j"/>
+	<classpathentry kind="lib" path="C:/Users/timsc/OneDrive/Desktop/jSerialComm-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

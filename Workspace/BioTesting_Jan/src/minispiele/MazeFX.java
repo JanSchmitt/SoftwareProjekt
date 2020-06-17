@@ -324,9 +324,7 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		// scene = new Scene(g, 400, 400);
-		// s.setTitle("The Maze");
-		s.setScene(scene);
+		//s.setScene(scene);
 		minispielPane.getChildren().add(g);
 		if (leicht == true) {
 			if (mazeArray[locY][locX] == 3) {
