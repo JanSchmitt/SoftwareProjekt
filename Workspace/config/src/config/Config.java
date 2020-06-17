@@ -64,16 +64,7 @@ public class Config {
 	}
 	
 	public static void writePropertiesFiles() {
-		try {
-			OutputStream output  = new FileOutputStream("C:\\Users\\schmi\\OneDrive\\Desktop\\SoftwareProjekt\\Workspace\\config\\config");
-		
-			prop.setProperty("punkteHS", "100");
-			prop.store(output, null);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//add if necessary
 	}
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import minispiele.CatchTheBall;
 import minispiele.ZahlenMerken;
 import model.InfoLabel;
 import timer.Score;
@@ -77,6 +78,13 @@ public class GameViewManager {
 	private Score sc;
 	private ZahlenMerken zahlenMerken;
 	
+	
+	//////////////new
+	private CatchTheBall cb;
+	private boolean catchOn = false;
+	
+	
+	
 	public GameViewManager() {
 
 		initializeStage();
@@ -108,7 +116,16 @@ public class GameViewManager {
 						
 						
 					}
+				}/*
+				if(catchOn == true) {
+					if(e.getCode() == KeyCode.LEFT) {
+						cb.moveLeft();
+					}
+					if(e.getCode() == KeyCode.RIGHT) {
+						cb.moveRight();
+					}
 				}
+				*/
 			}
 		});
 	
@@ -202,14 +219,21 @@ public class GameViewManager {
 				collision();
 				moveShip();
 				updateScoreLabel();
-				
+				//checkTime();
 				
 			}
 		};
 		gameTimer.start();
 	}
-	
-
+	/*
+	public void checkTime() {
+		if(sc.getTime() == 1) {
+			cb = new CatchTheBall(minispielPane);
+			cb.start();
+			catchOn = true;
+		}
+	}
+*/
 	//Meteors(Enemies)
 	////////////////////////////////
 	private void createGameElements() {
@@ -222,8 +246,8 @@ public class GameViewManager {
 		
 		
 		
-		zahlenMerken = new ZahlenMerken(minispielPane);
-		zahlenMerken.start();
+		//zahlenMerken = new ZahlenMerken(minispielPane);
+		//zahlenMerken.start();
 		//minispielPane.getChildren().add(scoreLabel);
 		
 		

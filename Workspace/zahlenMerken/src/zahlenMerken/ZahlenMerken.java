@@ -21,7 +21,7 @@ import javafx.util.Duration;
 
 public class ZahlenMerken extends Application {
 
-	boolean leicht = true;
+	boolean leicht = false;
 	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd, zeitleiste;
 	VBox box1, box2, box3, box4, box5, box6, box7, box8;
 	Label label1, label2, label3, label4, label5, label6, label7, label8;
