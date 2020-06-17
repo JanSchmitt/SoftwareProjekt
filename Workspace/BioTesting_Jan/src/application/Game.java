@@ -1,12 +1,15 @@
 package application;
 
 	
+import HRS.Port;
 import javafx.application.Application;
+//import javafx.application.Application;
 import javafx.stage.Stage;
 import view.ViewManager;
 
 
 public class Game extends Application {
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -19,7 +22,7 @@ public class Game extends Application {
 		}
 	}
 	
-	public void main(String[] args) {
+	/*public void main(String[] args) {
 		launch(args);
-	}
+	}*/
 }

@@ -13,10 +13,13 @@ import javafx.scene.control.TextField;
 
 
 public class OpSettings extends Application {
+	String id;
 	int pointRange;
 	int difficulty;
 	int gamemode;
 	int time;
+	
+	String iniID;
 	String iniPointRange;
 	String iniDifficulty;
 	String iniGamemode;
@@ -60,18 +63,25 @@ public class OpSettings extends Application {
 			difficultyDD.setValue(diffIni());
 			GridPane.setConstraints(difficultyDD,1,2);
 			
-			Label pointRangeLabel=new Label("Punktebereich:");
-			GridPane.setConstraints(pointRangeLabel,0,3);
+			Label idLabel = new Label("ID: ");
+			GridPane.setConstraints(idLabel,0,3);
 			
-			TextField pointRangeIn=new TextField();
-			pointRangeIn.setText(iniPointRange);
-			GridPane.setConstraints(pointRangeIn,1,3);
+			//Label pointRangeLabel=new Label("Punktebereich:");
+			//GridPane.setConstraints(pointRangeLabel,0,3);
+			
+			//TextField pointRangeIn =new TextField();
+			//pointRangeIn.setText(iniPointRange);
+			//GridPane.setConstraints(pointRangeIn,1,3);
+			
+			TextField idField = new TextField();
+			idField.setText(iniID);
+			GridPane.setConstraints(idField,1,3);
 			
 			Button applyButton=new Button("Übernehmen");
 			applyButton.setOnAction(e->{				
 				getGamemode(gamemodeDD);
 				getDifficulty(difficultyDD);
-				if(getTime(timeIn)&&getPointRange(pointRangeIn)){
+				if(getTime(timeIn) && getID(idField)/*&&getPointRange(pointRangeIn)*/){
 					ini.write(this);
 					primaryStage.close();
 					frage questions=new frage();
@@ -86,7 +96,7 @@ public class OpSettings extends Application {
 			GridPane.setConstraints(applyButton,0,4);			
 			
 			//add scene with layout to stage
-			grid.getChildren().addAll(gmLabel,timeLabel,gamemodeDD,timeIn,diffLabel,difficultyDD,pointRangeLabel,pointRangeIn,applyButton);
+			grid.getChildren().addAll(gmLabel,timeLabel,gamemodeDD,timeIn,diffLabel,difficultyDD,idLabel,idField,applyButton);
 			Scene scene = new Scene(grid,400,320);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -100,9 +110,9 @@ public class OpSettings extends Application {
 	//method to convert gamemode from chiocebox into number
 	private void getGamemode(ChoiceBox<String> cb) {
 		switch(cb.getValue()) {
-		case "Entgegenwirken": gamemode=1; break;
-		case "Neutral": gamemode=0; break;
-		case "Verstärkend": gamemode=2; break;
+		case "Entgegenwirken": gamemode=1; //break;
+		case "Neutral": gamemode=0; //break;
+		case "Verstärkend": gamemode=2; //break;
 		}
 		System.out.println("Spielmodus: "+gamemode);
 	}
@@ -119,8 +129,20 @@ public class OpSettings extends Application {
 		}		
 	}
 	
+	//method to set ID
+	public boolean getID(TextField tf) {
+		try {
+			iniID = tf.getText();
+			id = iniID;
+			return true;
+		} catch(NumberFormatException e) {
+			System.out.println("Falsche Eingabe! Bitte eine Nummer eingeben");
+			return false;
+		}
+	}
+	
 	//method to get selected point range from textfield
-	public boolean getPointRange(TextField tf) {
+	/*public boolean getPointRange(TextField tf) {
 		try {
 			pointRange=Integer.parseInt(tf.getText());
 			System.out.println("Punktebereich: "+pointRange);
@@ -129,7 +151,7 @@ public class OpSettings extends Application {
 			System.out.println("Falsche Eingabe! Bitte eine Nummer eingeben");
 			return false;
 		}		
-	}
+	}*/
 	
 	//method to convert difficulty from chiocebox into number
 	public void getDifficulty(ChoiceBox<String> cb){

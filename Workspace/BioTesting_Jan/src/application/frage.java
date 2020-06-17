@@ -123,7 +123,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 				e.printStackTrace();
 			}*/
 			test = new Testing();
-			test.createHRSTest(window);
+			test.createHRSTest(window, hfmax);
 		}		
 	}
 	
@@ -206,6 +206,10 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		Stresszustand = (hfmax + 130 - Ruhezustand)/2;
 		System.out.println("Stresszustand wird angenommen bei einer Herzfrequenz von " + Stresszustand);
 		System.out.println("Ihre Frequenzvariabilität beträgt " + Frequenzvariabilität);
+	}
+	
+	public int getHFMax() {
+		return hfmax;
 	}
 
 }

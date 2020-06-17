@@ -1,4 +1,4 @@
-package minispiele;
+package zMTest;
 
 import java.io.File;
 import javax.sound.sampled.AudioSystem;
@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.VBox;
@@ -36,9 +38,8 @@ public class ZahlenMerken{
 	int score = 0, endscore;
 	
 	int counter = 1, zahl = 0;
-	String t = " ";
 	String checker, numbers;
-	TextField text ;
+	TextField text;
 	int zahl1 = 1653;
 	int zahl2 = 7209;
 	int zahl3 = 6682;
@@ -104,7 +105,7 @@ public class ZahlenMerken{
 		
 		minispielPane.getChildren().add(box1);
 		startWaitTime();
-		zeitLeiste();
+		//zeitLeiste();
 	}
 	
 	public void stop() {
@@ -137,8 +138,10 @@ public class ZahlenMerken{
 		//box2.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
+		
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box2);
+		
 
 		tlWhite = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
@@ -199,8 +202,6 @@ public class ZahlenMerken{
 		///////////////////////////////////////////////	
 		//text.setFocusTraversable(false);
 		///////////////////////////////////////////////
-		text.clear();
-		t = " ";
 		text.setFont(new Font("Cambria", 30));
 		text.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue.matches("\\d*")) {
@@ -256,8 +257,6 @@ public class ZahlenMerken{
 		text = new TextField();
 		//text.setFocusTraversable(false);
 ///////////////////////////////////////////////
-		text.clear();
-		t = " ";
 		text.setFont(new Font("Cambria", 30));
 		text.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!newValue.matches("\\d*")) {
@@ -389,8 +388,6 @@ public class ZahlenMerken{
 			text = new TextField();
 			//////////////////////////////////////
 			//////////////////////////////////////
-			text.clear();
-			t = " ";
 			text.setFont(new Font("Cambria", 30));
 			text.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!newValue.matches("\\d*")) {
@@ -487,8 +484,6 @@ public class ZahlenMerken{
 			label5.setTextFill(Color.web("1968EB"));
 			label5.setFont(new Font("Cambria", 40));
 			text = new TextField();
-			text.clear();
-			t = " ";
 			text.setFont(new Font("Cambria", 30));
 			text.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!newValue.matches("\\d*")) {
@@ -521,8 +516,6 @@ public class ZahlenMerken{
 			labelWait.setTextFill(Color.web("1968EB"));
 			labelWait.setFont(new Font("Cambria", 41));
 			text = new TextField();
-			text.clear();
-			t = " ";
 			text.setFont(new Font("Cambria", 30));
 			text.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!newValue.matches("\\d*")) {
@@ -565,8 +558,7 @@ public class ZahlenMerken{
 	}
 	
 	public void writeNumber(int zahl) {
-		t = t + zahl;
-		text.setText(t);
+		this.text.setText(" " + zahl);
 	}
 	
 }
