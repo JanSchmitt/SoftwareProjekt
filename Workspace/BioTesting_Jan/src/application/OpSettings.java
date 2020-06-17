@@ -30,8 +30,8 @@ public class OpSettings extends Application {
 	public void start(Stage primaryStage) {
 		try {			
 			//initialize latest values
-			Initialization ini= new Initialization();
-			ini.read(this);
+			//Initialization ini= new Initialization();
+			//ini.read(this);
 			
 			//create grid layout
 			GridPane grid = new GridPane();
@@ -81,8 +81,13 @@ public class OpSettings extends Application {
 			applyButton.setOnAction(e->{				
 				getGamemode(gamemodeDD);
 				getDifficulty(difficultyDD);
+<<<<<<< HEAD
 				if(getTime(timeIn) && getID(idField)/*&&getPointRange(pointRangeIn)*/){
 					ini.write(this);
+=======
+				if(getTime(timeIn)&&getPointRange(pointRangeIn)){
+					//ini.write(this);
+>>>>>>> 1873cbe41f4c5c8843b777a5670c05aed4699553
 					primaryStage.close();
 					frage questions=new frage();
 					try {
