@@ -1,7 +1,17 @@
 package view;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.ini4j.Wini;
+
+import com.fazecast.jSerialComm.SerialPort;
+
 import HRS.Port;
 import application.Game;
+import application.Initialization;
+import data.Data;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,33 +28,78 @@ public class Testing {
 
 	VBox boxHRS, boxTest, boxMinispiele, boxResult,v;
 	HBox h;
-	Port hrs;
+	Port hrs = new Port();
+	Data db;
+	Initialization ini = new Initialization();
 	Label labelTest, labelErgebnis, labelMinispiele, labelPoints, labelTime;
 	Scene sceneTest, sceneErgebnis, sceneMinispiele, sceneRTT, sceneAfter;
-	Button buttonStartTestHRS, buttonWeiter, buttonMinispieleWeiter, buttonNext;
-	int result, points, time;
+	Button buttonStartTestHRS, buttonWeiter, buttonMinispieleWeiter, buttonNext, buttonOhneTest;
+	int result, points, time, resultTest;
 	Stage window;
 	Reaktionstest rtt;
+	SerialPort sp;
+	int i = 0, curr, sum = 0, chosenP;
 
-	public void createHRSTest(Stage window) {
+	public void createHRSTest(Stage window, int hfmax) {
 		boxHRS = new VBox(20);
-		hrs = new Port();
+		//hrs = new Port();
 		buttonStartTestHRS = new Button("Drücken um Test des HRS zu starten");
 		buttonStartTestHRS.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent ae) {
-				// result = hrs.test();
-				result = 70;
-				setResultScene(result, window);
+				hrs.selectPort(0, sp);
+				chosenP = hrs.getChosenPort();
+				ini.updatePort(chosenP);
+				while(i<10) {
+					curr = hrs.getHR(sp);
+					System.out.println("" + curr);
+					sum = sum + curr;
+				}
+				resultTest = sum/10;
+				System.out.println("" + resultTest);
+				ini.updateRuhepuls(resultTest);
+				/*try {
+					db.createTableForTest(ini.getID());					//DB
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
+				setResultScene(resultTest, window);
 			}
 		});
 
+		buttonOhneTest = new Button("Ohne HRS fortfahren");
+		buttonOhneTest.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg) {
+				// TODO Auto-generated method stub
+				result  = 70;
+				ini.updateRuhepuls(result);
+				/*try {
+					db.createTableForTest(ini.getID());					//DB
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
+				setResultScene(result, window);
+			}
+			
+		});
+		
 		labelTest = new Label("Kurzer Test des Herzratensensors!");
-		boxHRS.getChildren().addAll(labelTest, buttonStartTestHRS);
+		boxHRS.getChildren().addAll(labelTest, buttonStartTestHRS, buttonOhneTest);
 		sceneTest = new Scene(boxHRS, 400, 400);
 		window.setScene(sceneTest);
 		window.show();
+		
+		try {
+			Wini init = new Wini(new File("src/application/settings.ini"));
+			init.put("OpSettings", "Grenze" , hfmax);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setResultScene(int result, Stage window) {
@@ -54,6 +109,7 @@ public class Testing {
 			@Override
 			public void handle(ActionEvent aeb) {
 				createMinispielTest(window);
+				//hrs.start();
 			}
 		});
 		labelErgebnis = new Label("" + result);
@@ -92,6 +148,12 @@ public class Testing {
 					rtt.testReact();
 					points = rtt.getPoints();
 					time = 1000 - points;
+					/*try {												//DB
+						db.saveDataInTable(ini.getID(), 0, hrs.getHeartRate(), points, "test", "test");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}*/
 					sceneAfterRTT(window);
 				}
 			}
@@ -115,6 +177,7 @@ public class Testing {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				//hrs.start();
 			}
 			
 		});

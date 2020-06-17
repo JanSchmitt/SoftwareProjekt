@@ -4,26 +4,42 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Properties;
-import java.lang.Integer;
 
 public class Config {
 	
 	static Properties prop = new Properties();
-
-	public static void main(String[] args) {
-		readPropertiesFiles();
-		writePropertiesFiles();
+	
+	String ms6;
+	String ms5;
+	String ms4;
+	String ms3;
+	String ms2;
+	String ms1;
+	String timeMS1;
+	String timeMS2;
+	String timeMS3;
+	String timeMS4;
+	String timeMS5;
+	String timeMS6;
+	
+	
+	public void getMS6() {
+		
 	}
 	
 	public static void readPropertiesFiles() {
-		try (FileReader readerConfig = new FileReader("config")){
+		try (FileReader readerConfig = new FileReader("dataConfig")){
 			
-			InputStream input = new FileInputStream("C:\\Users\\schmi\\OneDrive\\Desktop\\SoftwareProjekt\\Workspace\\config\\config");
+			InputStream input = new FileInputStream("C:\\Users\\schmi\\OneDrive\\Desktop\\SoftwareProjekt\\Workspace\\BioTesting_Jan\\src\\config\\dataConfig");
 			
 			prop.load(input);
 			
 			String laufzeit = prop.getProperty("laufzeit");
-			int lz = Integer.parseInt(laufzeit);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			/*int lz = Integer.parseInt(laufzeit);
 			System.out.println("Die Standardlaufzeit des Spiels beträgt " + lz + " Minuten");
 			
 			String gamemode = prop.getProperty("gamemode");
@@ -52,12 +68,7 @@ public class Config {
 			System.out.println(minispiel3);
 			System.out.println(minispiel4);
 			System.out.println(minispiel5);
-			System.out.println(minispiel6);
-		
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.out.println(minispiel6);*/
 
 	}
 	

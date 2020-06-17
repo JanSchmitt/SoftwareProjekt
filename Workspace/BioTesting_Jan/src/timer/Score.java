@@ -27,7 +27,7 @@ public class Score {
 					  if(collisionCounter > 1) {
 						  collisionCounter--;
 					  }
-					}
+				  }
 				  System.out.println(collisionCounter);
 				  //System.out.println("this is called every 1 seconds on UI thread " + score);
 				  
