@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import org.ini4j.Wini;
 
+import com.fazecast.jSerialComm.SerialPort;
+
 import HRS.Port;
 import application.Game;
 import application.Initialization;
@@ -35,6 +37,8 @@ public class Testing {
 	int result, points, time, resultTest;
 	Stage window;
 	Reaktionstest rtt;
+	SerialPort sp;
+	int i = 0, curr, sum = 0, chosenP;
 
 	public void createHRSTest(Stage window, int hfmax) {
 		boxHRS = new VBox(20);
@@ -44,8 +48,16 @@ public class Testing {
 
 			@Override
 			public void handle(ActionEvent ae) {
-				hrs.test();
-				resultTest = hrs.getResult();
+				hrs.selectPort(0, sp);
+				chosenP = hrs.getChosenPort();
+				ini.updatePort(chosenP);
+				while(i<10) {
+					curr = hrs.getHR(sp);
+					System.out.println("" + curr);
+					sum = sum + curr;
+				}
+				resultTest = sum/10;
+				System.out.println("" + resultTest);
 				ini.updateRuhepuls(resultTest);
 				/*try {
 					db.createTableForTest(ini.getID());					//DB

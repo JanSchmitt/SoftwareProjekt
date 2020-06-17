@@ -16,11 +16,52 @@ public class Port {
 	int sum = 0, erg;
 	String puls;
 	int rp;
+	int hr;
 	boolean ruhig = false;
 	boolean stress = false;
 	int standardPort = 0;
 	SerialPort port2;
 	Initialization init = new Initialization();
+	
+	int chosenPort;
+	SerialPort port;
+	
+	public int getHR(SerialPort p) {
+		Scanner data = new Scanner(p.getInputStream());
+		curr = data.nextInt();
+		System.out.println(curr);
+		return curr;
+	}
+	
+	public void selectPort(int f, SerialPort sp) {
+		SerialPort ports[] = SerialPort.getCommPorts();
+		System.out.println("Select a Port");
+		int i = 1;
+		for(i = 1; i<ports.length; i++) {
+			System.out.println(i++ + "." + sp.getSystemPortName());
+		}
+		Scanner s = new Scanner(System.in);
+		if(f==0) {
+			chosenPort = s.nextInt();
+			sp = ports[chosenPort-1];
+		} else {
+			sp = ports[f-1];
+		}
+		
+		if(sp.openPort()) {
+			System.out.println("Sucessfully opened Port");
+		} else {
+			System.out.println("Unable to open port");
+		}
+		port.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+		s.close();
+	}
+	
+	public int getChosenPort() {
+		return chosenPort;
+	}
+	
+	/*
 
 	public void rec(int c) {
 		portOn = true;
@@ -69,13 +110,14 @@ public class Port {
 				 * else if (r == 0) {
 				 * 
 				 * }
-				 */
+				 
 		}
 		if (c != 0) {
 			System.out.println("Mittlere Herzrate = " + sum / c);
 			erg = sum / c;
 		}
-	}
+	}*/
+	/*
 
 	public void start() {
 		int time = 0;
@@ -100,6 +142,6 @@ public class Port {
 
 	public int getResult() {
 		return erg;
-	}
+	}*/
 
 }

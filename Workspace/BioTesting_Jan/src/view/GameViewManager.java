@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.fazecast.jSerialComm.SerialPort;
+
 import HRS.Port;
 import application.Initialization;
 import data.Data;
@@ -78,7 +80,11 @@ public class GameViewManager {
 	String currentMode;
 	String stressLevel;
 	String currentStressLevel;
-	int timecounter = 0;
+	int timecounter = 1;
+	int hrcounter = 1;
+	int hrFromSensor;
+	SerialPort sp;
+	int iniPort;
 
 	// KeyEvents
 	private boolean isLeftKeyPressed;
@@ -121,7 +127,8 @@ public class GameViewManager {
 	Text bsp;
 
 	public GameViewManager() {
-		//sensor.start();
+		iniPort = ini.getPort();
+		sensor.selectPort(iniPort, sp);
 		initializeStage();
 		createKeyListener();
 		RAND = new Random();
@@ -350,8 +357,16 @@ public class GameViewManager {
 		gameTimer.start();
 	}
 	
+	public int getHRFromSensor() {
+		if(sc.getTime() == hrcounter) {
+			//hrFromSensor = (funktion um hr aus sensor zu bekommen)
+			hrcounter++;
+		}
+		return hrFromSensor;
+	}
+	
 	public void checkHR() {
-		if(sensor.getHeartRate() > 130) {
+		if(sensor.getHR(sp) > 130) {
 			stressLevel = "gestresst";
 			//Mitwirkend
 			if (ini.getMode() == 2) {
@@ -367,7 +382,7 @@ public class GameViewManager {
 			if (ini.getMode() == 0) {
 				feedback.setMode(0);
 			}
-		} else if(sensor.getHeartRate() <= Integer.parseInt(ini.getRP()) +2) {
+		} else if(sensor.getHR(sp) <= Integer.parseInt(ini.getRP()) +2) {
 			stressLevel = "entspannt";
 			//Mitwirkend
 			if (ini.getMode() == 2) {
@@ -395,7 +410,7 @@ public class GameViewManager {
 			ID = ini.getID();
 			time = sc.getTime();
 			spiel = currentGame;
-			heartrate = sensor.getHeartRate();
+			heartrate = sensor.getHR(sp);
 			currentScore = sc.score;
 			mode = ini.getMode();
 			currentMode = " " + mode;
@@ -453,7 +468,7 @@ public class GameViewManager {
 		scoreLabel.setLayoutY(20);
 		rightPane.getChildren().add(scoreLabel);
 
-		heartLabel = new InfoLabel("" + sensor.getHeartRate());
+		heartLabel = new InfoLabel("" + sensor.getHR(sp));
 		heartLabel.setLayoutX(RIGHT_PANE_WIDTH / 2 - heartLabel.IMG_WIDTH / 2);
 		heartLabel.setLayoutY(RIGHT_PANE_HEIGHT - 180);
 		rightPane.getChildren().add(heartLabel);
@@ -766,7 +781,7 @@ public class GameViewManager {
 	
 	public void updateHeartLabel() {
 		String textForHL = " ";
-		textForHL = " " + sensor.getHeartRate();
+		textForHL = " " + getHRFromSensor()/*sensor.getHeartRate()*/;
 		heartLabel.setText(textForHL);
 	}
 

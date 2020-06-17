@@ -59,6 +59,7 @@ public class Initialization {
 			ini.put("OpSettings", "msZeit5", "440");
 			ini.put("OpSettings", "msZeit6", "540");
 			ini.put("OpSettings", "Ruhepuls", "70");
+			ini.put("OpSettings", "Port", "0");
 			ini.put("OpSettings", "Grenze" , "135");
 			ms1 = ini.get("OpSettings", "minispiel1");
 			ms2 = ini.get("OpSettings", "minispiel2");
@@ -190,6 +191,30 @@ public class Initialization {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void updatePort(int p) {
+		Wini iniPort;
+		try {
+			iniPort = new Wini(new File("src/application/settings.ini"));
+			iniPort.put("OpSettings" , "Port", p);
+			iniPort.store();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int getPort() {
+		Wini iniP;
+		String port = "0";
+		try {
+			iniP = new Wini(new File("src/application/settings.ini"));
+			port = iniP.get("OpSettings" , "Port");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int p = Integer.parseInt(port);
+		return p;
 	}
 	
 	public String getRP() {
