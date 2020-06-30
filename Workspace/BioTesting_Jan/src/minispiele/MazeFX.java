@@ -119,7 +119,7 @@ public class MazeFX {
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 					1, 1, 1, 1, 1 } };
 
-	boolean leicht = false;
+	boolean leicht = true;
 	int lenght;
 	int startX = 0;
 	int startY = 0;
@@ -135,15 +135,14 @@ public class MazeFX {
 	TimerTask task;
 	double time;
 	private AnchorPane minispielPane;
-	
-	public MazeFX(AnchorPane mP){
+
+	public MazeFX(AnchorPane mP) {
 		this.minispielPane = mP;
 	}
 
-	
 	public void start() {
 		startTimer();
-		//s = primaryScene;
+		// s = primaryScene;
 		g = new GridPane();
 
 		if (leicht == true) {
@@ -269,11 +268,11 @@ public class MazeFX {
 
 		});
 	}
-	
+
 	public void stop() {
 		minispielPane.getChildren().remove(0);
 	}
-	
+
 	public void moveLeft() {
 		if (mazeArraySchwer[locY][locX - 1] == 0) {
 			g.getChildren().remove(cp);
@@ -281,7 +280,7 @@ public class MazeFX {
 			paintNewScene();
 		}
 	}
-	
+
 	public void moveRight() {
 		if (mazeArraySchwer[locY][locX + 1] == 0 || mazeArraySchwer[locY][locX + 1] == 3) {
 			g.getChildren().remove(cp);
@@ -289,8 +288,7 @@ public class MazeFX {
 			paintNewScene();
 		}
 	}
-	
-	
+
 	public void moveUp() {
 		if (mazeArraySchwer[locY - 1][locX] == 0) {
 			g.getChildren().remove(cp);
@@ -298,7 +296,7 @@ public class MazeFX {
 			paintNewScene();
 		}
 	}
-	
+
 	public void moveDown() {
 		if (mazeArraySchwer[locY + 1][locX] == 0) {
 			g.getChildren().remove(cp);
@@ -306,8 +304,7 @@ public class MazeFX {
 			paintNewScene();
 		}
 	}
-	
-	
+
 	public void startTimer() {
 		timer = new Timer();
 		time = 0.0000;
@@ -324,7 +321,7 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		// scene = new Scene(g, 400, 400);
+		scene = new Scene(g, 400, 400);
 		// s.setTitle("The Maze");
 		s.setScene(scene);
 		minispielPane.getChildren().add(g);
@@ -335,7 +332,7 @@ public class MazeFX {
 				System.out.println(time);
 				s.close();
 			}
-		} else if(leicht == false) {
+		} else if (leicht == false) {
 			if (mazeArraySchwer[locY][locX] == 3) {
 				timer.cancel();
 				task.cancel();
@@ -401,4 +398,86 @@ public class MazeFX {
 		return rp;
 	}
 
+	public void test() {
+		startTimer();
+		g = new GridPane();
+		leicht = true;
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 20; j++) {
+				if (mazeArray[i][j] == 1) {
+					g.add(createWall(), j, i);
+				}
+				if (mazeArray[i][j] == 0) {
+					g.add(createPath(), j, i);
+				}
+				if (mazeArray[i][j] == 2) {
+					g.add(createStart(), j, i);
+					startX = j;
+					startY = i;
+					System.out.println("" + startX + "," + startY);
+				}
+				if (mazeArray[i][j] == 3) {
+					g.add(createFinish(), j, i);
+					endX = j;
+					endX = i;
+				}
+			}
+		}
+
+		locX = startX;
+		locY = startY;
+		addPlayer();
+		g.setGridLinesVisible(false);
+		g.getChildren().addAll();
+		scene = new Scene(g, 400, 400);
+		minispielPane.getChildren().add(g);
+		//window.setScene(scene);
+	}
+
+	public void moveLeftTest(Stage window) {
+		if (mazeArray[locY][locX - 1] == 0) {
+			g.getChildren().remove(cp);
+			locX = locX - 1;
+			paintNewTestScene(window);
+		}
+	}
+
+	public void moveRightTest(Stage window) {
+		if (mazeArray[locY][locX + 1] == 0 || mazeArray[locY][locX + 1] == 3) {
+			g.getChildren().remove(cp);
+			locX = locX + 1;
+			paintNewTestScene(window);
+		}
+	}
+
+	public void moveUpTest(Stage window) {
+		if (mazeArray[locY - 1][locX] == 0) {
+			g.getChildren().remove(cp);
+			locY = locY - 1;
+			paintNewTestScene(window);
+		}
+	}
+
+	public void moveDownTest(Stage window) {
+		if (mazeArray[locY + 1][locX] == 0) {
+			g.getChildren().remove(cp);
+			locY = locY + 1;
+			paintNewTestScene(window);
+		}
+	}
+
+	public void paintNewTestScene(Stage window) {
+		addPlayer();
+		g.setGridLinesVisible(true);
+		g.getChildren().addAll();
+		scene = new Scene(g, 400, 400);
+		// s.setTitle("The Maze");
+		window.setScene(scene);
+		minispielPane.getChildren().add(g);
+		if (mazeArray[locY][locX] == 3) {
+			timer.cancel();
+			task.cancel();
+			System.out.println(time);
+		}
+	}
 }

@@ -30,7 +30,7 @@ public class OpSettings extends Application {
 		try {
 			// initialize latest values
 			// Initialization ini= new Initialization();
-			// ini.read(this);
+			ini.read(this);
 
 			// create grid layout
 			GridPane grid = new GridPane();
@@ -83,16 +83,14 @@ public class OpSettings extends Application {
 
 				if (getTime(timeIn) && getID(idField)/* &&getPointRange(pointRangeIn) */) {
 					ini.write(this);
-					if (getTime(timeIn) && getID(idField)) {
-						// ini.write(this);
-						primaryStage.close();
-						frage questions = new frage();
-						try {
-							questions.start(primaryStage);
-						} catch (Exception f) {
-							f.printStackTrace();
-						}
+					primaryStage.close();
+					frage questions = new frage();
+					try {
+						questions.start(primaryStage);
+					} catch (Exception f) {
+						f.printStackTrace();
 					}
+
 				}
 			});
 			GridPane.setConstraints(applyButton, 0, 4);

@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
@@ -31,7 +31,7 @@ public class ZahlenMerken{
 	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd, zeitleiste;
 	VBox box1, box2, box3, box4, box5, box6, box7, box8;
 	Label label1, label2, label3, label4, label5, label6, label7, label8, labelNum;
-	Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8;
+	Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8, sceneTest;
 	int vorherigeZahl, match;
 	int score = 0, endscore;
 	
@@ -57,6 +57,9 @@ public class ZahlenMerken{
 		this.minispielPane = mP;
 	}
 	
+	public ZahlenMerken() {
+		
+	}
 	
 	public static void playMusic(File sound) {
 		try {
@@ -569,4 +572,114 @@ public class ZahlenMerken{
 		text.setText(t);
 	}
 	
+	public void test() {
+		box1 = new VBox(20);
+		label1 = new Label("Neue Zahl: ");
+		label1.setTextFill(Color.web("1968EB"));
+		label1.setFont(new Font("Cambria", 41)); //41
+		label2 = new Label("1234");
+		label2.setFont(new Font("Cambria", 41));
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		//box1.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		box1.getChildren().addAll(label1, label2, r);
+		minispielPane.getChildren().add(box1);
+		
+		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				timeline.stop();
+				System.out.println("waiting");
+				testWait(1);
+			}
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
+	}
+	
+	public void testWait(int durchgang) {
+		box2 = new VBox(20);
+		Label labelWait = new Label("Wartezeit! Nicht ablenken lassen!");
+		labelWait.setTextFill(Color.web("1968EB"));
+		labelWait.setFont(new Font("Cambria", 25));
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		//box2.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		box2.getChildren().addAll(labelWait, r);
+		minispielPane.getChildren().add(box2);
+
+		tlWhite = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				tlWhite.stop();
+				System.out.println("wait is over");
+				if(durchgang == 1) {
+				sceneTest2();
+				} 
+				if(durchgang == 2) {
+					sceneTest3();
+				}
+			}
+		}));
+		tlWhite.setCycleCount(Timeline.INDEFINITE);
+		tlWhite.play();
+		zeitLeiste();
+	}
+	
+	public void sceneTest2() {
+		box4 = new VBox(20);
+		Label labelWait = new Label("Geben Sie die vorherige Zahl ein: ");
+		labelWait.setTextFill(Color.web("1968EB"));
+		labelWait.setFont(new Font("Cambria", 25));
+		///////////////////////////////////////////////	
+		//text.setFocusTraversable(false);
+		///////////////////////////////////////////////
+		text.clear();
+		t = " ";
+		text.setFont(new Font("Cambria", 30));
+		text.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue.matches("\\d*")) {
+				text.setText(newValue.replaceAll("[^\\d]", ""));
+			}
+		});
+		r = new Rectangle();
+		r.setHeight(30);
+		r.setWidth(0);
+		r.setFill(Color.LAWNGREEN);	
+		box4.getChildren().addAll(labelWait, text, label3, label4, r);
+		minispielPane.getChildren().add(box4);
+
+		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				timeline.stop();
+				System.out.println("Last Scene");
+				if (text.getText().isEmpty() == true) {
+					score = 0;
+				} else if(text.getText() == "1234") {
+						score = 1000;
+				} else {
+					score = 100;
+				}
+				testWait(2);
+			}
+			
+		}));
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
+	}
+	
+	public void sceneTest3() {
+		box4 = new VBox(20);
+		label2 = new Label("Der Test für dieses Minispiel ist vorbei ist vorbei");
+		box4.getChildren().addAll(label2);
+		minispielPane.getChildren().add(box4);
+	}
 }

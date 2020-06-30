@@ -59,7 +59,7 @@ public class Initialization {
 			ini.put("OpSettings", "msZeit5", "440");
 			ini.put("OpSettings", "msZeit6", "540");
 			ini.put("OpSettings", "Ruhepuls", "70");
-			ini.put("OpSettings", "Port", "0");
+			ini.put("OpSettings", "Port", "1");
 			ini.put("OpSettings", "Grenze" , "135");
 			ms1 = ini.get("OpSettings", "minispiel1");
 			ms2 = ini.get("OpSettings", "minispiel2");

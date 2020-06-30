@@ -26,10 +26,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import minispiele.ZahlenMerken;
+import minispiele.CatchTheBall;
 import minispiele.MazeFX;
 import minispiele.Reaktionstest;
 import minispiele.jumpAndDuck.*;
 import model.InfoLabel;
+import pong.PongGame;
 import timer.Score;
 
 public class GameViewManager {
@@ -85,6 +87,7 @@ public class GameViewManager {
 	int hrFromSensor;
 	SerialPort sp;
 	int iniPort;
+	int sl;
 
 	// KeyEvents
 	private boolean isLeftKeyPressed;
@@ -116,6 +119,10 @@ public class GameViewManager {
 	private boolean reaktionstestOn = false;
 	private JumpGame jumpGame;
 	private boolean jumpGameOn = false;
+	private CatchTheBall ballcatch;
+	boolean ballcatchOn = false;
+	private PongGame pong;
+	private boolean pongOn = false;
 
 	// Biofeedback manager
 	private FeedbackManager feedback = new FeedbackManager(this);
@@ -127,8 +134,7 @@ public class GameViewManager {
 	Text bsp;
 
 	public GameViewManager() {
-		iniPort = ini.getPort();
-		sensor.selectPort(iniPort, sp);
+		sp = sensor.usePort(ini.getPort());
 		initializeStage();
 		createKeyListener();
 		RAND = new Random();
@@ -160,17 +166,17 @@ public class GameViewManager {
 				} else if (e.getCode() == KeyCode.J) {
 					// Entspannt
 					stressLevel = "Entspannt";
-					//Mitwirkend
+					// Mitwirkend
 					if (ini.getMode() == 2) {
 						// grünes Bild
 						feedback.setMode(1);
 					}
-					//Entgegenwirkend
+					// Entgegenwirkend
 					if (ini.getMode() == 1) {
 						// rotes Bild
 						feedback.setMode(2);
 					}
-					//Neutral
+					// Neutral
 					if (ini.getMode() == 0) {
 						// graues Bild
 						feedback.setMode(0);
@@ -182,17 +188,17 @@ public class GameViewManager {
 				} else if (e.getCode() == KeyCode.L) {
 					// Gestresst
 					stressLevel = "Gestresst";
-					//Mitwirkend
+					// Mitwirkend
 					if (ini.getMode() == 2) {
 						// rotes Bild
 						feedback.setMode(2);
 					}
-					//Entgegenwirkend
+					// Entgegenwirkend
 					if (ini.getMode() == 1) {
 						// grünes Bild
 						feedback.setMode(1);
 					}
-					//Neutral
+					// Neutral
 					if (ini.getMode() == 0) {
 						feedback.setMode(0);
 					}
@@ -214,34 +220,34 @@ public class GameViewManager {
 				}
 				if (zahlenMerkenOn == true) {
 					// write into textfield
-					if(e.getCode() == KeyCode.DIGIT0 || e.getCode() == KeyCode.NUMPAD0) {
+					if (e.getCode() == KeyCode.DIGIT0 || e.getCode() == KeyCode.NUMPAD0) {
 						zahlenMerken.writeNumber(0);
 					}
-					if(e.getCode() == KeyCode.DIGIT1 || e.getCode() == KeyCode.NUMPAD1) {
+					if (e.getCode() == KeyCode.DIGIT1 || e.getCode() == KeyCode.NUMPAD1) {
 						zahlenMerken.writeNumber(1);
 					}
-					if(e.getCode() == KeyCode.DIGIT2 || e.getCode() == KeyCode.NUMPAD2) {
+					if (e.getCode() == KeyCode.DIGIT2 || e.getCode() == KeyCode.NUMPAD2) {
 						zahlenMerken.writeNumber(2);
 					}
-					if(e.getCode() == KeyCode.DIGIT3 || e.getCode() == KeyCode.NUMPAD3) {
+					if (e.getCode() == KeyCode.DIGIT3 || e.getCode() == KeyCode.NUMPAD3) {
 						zahlenMerken.writeNumber(3);
 					}
-					if(e.getCode() == KeyCode.DIGIT4 || e.getCode() == KeyCode.NUMPAD4) {
+					if (e.getCode() == KeyCode.DIGIT4 || e.getCode() == KeyCode.NUMPAD4) {
 						zahlenMerken.writeNumber(4);
 					}
-					if(e.getCode() == KeyCode.DIGIT5 || e.getCode() == KeyCode.NUMPAD5) {
+					if (e.getCode() == KeyCode.DIGIT5 || e.getCode() == KeyCode.NUMPAD5) {
 						zahlenMerken.writeNumber(5);
 					}
-					if(e.getCode() == KeyCode.DIGIT6 || e.getCode() == KeyCode.NUMPAD6) {
+					if (e.getCode() == KeyCode.DIGIT6 || e.getCode() == KeyCode.NUMPAD6) {
 						zahlenMerken.writeNumber(6);
 					}
-					if(e.getCode() == KeyCode.DIGIT7 || e.getCode() == KeyCode.NUMPAD7) {
+					if (e.getCode() == KeyCode.DIGIT7 || e.getCode() == KeyCode.NUMPAD7) {
 						zahlenMerken.writeNumber(7);
 					}
-					if(e.getCode() == KeyCode.DIGIT8 || e.getCode() == KeyCode.NUMPAD8) {
+					if (e.getCode() == KeyCode.DIGIT8 || e.getCode() == KeyCode.NUMPAD8) {
 						zahlenMerken.writeNumber(8);
 					}
-					if(e.getCode() == KeyCode.DIGIT9 || e.getCode() == KeyCode.NUMPAD9) {
+					if (e.getCode() == KeyCode.DIGIT9 || e.getCode() == KeyCode.NUMPAD9) {
 						zahlenMerken.writeNumber(9);
 					}
 				}
@@ -348,60 +354,60 @@ public class GameViewManager {
 				moveShip();
 				updateScoreLabel();
 				updateHeartLabel();
-				// moveText();
 				checkTime();
-				save();
-				checkHR();
+				// save();
+				// checkHR();
 			}
 		};
 		gameTimer.start();
 	}
-	
-	public int getHRFromSensor() {
-		if(sc.getTime() == hrcounter) {
-			//hrFromSensor = (funktion um hr aus sensor zu bekommen)
-			hrcounter++;
-		}
-		return hrFromSensor;
-	}
-	
+
 	public void checkHR() {
-		if(sensor.getHR(sp) > 130) {
-			stressLevel = "gestresst";
-			//Mitwirkend
-			if (ini.getMode() == 2) {
-				// rotes Bild
-				feedback.setMode(2);
+		if (sc.getTime() % 1 == 0) {
+			if (sensor.getHeartR(sp) > 130) {
+				if (stressLevel != "gestresst") {
+					// Mitwirkend
+					if (ini.getMode() == 2) {
+						// rotes Bild
+						feedback.setMode(2);
+					}
+					// Entgegenwirkend
+					if (ini.getMode() == 1) {
+						// grünes Bild
+						feedback.setMode(1);
+					}
+					// Neutral
+					if (ini.getMode() == 0) {
+						feedback.setMode(0);
+					}
+					// Stresslevel ändern
+					stressLevel = "gestresst";
+				}
+			} else if (sensor.getHeartR(sp) <= Integer.parseInt(ini.getRP()) + 2) {
+				if (stressLevel != "entspannt") {
+					// Mitwirkend
+					if (ini.getMode() == 2) {
+						// grünes Bild
+						feedback.setMode(1);
+					}
+					// Entgegenwirkend
+					if (ini.getMode() == 1) {
+						// rotes Bild
+						feedback.setMode(2);
+					}
+					// Neutral
+					if (ini.getMode() == 0) {
+						// graues Bild
+						feedback.setMode(0);
+					}
+					stressLevel = "entspannt";
+				}
+			} else {
+				if (stressLevel != "normal") {
+					feedback.setMode(0);
+				}
+				stressLevel = "normal";
 			}
-			//Entgegenwirkend
-			if (ini.getMode() == 1) {
-				// grünes Bild
-				feedback.setMode(1);
-			}
-			//Neutral
-			if (ini.getMode() == 0) {
-				feedback.setMode(0);
-			}
-		} else if(sensor.getHR(sp) <= Integer.parseInt(ini.getRP()) +2) {
-			stressLevel = "entspannt";
-			//Mitwirkend
-			if (ini.getMode() == 2) {
-				// grünes Bild
-				feedback.setMode(1);
-			}
-			//Entgegenwirkend
-			if (ini.getMode() == 1) {
-				// rotes Bild
-				feedback.setMode(2);
-			}
-			//Neutral
-			if (ini.getMode() == 0) {
-				// graues Bild
-				feedback.setMode(0);
-			}
-		} else {
-			stressLevel = "normal";
-			feedback.setMode(0);
 		}
 	}
 
@@ -410,17 +416,17 @@ public class GameViewManager {
 			ID = ini.getID();
 			time = sc.getTime();
 			spiel = currentGame;
-			heartrate = sensor.getHR(sp);
+			int p = ini.getPort();
+			heartrate = sensor.getHR(p);
 			currentScore = sc.score;
 			mode = ini.getMode();
 			currentMode = " " + mode;
 			currentStressLevel = stressLevel;
-			/*try {											//DB
-				database.saveDataInTable(ID, time, heartrate, currentScore, currentMode, currentStressLevel);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+			/*
+			 * try { //DB database.saveDataInTable(ID, time, heartrate, currentScore,
+			 * currentMode, currentStressLevel); } catch (SQLException e) { // TODO
+			 * Auto-generated catch block e.printStackTrace(); }
+			 */
 			timecounter++;
 		}
 	}
@@ -433,7 +439,7 @@ public class GameViewManager {
 			currentGame = "maze";
 		}
 		if (sc.getTime() == ini.getMinigameTime(2)) {
-			//maze.stop();
+			maze.stop();
 			mazeOn = false;
 			zahlenMerken = new ZahlenMerken(minispielPane);
 			zahlenMerken.start();
@@ -456,6 +462,26 @@ public class GameViewManager {
 			jumpGameOn = true;
 			currentGame = "Jump&Duck";
 		}
+		if (sc.getTime() == ini.getMinigameTime(5)) {
+			jumpGame.stop();
+			jumpGameOn = false;
+			ballcatch = new CatchTheBall(minispielPane);
+			ballcatch.start();
+			ballcatchOn = true;
+			currentGame = "CatchTheBall";
+		}
+		if (sc.getTime() == ini.getMinigameTime(6)) {
+			ballcatch.stop();
+			ballcatchOn = false;
+			pong = new PongGame(minispielPane);
+			pong.run();
+			pongOn = true;
+			currentGame = "Pong";
+		}
+		if (sc.getTime() == ini.getMinigameTime(6) + 60) {
+			pong.stop();
+			pongOn = false;
+		}
 	}
 
 	// Meteors(Enemies)
@@ -468,7 +494,7 @@ public class GameViewManager {
 		scoreLabel.setLayoutY(20);
 		rightPane.getChildren().add(scoreLabel);
 
-		heartLabel = new InfoLabel("" + sensor.getHR(sp));
+		heartLabel = new InfoLabel("" + sensor.getHeartR(sp));
 		heartLabel.setLayoutX(RIGHT_PANE_WIDTH / 2 - heartLabel.IMG_WIDTH / 2);
 		heartLabel.setLayoutY(RIGHT_PANE_HEIGHT - 180);
 		rightPane.getChildren().add(heartLabel);
@@ -778,11 +804,11 @@ public class GameViewManager {
 		String textToSet = "Score: ";
 		scoreLabel.setText(textToSet + sc.score);
 	}
-	
+
 	public void updateHeartLabel() {
-		String textForHL = " ";
-		textForHL = " " + getHRFromSensor()/*sensor.getHeartRate()*/;
-		heartLabel.setText(textForHL);
+			String textForHL = " ";
+			textForHL = " " + sensor.getHeartR(sp)/* sensor.getHeartRate() */;
+			heartLabel.setText(textForHL);
 	}
 
 	// changes Colors depending on gamemode change
@@ -841,11 +867,11 @@ public class GameViewManager {
 			scoreLabel.setFont(new Font(20));
 			scoreLabel.setEffect(null);
 		}
-		if (m == 1) {
+		if (m == 2) {
 			scoreLabel.setFont(new Font(25));
 			scoreLabel.setEffect(null);
 		}
-		if (m == 2) {
+		if (m == 1) {
 			scoreLabel.setFont(new Font(20));
 			BoxBlur blur = new BoxBlur();
 			blur.setIterations(2);

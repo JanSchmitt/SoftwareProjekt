@@ -6,19 +6,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/schmi/OneDrive/Desktop/SoftwareProjekt/ini4j-0.5.4/ini4j-0.5.4.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/schmi/OneDrive/Desktop/SoftwareProjekt/ini4j-0.5.4/ini4j-0.5.4-jdk14.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ini"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDBC"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SerialComm"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
