@@ -63,6 +63,28 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		createGameLoop();
 	}
 	
+	public void testRun() {
+		scene.setOnKeyPressed(this);
+		stage.show();
+		player=new ImageView();
+		player.setFitHeight(PLAYER_SIZE);
+		player.setFitWidth(PLAYER_SIZE);
+		for(int i=0; i<10; i++) {
+			if(obstaclesOrder[i]!=0) {
+				o[i]=new Obstacle();
+				o[i].setHeight(obstaclesOrder[i]);
+				obstacle[i]=new ImageView("resources/obstacle0.png");
+				obstacle[i].setFitHeight(OBSTACLE_SIZE);
+				obstacle[i].setFitWidth(OBSTACLE_SIZE);
+				obstacle[i].setLayoutX(SCENE_WIDTH+i*400);
+				obstacle[i].setLayoutY(SCENE_HEIGHT*4/5-o[i].height*SCENE_HEIGHT/3);
+				layout.getChildren().add(obstacle[i]);
+			}
+		}
+		layout.getChildren().add(player);
+		createTestGameLoop();
+	}
+	
 	//method to repeat steps during game
 	private void createGameLoop() {
 		gameTimer=new AnimationTimer() {
@@ -71,6 +93,18 @@ public class JumpGame implements EventHandler<KeyEvent>{
 				moveObstacles();
 				movePlayer();
 				pass();
+				p.runAnimation();
+			}
+		};
+		gameTimer.start();		
+	}	
+	private void createTestGameLoop() {
+		gameTimer=new AnimationTimer() {
+			@Override
+			public void handle(long now) {				
+				moveTestObstacles();
+				movePlayer();
+				testPass();
 				p.runAnimation();
 			}
 		};
@@ -117,6 +151,18 @@ public class JumpGame implements EventHandler<KeyEvent>{
 			}
 		}
 	}
+	public void moveTestObstacles() {
+		for(int i=0; i<10; i++) {
+			if(obstaclesOrder[i]!=0) {
+				obstacle[i].setLayoutX(obstacle[i].getLayoutX()-6);
+				if(obstaclesOrder[i]==1) {
+					obstacle[i].setRotate(obstacle[i].getRotate()-4);
+				}else {
+					obstacle[i].setRotate(obstacle[i].getRotate()+3);
+				}
+			}
+		}
+	}
 	
 	//method to monitor and count passing obstacles
 	public void pass() {
@@ -137,6 +183,33 @@ public class JumpGame implements EventHandler<KeyEvent>{
 					System.out.println("score: "+score);					
 				}
 			}
+		}
+		if(obstacle[OBSTACLES_AMOUNT-1].getLayoutX()<=0) {
+			stage.close();
+		}
+	}
+	public void testPass() {
+		for(int i=0; i<10;i++) {
+			if(obstaclesOrder[i]!=0) {
+				if(((o[i].height==1&&p.isJumping)||(o[i].height==2&&p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
+					o[i].passed=true;
+					System.out.println("obstacle passed!");
+					score=score+10;
+					System.out.println("score: "+score);
+				}
+				if(((o[i].height==1&&!p.isJumping)||(o[i].height==2&&!p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
+					o[i].passed=true;
+					o[i].hit=true;
+					obstacle[i].setVisible(false);
+					System.out.println("obstacle hit!");
+					score=score-5;
+					System.out.println("score: "+score);					
+				}
+			
+			}
+		}
+		if(obstacle[9].getLayoutX()<=0) {
+			stage.close();
 		}
 	}
 	

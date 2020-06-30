@@ -75,6 +75,39 @@ public class PongGame{
 		createGameLoop();
 		stage.show();
 	}
+	public void testRun() {
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				if(e.getCode()==KeyCode.LEFT) {
+					p.moveLeft();
+				}else if(e.getCode()==KeyCode.RIGHT) {
+					p.moveRight();
+				}
+			}
+		});
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				if(e.getCode()==KeyCode.LEFT||e.getCode()==KeyCode.RIGHT) {
+					p.stop();
+				}
+			}
+		});		
+		player=new ImageView("resources/player0.png");
+		player.setFitHeight(PLAYER_HEIGHT);
+		player.setFitWidth(PLAYER_WIDTH);
+		player.setLayoutX(SCENE_WIDTH/2-PLAYER_WIDTH/2);
+		player.setLayoutY(SCENE_HEIGHT-PLAYER_HEIGHT);
+		ball=new ImageView("resources/ball0.png");
+		ball.setFitHeight(BALL_SIZE);
+		ball.setFitWidth(BALL_SIZE);
+		ball.setLayoutX(0);
+		ball.setLayoutY(0);
+		layout.getChildren().addAll(player, ball);
+		createTestGameLoop();
+		stage.show();
+	}
 	
 	//controls repeating actions during game
 	private void createGameLoop() {
@@ -84,6 +117,17 @@ public class PongGame{
 				moveBall();
 				movePlayer();
 				collision();
+			}
+		};
+		gameTimer.start();	
+	}
+	private void createTestGameLoop() {
+		gameTimer=new AnimationTimer() {
+			@Override
+			public void handle(long now) {				
+				moveBall();
+				movePlayer();
+				testCollision();
 			}
 		};
 		gameTimer.start();	
@@ -127,6 +171,39 @@ public class PongGame{
 			b.stop();
 			System.out.println("Score: "+score);
 			stage.close();
+		}
+	}
+	private void testCollision() {
+		if(ball.getLayoutX()+BALL_SIZE>=SCENE_WIDTH-b.getSpeed()) {
+			b.moveLeft();
+		}
+		if(ball.getLayoutX()<=0+b.getSpeed()) {
+			b.moveRight();
+		}
+		if(ball.getLayoutY()<=0+b.getSpeed()) {
+			b.moveDown();
+		}
+		if(ball.getLayoutY()+BALL_SIZE-SCENE_HEIGHT+PLAYER_HEIGHT<=b.getSpeed()
+		&&ball.getLayoutY()+BALL_SIZE-SCENE_HEIGHT+PLAYER_HEIGHT>=0
+		&&ball.getLayoutX()+BALL_SIZE>player.getLayoutX()
+		&&ball.getLayoutX()<player.getLayoutX()+PLAYER_WIDTH) {
+			if(score<3) {
+				b.moveUp();
+				score++;
+			}else {
+				b.stop();
+				stage.close();
+			}
+		}
+		if(ball.getLayoutY()>=SCENE_HEIGHT) {
+			if(score<3){
+				ball.setLayoutX(0);
+				ball.setLayoutY(0);
+			}else {
+				b.stop();
+				stage.close();
+			}
+			
 		}
 	}
 }
