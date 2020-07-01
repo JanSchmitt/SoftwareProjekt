@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.InfoLabel;
 import timer.Score;
@@ -82,6 +83,8 @@ public class GameViewManager {
 	
 	//Biofeedback manager
 	private FeedbackManager feedback = new FeedbackManager(this);
+	
+	private Text scoreDecrease[] = {null,null,null};
 	
 	//text example
 	//Text bsp;
@@ -209,6 +212,7 @@ public class GameViewManager {
 				collision();
 				moveShip();
 				updateScoreLabel();
+				moveScoreDecrease();
 				//moveText();				
 			}
 		};
@@ -459,22 +463,26 @@ public class GameViewManager {
 		for(int i = 0; i < brownMeteors.length; i++) {
 			if( distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE/2, brownMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
+				showScoreDecrease(brownMeteors[i].getLayoutX());
 				setNewElementPosition(brownMeteors[i]);
 				
 				//Update score -
 				sc.score -= 3 * sc.collisionCounter;                    
 				sc.collisionCounter++;
+				
 			}
 		}
 		//player vs grey Meteor
 		for(int i = 0; i < greyMeteors.length; i++) {
 			if( distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE/2, greyMeteors[i].getLayoutY() - ENTITIES_SIZE/2, 
 					player.getLayoutX() + ENTITIES_SIZE/2, player.getLayoutY() - ENTITIES_SIZE/2) <= ENTITIES_SIZE) {
+				showScoreDecrease(greyMeteors[i].getLayoutX());
 				setNewElementPosition(greyMeteors[i]);
 
 				//Update score -
 				sc.score -= 3 * sc.collisionCounter;
 				sc.collisionCounter++;
+				
 			}
 		}
 		
@@ -589,6 +597,68 @@ public class GameViewManager {
 			BoxBlur blur=new BoxBlur();
 			blur.setIterations(2);
 			scoreLabel.setEffect(blur);
+		}
+	}
+	
+	//shows score decrease after collision
+	private void showScoreDecrease(double x) {
+		if(feedback.getmode()==1) {
+			return;
+		}
+		for(int i=0; i<3; i++) {
+			if(scoreDecrease[i]==null) {
+				scoreDecrease[i]=new Text(""+(-3 * sc.collisionCounter));
+				scoreDecrease[i].setFont(new Font(10));
+				scoreDecrease[i].setLayoutX(x);
+				scoreDecrease[i].setLayoutY(WINDOW_HEIGHT-150);
+				if(feedback.getmode()==2) {
+					scoreDecrease[i].setFill(Color.RED);
+				}
+				scoreDecrease[i].setScaleX(3);
+				scoreDecrease[i].setScaleY(3);
+				gamePane.getChildren().add(scoreDecrease[i]);
+				return;
+			}
+		}
+		gamePane.getChildren().remove(scoreDecrease[0]);
+		scoreDecrease[0]=null;
+		scoreDecrease[0]=new Text(""+(-3 * sc.collisionCounter));
+		scoreDecrease[0].setScaleX(3);
+		scoreDecrease[0].setScaleY(3);
+		if(feedback.getmode()==2) {
+			scoreDecrease[0].setFill(Color.RED);
+		}
+		gamePane.getChildren().add(scoreDecrease[0]);
+		scoreDecrease[0].setLayoutX(x);
+		scoreDecrease[0].setLayoutY(WINDOW_HEIGHT-150);
+		scoreDecrease[0].setStyle(LASER_IMG);
+		scoreDecrease[0].setFill(Color.RED);
+	}
+	
+	//animates text from score decrease
+	private void moveScoreDecrease() {
+		if(feedback.getmode()==2) {
+			for(int i=0; i<3; i++) {
+				if(scoreDecrease[i]!=null) {
+					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX()+0.3);
+					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY()+0.3);
+					if(scoreDecrease[i].getScaleX()>20) {
+						gamePane.getChildren().remove(scoreDecrease[i]);
+						scoreDecrease[i]=null;
+					}
+				}
+			}
+		}else if(feedback.getmode()==0) {
+			for(int i=0; i<3; i++) {
+				if(scoreDecrease[i]!=null) {
+					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX()+0.02);
+					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY()+0.02);
+					if(scoreDecrease[i].getScaleX()>5) {
+						gamePane.getChildren().remove(scoreDecrease[i]);
+						scoreDecrease[i]=null;
+					}
+				}
+			}
 		}
 	}
 	
