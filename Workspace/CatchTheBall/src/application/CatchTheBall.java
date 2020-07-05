@@ -41,6 +41,12 @@ public class CatchTheBall extends Application {
 	
 	private boolean catchOn = false;
 	
+////////////////////////////////////////////////////////////////////////////////////
+	//var für testfkt
+	private boolean test = false;
+	private int testhit = 0;
+////////////////////////////////////////////////////////////////////////////////////
+	
 	public AnimationTimer gameTimer;
 	
 	public int score;
@@ -58,7 +64,10 @@ public class CatchTheBall extends Application {
 		window.setScene(scene);
 		window.show();
 		
-		start();
+////////////////////////////////////////////////////////////////////////////////////
+		testRun(); //fktaufruf der testfkt
+////////////////////////////////////////////////////////////////////////////////////
+		//start();
 	}
 	
 	
@@ -70,6 +79,16 @@ public class CatchTheBall extends Application {
 		createGameLoop();
 		
 	}
+	
+////////////////////////////////////////////////////////////////////////////////////
+	//Funktion für testRun 
+	public void testRun() {
+		start();
+		test = true;
+		
+	}
+////////////////////////////////////////////////////////////////////////////////////
+	
 	private void createKeyListener() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -136,6 +155,14 @@ public class CatchTheBall extends Application {
 				moveRect();
 				checkIfBehind();
 				collision();
+				
+////////////////////////////////////////////////////////////////////////////////////
+				if(test) {
+					if(testhit >= 3) gameTimer.stop();
+					// Hier soll die Testfunktion verlassen werden
+				}
+////////////////////////////////////////////////////////////////////////////////////
+				
 			}
 		};
 		gameTimer.start();	
@@ -210,10 +237,24 @@ public class CatchTheBall extends Application {
 		if(ball1.getBoundsInParent().intersects(rect.getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 			setNewElementPosition(ball1);
 			score += 2;
+			
+////////////////////////////////////////////////////////////////////////////////////
+			if(test) {
+				testhit++;
+			}
+////////////////////////////////////////////////////////////////////////////////////
+			
 		}
 		if(ball2.getBoundsInParent().intersects(rect.getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 			setNewElementPosition(ball2);
 			score += 2;
+			
+////////////////////////////////////////////////////////////////////////////////////
+			if(test) {
+				testhit++;
+			}
+////////////////////////////////////////////////////////////////////////////////////
+			
 		}
 	}
 	
