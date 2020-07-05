@@ -1,9 +1,9 @@
 package application;
 
-/*import javafx.application.Application;
+import javafx.application.Application;
 import application.OpSettings;
 import javafx.stage.Stage;
-import view.ViewManager;*/
+import view.ViewManager;
 
 public class Main /* extends Application */ {
 	/*

@@ -32,7 +32,7 @@ import minispiele.ZahlenMerken;
 
 public class Testing {
 
-	VBox boxHRS, boxTest, boxMinispiele, boxResult, v;
+	VBox boxHRS, boxTest, boxMinispiele, boxResult, v, boxZwischen1, boxZwischen2, boxMSMaze;
 	HBox h;
 	Port hrs = new Port();
 	Data db;
@@ -41,7 +41,7 @@ public class Testing {
 	Scene sceneTest, sceneErgebnis, sceneMinispiele, sceneRTT, sceneAfter, sceneZwischen;
 	Button buttonStartTestHRS, buttonWeiter, buttonMinispieleWeiter, buttonNext, buttonOhneTest;
 	int result, points, time, resultTest;
-	Stage window;
+	Stage s;
 	Reaktionstest rtt;
 	MazeFX mazeTest;
 	ZahlenMerken merkenTest;
@@ -51,6 +51,7 @@ public class Testing {
 	AnchorPane minispielPane;
 
 	public void createHRSTest(Stage window, int hfmax) {
+		s = window;
 		boxHRS = new VBox(20);
 		// hrs = new Port();
 		buttonStartTestHRS = new Button("Drücken um Test des HRS zu starten");
@@ -60,6 +61,7 @@ public class Testing {
 			public void handle(ActionEvent ae) {
 				chosenP = hrs.selectPort();
 				ini.updatePort(chosenP);
+				ini.updateHRSUsage(1);
 				sp = hrs.usePort(ini.getPort());
 				//chosenP = hrs.getChosenPort();
 				t = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
@@ -102,6 +104,7 @@ public class Testing {
 				// TODO Auto-generated method stub
 				result = hrs.getHeartRate();
 				ini.updateRuhepuls(result);
+				ini.updateHRSUsage(0);
 				/*
 				 * try { db.createTableForTest(ini.getID()); //DB } catch (Exception e) { //
 				 * TODO Auto-generated catch block e.printStackTrace(); }
@@ -174,6 +177,7 @@ public class Testing {
 		});
 		minispielPane.getChildren().addAll(buttonMinispieleWeiter);
 		sceneMinispiele = new Scene(minispielPane, 400, 400);
+		window.setTitle("Maze Test");
 		window.setScene(sceneMinispiele);
 		window.show();
 		
@@ -199,7 +203,7 @@ public class Testing {
 	}
 	
 	public void zwischenScene1(Stage window) {
-		boxMinispiele = new VBox(20);
+		boxZwischen1 = new VBox(20);
 		labelText = new Label("Nächster Test: Reaktionszeit");
 		buttonMinispieleWeiter = new Button("Weiter zum nächsten Test");
 		buttonMinispieleWeiter.setFocusTraversable(false);
@@ -210,9 +214,11 @@ public class Testing {
 				createReaktionsTest(window);
 			}
 		});
-		sceneZwischen = new Scene(boxMinispiele, 400, 400);
-		window.setScene(sceneZwischen);
-		window.show();
+		boxZwischen1.getChildren().addAll(labelText, buttonMinispieleWeiter);
+		sceneZwischen = new Scene(boxZwischen1, 400, 400);
+		s.setTitle("Zwischenszene");
+		s.setScene(sceneZwischen);
+		s.show();
 	}
 
 	public void createReaktionsTest(Stage window) {
@@ -241,7 +247,7 @@ public class Testing {
 	}
 	
 	public void zwischenScene2(Stage window) {
-		boxMinispiele = new VBox(20);
+		boxZwischen2 = new VBox(20);
 		labelText = new Label("Nächster Test: Zahlen Merken");
 		buttonMinispieleWeiter = new Button("Weiter zum nächsten Test");
 		buttonMinispieleWeiter.setOnAction(new EventHandler<ActionEvent>() {
@@ -251,7 +257,8 @@ public class Testing {
 				createMerkenTest(window);
 			}
 		});
-		sceneZwischen = new Scene(boxMinispiele, 400, 400);
+		boxZwischen2.getChildren().addAll(labelText, buttonMinispieleWeiter);
+		sceneZwischen = new Scene(boxZwischen2, 400, 400);
 		window.setScene(sceneZwischen);
 		window.show();
 	}
