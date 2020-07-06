@@ -15,7 +15,7 @@ public class Score {
 	
 	
 	public void startTimer() {
-		 Timeline timl_1s = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		 Timeline timl_1s = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() { // timeline actions every second enabled
 
 			  @Override
 			  public void handle(ActionEvent event) {
@@ -26,7 +26,7 @@ public class Score {
 				  }
 				  if(time % 15 == 0) {
 					  if(collisionCounter > 1) {
-						  collisionCounter--;
+						  collisionCounter--; //decrement of the collision counter that not too many points are deducted
 					  }
 				  }
 				  System.out.println(collisionCounter);
