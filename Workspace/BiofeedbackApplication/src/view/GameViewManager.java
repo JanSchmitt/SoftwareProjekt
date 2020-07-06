@@ -159,8 +159,8 @@ public class GameViewManager {
 	}
 
 	private void createKeyListener() {
+		// action handling for pressed key actions
 		gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent e) {
 				if (e.getCode() == KeyCode.A) { // LEFT
@@ -168,14 +168,15 @@ public class GameViewManager {
 				} else if (e.getCode() == KeyCode.D) { // RIGHT
 					isRigtKeyPressed = true;
 				} else if (e.getCode() == KeyCode.SPACE) {
-					if (!shooting) { // wenn leertaste losgelassen wurde
+					if (!shooting) { // if spacekey was released
 						if (sc.time % 2 == 0) {
+							// if timer is even, an imageview object of the laser is created  
 							laserShot = new ImageView(LASER_IMG);
 							Node newLaserShot = laserShot;
 							newLaserShot.relocate(player.getLayoutX() + ENTITIES_SIZE / 2 - 13 / 2,
 									player.getLayoutY());
-							lasers.add(newLaserShot);
-							gamePane.getChildren().add(newLaserShot);
+							lasers.add(newLaserShot); //adds the new laser to the array list of type:node
+							gamePane.getChildren().add(newLaserShot); 
 							System.out.println("size: " + lasers.size());
 							shooting = true;
 						}
@@ -298,8 +299,8 @@ public class GameViewManager {
 			}
 		});
 
+		// action handling for pressed key actions
 		gameScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
 			@Override
 			public void handle(KeyEvent e) {
 				if (e.getCode() == KeyCode.A) {
@@ -315,41 +316,40 @@ public class GameViewManager {
 	}
 
 	private void initializeStage() {
-
+		//anchor0 includes the sum of all other panes = "mother pane"
 		anchor0 = new AnchorPane();
 		anchor0.setLayoutX(0);
 		anchor0.setLayoutY(0);
-		anchor0.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT); // breite vom fenster
+		anchor0.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT); 
 		anchor0.setMinSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		anchor0.setMaxSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		// Linke Pane: SpaceInvadors
+		// Left Pane: SpaceInvadors
 		gamePane = new AnchorPane();
-		// gamePane.boundsInLocalProperty();
-		// gamePane.boundsInParentProperty();
 		gamePane.setLayoutX(0);
 		gamePane.setLayoutY(0);
 		gamePane.setPrefSize(GAME_WIDTH, GAME_HEIGHT); // 1008,800
 		gamePane.setFocusTraversable(true);
 
-		// Rechte Pane: Minispiele etc
+		// Right Pane: Minispiele etc, includes the whole right section of the window
 		rightPane = new AnchorPane();
 		rightPane.setLayoutX(GAME_WIDTH);
 		rightPane.setLayoutY(0);
 		rightPane.setPrefSize(RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT); // 432
 
+		//includes the minigames only
 		minispielPane = new AnchorPane();
 		minispielPane.setLayoutX(GAME_WIDTH + 2);
 		minispielPane.setLayoutY(100);
 		minispielPane.setPrefSize(RIGHT_PANE_WIDTH - 2, RIGHT_PANE_WIDTH - 2);
 
 		// rightPane.getChildren().add(minispielPane);
-
+		// add all seperate panes to the "mother pane"
 		anchor0.getChildren().addAll(gamePane, rightPane, minispielPane);
 
 		// gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
-		gameScene = new Scene(anchor0);
-		gameStage = new Stage();// eine Stage
+		gameScene = new Scene(anchor0); // represents the physical contents of the app
+		gameStage = new Stage();// stage (/window) contains all the objets of this JavaFX application 
 		gameStage.setScene(gameScene);
 		gameStage.setResizable(false);
 
@@ -361,23 +361,25 @@ public class GameViewManager {
 		this.menuStage.close();
 
 		sc = new Score();
-		sc.startTimer();
+		sc.startTimer(); //starts the main timer
 
+		//creates the most important nodes
 		createBackground();
 		createPlayer();
 		createGameElements();
 
 		startTimer();
-		createGameLoop();
+		createGameLoop(); // for repeating actions or movements
 
 		gameStage.setTitle("Biofeedback Anwendung");
 		gameStage.show();
 	}
 
 	private void createGameLoop() {
-		gameTimer = new AnimationTimer() {
+		gameTimer = new AnimationTimer() {  // timer specialized for object animations
 			@Override
 			public void handle(long now) {
+				//functions to call frequently
 				moveBackground();
 				moveGameElements();
 				shootLaser();
@@ -388,7 +390,7 @@ public class GameViewManager {
 				checkTime();
 			}
 		};
-		gameTimer.start();
+		gameTimer.start(); //starts the animation timer
 	}
 
 	// starts the timer for methods that are called every second
@@ -571,7 +573,7 @@ public class GameViewManager {
 		heartLabel.setLayoutY(RIGHT_PANE_HEIGHT - 180);
 		rightPane.getChildren().add(heartLabel);
 
-		// jeweils max 3 meteors generaten
+		// creates 3 brown meteors objects 
 		brownMeteors = new ImageView[3];
 		for (int i = 0; i < brownMeteors.length; i++) {
 			// erzeugen der ImageView Objekte
@@ -581,10 +583,11 @@ public class GameViewManager {
 			brownMeteors[i].setFitHeight(ENTITIES_SIZE);
 			brownMeteors[i].setFitWidth(ENTITIES_SIZE);
 			//
-			setNewElementPosition(brownMeteors[i]);
+			setNewElementPosition(brownMeteors[i]); // positions / (re)locates the brown meteor
 			gamePane.getChildren().add(brownMeteors[i]);
 		}
 
+		// creates 3 grey meteors objects 
 		greyMeteors = new ImageView[3];
 		for (int i = 0; i < greyMeteors.length; i++) {
 			// auf selbe Größe wie Player setzen
@@ -594,44 +597,43 @@ public class GameViewManager {
 			greyMeteors[i].setFitHeight(ENTITIES_SIZE);
 			greyMeteors[i].setFitWidth(ENTITIES_SIZE);
 			//
-			setNewElementPosition(greyMeteors[i]);
+			setNewElementPosition(greyMeteors[i]); // positions / (re)locates the grey meteor
 			gamePane.getChildren().add(greyMeteors[i]);
 		}
 	}
 
 	private void setNewElementPosition(ImageView img) {
-		img.setLayoutX(RAND.nextInt(GAME_WIDTH - ENTITIES_SIZE));// 370
+		img.setLayoutX(RAND.nextInt(GAME_WIDTH - ENTITIES_SIZE)); // in between the game pane
 		// zahl beliebig
-		img.setLayoutY(-RAND.nextInt(400));
-		// img.setLayoutY(0);
+		img.setLayoutY(-RAND.nextInt(400)); // y-position above the window 
 	}
 
 	private void moveGameElements() {
 		for (int i = 0; i < brownMeteors.length; i++) {
-			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4); // speed //4
-			brownMeteors[i].setRotate(brownMeteors[i].getRotate() + 4);
+			brownMeteors[i].setLayoutY(brownMeteors[i].getLayoutY() + 4); // speed = 4
+			brownMeteors[i].setRotate(brownMeteors[i].getRotate() + 4); //right rotation
 			// System.out.println(brownMeteors[i].getLayoutX() + " " +
 			// brownMeteors[i].getLayoutY());
 		}
 
 		for (int i = 0; i < greyMeteors.length; i++) {
-			greyMeteors[i].setLayoutY(greyMeteors[i].getLayoutY() + 3); // speed
-			greyMeteors[i].setRotate(greyMeteors[i].getRotate() - 4);
+			greyMeteors[i].setLayoutY(greyMeteors[i].getLayoutY() + 3); // speed = one pixel slower than the brown
+			greyMeteors[i].setRotate(greyMeteors[i].getRotate() - 4); //left rotation
 		}
 	}
 
 	private void checkIfElemetsAreUnderShip() {
 		for (int i = 0; i < brownMeteors.length; i++) {
-			// wenn obj unter fensterrand
-			if (brownMeteors[i].getLayoutY() > GAME_HEIGHT) { // ship.getLayoutY()
-				setNewElementPosition(brownMeteors[i]);
+			// if object under window
+			if (brownMeteors[i].getLayoutY() > GAME_HEIGHT) { 
+				setNewElementPosition(brownMeteors[i]); // relocation
 			}
 		}
 
 		for (int i = 0; i < greyMeteors.length; i++) {
-			// wenn obj unter fensterrand
+			// if object under window
 			if (greyMeteors[i].getLayoutY() > GAME_HEIGHT) {
-				setNewElementPosition(greyMeteors[i]);
+				setNewElementPosition(greyMeteors[i]); // relocation
 			}
 		}
 	}
@@ -639,20 +641,21 @@ public class GameViewManager {
 	// Player(Ship)
 	///////////////////////////
 	private void createPlayer() {
-
+		// creates one player node of type imageview
 		player = new ImageView("view/resources/playerShip1_orange.png");
 
+		// 60*60 size 
 		player.setFitHeight(ENTITIES_SIZE);
 		player.setFitWidth(ENTITIES_SIZE);
 
 		player.setLayoutX(GAME_WIDTH / 2 - ENTITIES_SIZE / 2);
-		player.setLayoutY(GAME_HEIGHT - 90);
-		// player.setFocusTraversable(true);
-		gamePane.getChildren().add(player);
+		player.setLayoutY(GAME_HEIGHT - 90); // a bit above south window edge
+		
+		gamePane.getChildren().add(player); 
 	}
 
 	private void moveShip() {
-		// nach links
+		// movement to the left
 		if (isLeftKeyPressed && !isRigtKeyPressed) {
 			if (angle > -30) { // borders
 				angle -= 5;
@@ -666,7 +669,7 @@ public class GameViewManager {
 			}
 		}
 
-		// nach rechts
+		// movement to the right
 		if (isRigtKeyPressed && !isLeftKeyPressed) {
 			if (angle < 30) {
 				angle += 5;
@@ -680,7 +683,7 @@ public class GameViewManager {
 			}
 		}
 
-		// pos beibehalten
+		// stay in position
 		if (!isLeftKeyPressed && !isRigtKeyPressed) {
 			if (angle < 0) {
 				angle += 5;
@@ -690,7 +693,7 @@ public class GameViewManager {
 			player.setRotate(angle);
 		}
 
-		// pos beibehalten
+		// stay in position
 		if (isRigtKeyPressed && isLeftKeyPressed) {
 			if (angle < 0) {
 				angle += 5;
@@ -704,15 +707,15 @@ public class GameViewManager {
 	// Lasershot 13x37 (width x height)
 	///////////////////////////
 	private void shootLaser() {
-		for (int i = 0; i < lasers.size(); i++) {
-			if (lasers.get(i).getLayoutY() > -lasers.get(i).getBoundsInParent().getHeight()) { // -37 wenn unterhalb des
-																								// windows
-				lasers.get(i).relocate(lasers.get(i).getLayoutX(), lasers.get(i).getLayoutY() - 3); // um 3 pixel nach
-																									// oben bewegen
-			} else { // wenn oberhalb des windows
+		for (int i = 0; i < lasers.size(); i++) { // for each "active" laser which is in the window
+			if (lasers.get(i).getLayoutY() > -lasers.get(i).getBoundsInParent().getHeight()) { // if bounds of the laser is still in the windows / beneath
+																								
+				lasers.get(i).relocate(lasers.get(i).getLayoutX(), lasers.get(i).getLayoutY() - 3); // move 3 pixels upwards
+																									
+			} else { // if above the window
 
-				gamePane.getChildren().remove(lasers.get(i));
-				lasers.remove(i);
+				gamePane.getChildren().remove(lasers.get(i)); // visually and physically removes the laser from the window
+				lasers.remove(i); // removes the current laser object form the arraylist
 				System.out.println(lasers.size());
 			}
 		}
@@ -751,13 +754,14 @@ public class GameViewManager {
 			backgroundImage1.setFitHeight(GAME_WIDTH / 4);
 			backgroundImage1.setFitWidth(GAME_WIDTH / 4);
 
+			// 2 identical background grids in each other for smooth and non interrupted background movement
 			ImageView backgroundImage2 = new ImageView(imageSource);
 			backgroundImage2.setFitHeight(GAME_WIDTH / 4);
 			backgroundImage2.setFitWidth(GAME_WIDTH / 4);
 
 			// set columns and rows
 
-			GridPane.setConstraints(backgroundImage1, i % 4, i / 4); // 4x4 grid
+			GridPane.setConstraints(backgroundImage1, i % 4, i / 4); // 4x4 grid, each of which the background is deuplicated
 			GridPane.setConstraints(backgroundImage2, i % 4, i / 4); // 4x4 grid
 			gridPane1.getChildren().add(backgroundImage1);
 			gridPane2.getChildren().add(backgroundImage2);
@@ -770,9 +774,9 @@ public class GameViewManager {
 		}
 	}
 
-	private void moveBackground() {
+	private void moveBackground() { // background movement for each game mode
 		if (feedback.getmode() == 0) {
-			gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.5);
+			gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.5); // moves downwards
 			gridPane2.setLayoutY(gridPane2.getLayoutY() + 0.5);
 		} else if (feedback.getmode() == 1) {
 			gridPane1.setLayoutY(gridPane1.getLayoutY() + 0.2);
@@ -783,16 +787,16 @@ public class GameViewManager {
 		}
 
 		if (gridPane1.getLayoutY() >= GAME_HEIGHT) {
-			gridPane1.setLayoutY(-GAME_HEIGHT);
+			gridPane1.setLayoutY(-GAME_HEIGHT); //if at bottom edge relacoate backgound to the top again
 		}
 
 		if (gridPane2.getLayoutY() >= GAME_HEIGHT) {
-			gridPane2.setLayoutY(-GAME_HEIGHT);
+			gridPane2.setLayoutY(-GAME_HEIGHT);//if at bottom edge relacoate backgound to the top again
 		}
 	}
 
 	private double distance(double x1, double y1, double x2, double y2) {
-		return (Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)));
+		return (Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2))); // calculates the distance from the middle of 2 objects
 	}
 
 	private void collision() {
@@ -800,9 +804,9 @@ public class GameViewManager {
 		for (int i = 0; i < brownMeteors.length; i++) {
 			if (distance(brownMeteors[i].getLayoutX() + ENTITIES_SIZE / 2,
 					brownMeteors[i].getLayoutY() - ENTITIES_SIZE / 2, player.getLayoutX() + ENTITIES_SIZE / 2,
-					player.getLayoutY() - ENTITIES_SIZE / 2) <= ENTITIES_SIZE) {
+					player.getLayoutY() - ENTITIES_SIZE / 2) <= ENTITIES_SIZE) { //if intersection happens between brownMeteor and the player
 				showScoreDecrease(brownMeteors[i].getLayoutX());
-				setNewElementPosition(brownMeteors[i]);
+				setNewElementPosition(brownMeteors[i]); //relocation
 
 				// Update score -
 				sc.score -= 3 * sc.collisionCounter;
@@ -813,9 +817,9 @@ public class GameViewManager {
 		for (int i = 0; i < greyMeteors.length; i++) {
 			if (distance(greyMeteors[i].getLayoutX() + ENTITIES_SIZE / 2,
 					greyMeteors[i].getLayoutY() - ENTITIES_SIZE / 2, player.getLayoutX() + ENTITIES_SIZE / 2,
-					player.getLayoutY() - ENTITIES_SIZE / 2) <= ENTITIES_SIZE) {
+					player.getLayoutY() - ENTITIES_SIZE / 2) <= ENTITIES_SIZE) { //if intersection happens between greyMeteor and the player
 				showScoreDecrease(greyMeteors[i].getLayoutX());
-				setNewElementPosition(greyMeteors[i]);
+				setNewElementPosition(greyMeteors[i]); //relocation
 
 				// Update score -
 				sc.score -= 3 * sc.collisionCounter;
@@ -831,9 +835,9 @@ public class GameViewManager {
 																											// it's
 																											// parent
 																											// coordinates
-					setNewElementPosition(brownMeteors[j]);
-					gamePane.getChildren().remove(lasers.get(i));
-					lasers.remove(i);
+					setNewElementPosition(brownMeteors[j]); // relocation
+					gamePane.getChildren().remove(lasers.get(i)); //removes the laser from the window
+					lasers.remove(i); // removes this laser from arraylist 
 					System.out.println(lasers.size());
 
 					// Update score +
@@ -849,9 +853,9 @@ public class GameViewManager {
 																										// node in it's
 																										// parent
 																										// coordinates
-					setNewElementPosition(greyMeteors[j]);
-					gamePane.getChildren().remove(lasers.get(i));
-					lasers.remove(i);
+					setNewElementPosition(greyMeteors[j]);// relocation
+					gamePane.getChildren().remove(lasers.get(i));//removes the laser from the window
+					lasers.remove(i);// removes this laser from arraylist 
 					System.out.println(lasers.size());
 
 					// Update score +
