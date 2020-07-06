@@ -53,7 +53,7 @@ public class JumpGame implements EventHandler<KeyEvent>{
 			if(obstaclesOrder[i]!=0) {
 				o[i]=new Obstacle();
 				o[i].setHeight(obstaclesOrder[i]);
-				obstacle[i]=new ImageView("resources/obstacle0.png");
+				obstacle[i]=new ImageView("minispiele/resources/obstacle0.png");
 				obstacle[i].setFitHeight(OBSTACLE_SIZE);
 				obstacle[i].setFitWidth(OBSTACLE_SIZE);
 				obstacle[i].setLayoutX(SCENE_WIDTH+i*400);
@@ -66,8 +66,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	}
 	
 	public void testRun() {
-		scene.setOnKeyPressed(this);
-		stage.show();
+		//scene.setOnKeyPressed(this);
+		//stage.show();
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);
@@ -75,15 +75,15 @@ public class JumpGame implements EventHandler<KeyEvent>{
 			if(obstaclesOrder[i]!=0) {
 				o[i]=new Obstacle();
 				o[i].setHeight(obstaclesOrder[i]);
-				obstacle[i]=new ImageView("resources/obstacle0.png");
+				obstacle[i]=new ImageView("minispiele/resources/obstacle0.png");
 				obstacle[i].setFitHeight(OBSTACLE_SIZE);
 				obstacle[i].setFitWidth(OBSTACLE_SIZE);
 				obstacle[i].setLayoutX(SCENE_WIDTH+i*400);
 				obstacle[i].setLayoutY(SCENE_HEIGHT*4/5-o[i].height*SCENE_HEIGHT/3);
-				layout.getChildren().add(obstacle[i]);
+				minispielPane.getChildren().add(obstacle[i]);
 			}
 		}
-		layout.getChildren().add(player);
+		minispielPane.getChildren().add(player);
 		createTestGameLoop();
 	}
 	private void createTestGameLoop() {
@@ -131,7 +131,9 @@ public class JumpGame implements EventHandler<KeyEvent>{
 			}
 		}
 		if(obstacle[9].getLayoutX()<=0) {
-			stage.close();
+			//stage.close();
+			stop();
+			gameTimer.stop();
 		}
 	}
 	
@@ -156,21 +158,21 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	//method to move player figure in gui
 	public void movePlayer() {
 		if(p.isJumping) {
-			Image img=new Image("resources/jumping0.png");
+			Image img=new Image("minispiele/resources/jumping0.png");
 			player.setImage(img);
 			player.setLayoutX(SCENE_WIDTH/4);
 			player.setLayoutY((SCENE_HEIGHT/3)-(SCENE_HEIGHT/6));
 		}else if(p.isDucked) {
-			Image img=new Image("resources/ducked0.png");
+			Image img=new Image("minispiele/resources/ducked0.png");
 			player.setImage(img);
 			player.setLayoutX(SCENE_WIDTH/4);
 			player.setLayoutY(SCENE_HEIGHT/3);
 		}else {
 			if(p.running==0) {
-				Image img=new Image("resources/running0.png");
+				Image img=new Image("minispiele/resources/running0.png");
 				player.setImage(img);
 			}else if(p.running==1) {
-				Image img=new Image("resources/running1.png");
+				Image img=new Image("minispiele/resources/running1.png");
 				player.setImage(img);
 			}			
 			player.setLayoutX(SCENE_WIDTH/4);

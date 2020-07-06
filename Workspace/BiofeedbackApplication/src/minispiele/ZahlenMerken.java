@@ -23,44 +23,52 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+public class ZahlenMerken {
 
-
-public class ZahlenMerken{
-
-	boolean leicht = true;
+	//FX components
 	Timeline timeline, tlWhite, tlLeicht, tlSchwer, tlEnd, zeitleiste;
 	VBox box1, box2, box3, box4, box5, box6, box7, box8;
 	Label label1, label2, label3, label4, label5, label6, label7, label8, labelNum;
 	Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8, sceneTest;
+	
+	//variables
 	int vorherigeZahl, match;
 	int score = 0, endscore;
-	
+	boolean leicht = true;
 	int counter = 1, zahl = 0;
 	String t = " ";
 	String checker, numbers;
-	TextField text ;
+	TextField text;
+	int numCounter = 0;
+	Rectangle r;
+	boolean tlWhiteStatus = false;
+	boolean timelineStatus = false;
+	
+	//numbers used for the test
 	int zahl1 = 1653;
 	int zahl2 = 7209;
 	int zahl3 = 6682;
 	int zahl4 = 4005;
 	int zahl5 = 2508;
-	int numCounter = 0;
-	Rectangle r;
-
+	
+	//sound files used for the test
 	File sound2 = new File("7209.wav");
 	File sound4 = new File("4005.wav");
 	File sound5 = new File("2508.wav");
 
 	private AnchorPane minispielPane;
-	
-	public ZahlenMerken(AnchorPane mP){
+
+	//constructor for mini game
+	public ZahlenMerken(AnchorPane mP) {
 		this.minispielPane = mP;
 	}
 	
+	//constructor for mini game
 	public ZahlenMerken() {
-		
+
 	}
-	
+
+	//method to play sound files if necessary
 	public static void playMusic(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();
@@ -70,25 +78,21 @@ public class ZahlenMerken{
 			System.out.println("Fehler");
 		}
 	}
-	
+
+	//creates a visible time line in the mini game
 	public void zeitLeiste() {
 		zeitleiste = new Timeline();
-		zeitleiste.getKeyFrames().add(new KeyFrame(
-				Duration.seconds(5), 
-				new KeyValue(r.widthProperty() , 500)
-				));
+		zeitleiste.getKeyFrames().add(new KeyFrame(Duration.seconds(5), new KeyValue(r.widthProperty(), 500)));
 		zeitleiste.play();
 	}
 
+	//method to start the mini game
 	public void start() {
 
-		//counter = 1;
-		//window = primaryScene;
-		
 		box1 = new VBox(20);
 		label1 = new Label("Neue Zahl: ");
 		label1.setTextFill(Color.web("1968EB"));
-		label1.setFont(new Font("Cambria", 41)); //41
+		label1.setFont(new Font("Cambria", 41)); // 41
 		label2 = new Label("       " + zahl1);
 		label2.setFont(new Font("Cambria", 41));
 		label3 = new Label("Punktestand: ");
@@ -99,21 +103,22 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//box1.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
+
 		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box1.getChildren().addAll(label1, label2, label3, label4, r);
-		
-		
+
 		minispielPane.getChildren().add(box1);
 		startWaitTime();
 		zeitLeiste();
 	}
-	
+
+	//method to stop the mini game if necessary
 	public void stop() {
 		minispielPane.getChildren().remove(0);
 	}
 
+	//starts the timer to wait before automatically changing scenes
 	public void startWaitTime() {
 		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
@@ -128,6 +133,7 @@ public class ZahlenMerken{
 		timeline.play();
 	}
 
+	//creates the waiting scene in between the showing of numbers
 	public void setWhiteScene() {
 		box2 = new VBox(20);
 		Label labelWait = new Label("Wartezeit! Nicht ablenken lassen!");
@@ -136,13 +142,13 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//box2.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
 		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box2);
 
+		//timeline to wait 
 		tlWhite = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -189,6 +195,7 @@ public class ZahlenMerken{
 		zeitLeiste();
 	}
 
+	//last scene before end
 	public void setLastScene() {
 		box4 = new VBox(20);
 		Label labelWait = new Label("Geben Sie die vorherige Zahl ein: ");
@@ -199,9 +206,7 @@ public class ZahlenMerken{
 		label3.setFont(new Font("Cambria", 41));
 		label4 = new Label("       " + score);
 		label4.setFont(new Font("Cambria", 41));
-		///////////////////////////////////////////////	
-		//text.setFocusTraversable(false);
-		///////////////////////////////////////////////
+		// text.setFocusTraversable(false);
 		text.clear();
 		t = " ";
 		text.setFont(new Font("Cambria", 30));
@@ -213,17 +218,14 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//box4.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
-		//minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
+		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box4.getChildren().addAll(labelWait, text, label3, label4, r);
-		
+
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box4);
-		
-		//scene2 = new Scene(box4, 500, 500);
-		//window.setScene(scene2);
 
+		//timeline for automatic change during last scene
 		tlLeicht = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -249,16 +251,15 @@ public class ZahlenMerken{
 		zeitLeiste();
 	}
 
+	//sets end scene in mini game
 	public void setEndScene() {
 		box5 = new VBox(20);
 		endscore = score;
 		Label labelEnd = new Label("Endpunkte: " + endscore);
 		labelEnd.setTextFill(Color.web("010203"));
 		labelEnd.setFont(new Font("Cambria", 50));
-///////////////////////////////////////////////
 		text = new TextField();
 		//text.setFocusTraversable(false);
-///////////////////////////////////////////////
 		text.clear();
 		t = " ";
 		text.setFont(new Font("Cambria", 30));
@@ -270,22 +271,18 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
-		//box5.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
+		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box5.getChildren().addAll(labelEnd, r);
-		
 
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box5);
-		
-		
+
 		tlEnd = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				tlEnd.stop();
-				// closing the window has to be taken out in final game
 				minispielPane.getChildren().clear();
 			}
 		}));
@@ -294,6 +291,7 @@ public class ZahlenMerken{
 		zeitLeiste();
 	}
 
+	//this method checks if the entered number equals the previous number for difficulty easy
 	public void checkLeicht(String checker) {
 		if (leicht == true) {
 			match = Integer.parseInt(checker);
@@ -325,6 +323,7 @@ public class ZahlenMerken{
 		}
 	}
 
+	//this method checks if the entered number equals the previous number for difficulty hard
 	public void checkSchwer(String checker) {
 		if (leicht == false) {
 			match = Integer.parseInt(checker);
@@ -344,6 +343,7 @@ public class ZahlenMerken{
 		}
 	}
 
+	//paints the new scene for difficulty easy, based on the counter the numbers are changed
 	public void sceneLeicht() {
 		if (leicht == true) {
 			counter += 1;
@@ -390,8 +390,6 @@ public class ZahlenMerken{
 			label5.setTextFill(Color.web("1968EB"));
 			label5.setFont(new Font("Cambria", 25));
 			text = new TextField();
-			//////////////////////////////////////
-			//////////////////////////////////////
 			text.clear();
 			t = " ";
 			text.setFont(new Font("Cambria", 30));
@@ -403,26 +401,24 @@ public class ZahlenMerken{
 			r = new Rectangle();
 			r.setHeight(30);
 			r.setWidth(0);
-			r.setFill(Color.LAWNGREEN);	
+			r.setFill(Color.LAWNGREEN);
 			label3 = new Label("Punktestand: ");
 			label3.setTextFill(Color.web("1968EB"));
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			//box3.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+			minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 			box3.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
-			
+
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box3);
-			//scene3 = new Scene(box3, 500, 500);
-			//window.setScene(scene3);
-			
 
 			startWaitTime();
 			zeitLeiste();
 		}
 	}
-
+	
+	//paints the extra scene (2-back) for difficulty hard
 	public void sceneVorSchwer() {
 		if (leicht == false) {
 			counter = counter + 1;
@@ -441,10 +437,10 @@ public class ZahlenMerken{
 			r = new Rectangle();
 			r.setHeight(30);
 			r.setWidth(0);
-			r.setFill(Color.LAWNGREEN);	
-			//box6.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+			r.setFill(Color.LAWNGREEN);
+			minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 			box6.getChildren().addAll(label1, label2, label3, label4, r);
-			
+
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box6);
 
@@ -453,6 +449,7 @@ public class ZahlenMerken{
 		}
 	}
 
+	//paints the scene for difficulty hard, based on the counter the numbers are changed
 	public void sceneSchwer() {
 		if (leicht == false) {
 			counter = counter + 1;
@@ -501,13 +498,14 @@ public class ZahlenMerken{
 			r = new Rectangle();
 			r.setHeight(30);
 			r.setWidth(0);
-			r.setFill(Color.LAWNGREEN);	
+			r.setFill(Color.LAWNGREEN);
 			label3 = new Label("Punktestand: ");
 			label3.setTextFill(Color.web("1968EB"));
 			label3.setFont(new Font("Cambria", 40));
 			label4 = new Label("      " + score);
 			label4.setFont(new Font("Cambria", 40));
-			//box7.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+			// box7.styleProperty().set("-fx-background-image:
+			// url(minispiele/resources/1.jpg)");
 			box7.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box7);
@@ -517,6 +515,7 @@ public class ZahlenMerken{
 		}
 	}
 
+	//paints the scene after the last round of difficulty hard
 	public void sceneNachSchwer() {
 		if (leicht == false) {
 			box8 = new VBox(20);
@@ -535,8 +534,8 @@ public class ZahlenMerken{
 			r = new Rectangle();
 			r.setHeight(30);
 			r.setWidth(0);
-			r.setFill(Color.LAWNGREEN);	
-			//box8.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+			r.setFill(Color.LAWNGREEN);
+			minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 			box8.getChildren().addAll(labelWait, text, r);
 			minispielPane.getChildren().remove(0);
 			minispielPane.getChildren().add(box8);
@@ -566,27 +565,30 @@ public class ZahlenMerken{
 			zeitLeiste();
 		}
 	}
-	
+
+	//this method writes a given number into the text field
 	public void writeNumber(int zahl) {
 		t = t + zahl;
 		text.setText(t);
 	}
-	
+
+	//test method for test area
 	public void test() {
 		box1 = new VBox(20);
 		label1 = new Label("Neue Zahl: ");
 		label1.setTextFill(Color.web("1968EB"));
-		label1.setFont(new Font("Cambria", 41)); //41
+		label1.setFont(new Font("Cambria", 41)); // 41
 		label2 = new Label("1234");
 		label2.setFont(new Font("Cambria", 41));
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//box1.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
+		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box1.getChildren().addAll(label1, label2, r);
 		minispielPane.getChildren().add(box1);
-		
+
+		//timeline to switch scenes after 5 seconds
 		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -600,7 +602,8 @@ public class ZahlenMerken{
 		timeline.play();
 		zeitLeiste();
 	}
-	
+
+	//waiting scene for test method during testing
 	public void testWait(int durchgang) {
 		box2 = new VBox(20);
 		Label labelWait = new Label("Wartezeit! Nicht ablenken lassen!");
@@ -609,31 +612,35 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
-		//box2.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
+		r.setFill(Color.LAWNGREEN);
+		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box2);
 
+		//timeline during wait time 
 		tlWhite = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				tlWhite.stop();
+				tlWhiteStatus = false;
 				System.out.println("wait is over");
-				if(durchgang == 1) {
-				sceneTest2();
-				} 
-				if(durchgang == 2) {
+				if (durchgang == 1) {
+					sceneTest2();
+				}
+				if (durchgang == 2) {
 					sceneTest3();
 				}
 			}
 		}));
 		tlWhite.setCycleCount(Timeline.INDEFINITE);
 		tlWhite.play();
+		tlWhiteStatus = true;
 		zeitLeiste();
 	}
-	
+
+	//paints the second scene during testing
 	public void sceneTest2() {
 		box4 = new VBox(20);
 		Label labelWait = new Label("Geben Sie die vorherige Zahl ein: ");
@@ -655,33 +662,37 @@ public class ZahlenMerken{
 		r = new Rectangle();
 		r.setHeight(30);
 		r.setWidth(0);
-		r.setFill(Color.LAWNGREEN);	
+		r.setFill(Color.LAWNGREEN);
 		box4.getChildren().addAll(labelWait, text, label3, r);
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box4);
 
+		//waits 5 seconds, then switches scene
 		timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				timeline.stop();
+				timelineStatus = false;
 				System.out.println("Last Scene");
 				if (text.getText().isEmpty() == true) {
 					score = 0;
-				} else if(text.getText() == "1234") {
-						score = 1000;
+				} else if (text.getText() == "1234") {
+					score = 1000;
 				} else {
 					score = 100;
 				}
 				testWait(2);
 			}
-			
+
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
+		timelineStatus = true;
 		zeitLeiste();
 	}
-	
+
+	//paints last scene during testing
 	public void sceneTest3() {
 		box4 = new VBox(20);
 		text = new TextField();
@@ -699,5 +710,16 @@ public class ZahlenMerken{
 		box4.getChildren().addAll(text, label2, label3);
 		minispielPane.getChildren().remove(0);
 		minispielPane.getChildren().add(box4);
+	}
+
+	//stops the testing for this mini game
+	public void testStop() {
+		if (tlWhiteStatus == true) {
+			tlWhite.stop();
+		}
+		if (timelineStatus == true) {
+			timeline.stop();
+		}
+		minispielPane.getChildren().remove(0);
 	}
 }

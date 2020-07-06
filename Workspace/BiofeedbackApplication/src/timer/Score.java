@@ -20,6 +20,7 @@ public class Score {
 			  @Override
 			  public void handle(ActionEvent event) {
 				  time++;
+				  
 				  if(time % 5 == 0) { //every 5 seconds the score is to increase by 50
 					  score = score + 50;
 				  }

@@ -12,6 +12,9 @@ import HRS.Port;
 import application.Initialization;
 import data.Data;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -28,6 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import minispiele.ZahlenMerken;
 import minispiele.CatchTheBall;
 import minispiele.MazeFX;
@@ -70,31 +74,34 @@ public class GameViewManager {
 
 	// Timer
 	public AnimationTimer gameTimer;
+	public int time;
+	public int tl_time = 0;
+	int timecounter = 1;
 
 	Random RAND;
 	private int angle;
 
-	// Database
-	public int time;
+	// Database variables
 	public String spiel;
-	public int heartrate;
 	public int ID;
 	public int currentScore;
 	String currentGame = "Hauptspiel";
 	int mode;
 	String currentMode;
 	String stressLevel;
-	String currentStressLevel;
-	int timecounter = 1;
+	String currentStressLevel = "normal";
+	int alter;
+	int gewicht;
+	String sportlichkeit;
+	String sysTime;
+	
+	// heart rate sensors
+	public int heartrate;
 	int hrcounter = 1;
 	int hrFromSensor;
 	SerialPort sp;
 	int iniPort;
 	int sl;
-	int alter;
-	int gewicht;
-	String sportlichkeit;
-	String sysTime;
 
 	// KeyEvents
 	private boolean isLeftKeyPressed;
@@ -115,9 +122,10 @@ public class GameViewManager {
 	private ImageView[] greyMeteors;
 	private ImageView laserShot;
 	private ArrayList<Node> lasers = new ArrayList<Node>();
-
 	private InfoLabel scoreLabel, heartLabel;
 	private Score sc;
+	
+	// mini games 
 	private ZahlenMerken zahlenMerken;
 	private boolean zahlenMerkenOn = false;
 	private MazeFX maze;
@@ -136,7 +144,7 @@ public class GameViewManager {
 	private Initialization ini = new Initialization();
 	private Port sensor = new Port();
 	private Data database = new Data();
-	private Text scoreDecrease[] = {null,null,null};
+	private Text scoreDecrease[] = { null, null, null };
 
 	// text example
 	Text bsp;
@@ -173,9 +181,10 @@ public class GameViewManager {
 						}
 
 					}
-				} else if (e.getCode() == KeyCode.J) {
+				} 
+				if (e.getCode() == KeyCode.J) {
 					// Entspannt
-					stressLevel = "Entspannt";
+					stressLevel = "entspannt";
 					// Mitwirkend
 					if (ini.getMode() == 2) {
 						// grünes Bild
@@ -185,19 +194,14 @@ public class GameViewManager {
 					if (ini.getMode() == 1) {
 						// rotes Bild
 						feedback.setMode(2);
-					}
-					// Neutral
-					if (ini.getMode() == 0) {
-						// graues Bild
-						feedback.setMode(0);
 					}
 				} else if (e.getCode() == KeyCode.K) {
 					// Normal
-					stressLevel = "Normal";
+					stressLevel = "normal";
 					feedback.setMode(0);
 				} else if (e.getCode() == KeyCode.L) {
 					// Gestresst
-					stressLevel = "Gestresst";
+					stressLevel = "gestresst";
 					// Mitwirkend
 					if (ini.getMode() == 2) {
 						// rotes Bild
@@ -208,12 +212,8 @@ public class GameViewManager {
 						// grünes Bild
 						feedback.setMode(1);
 					}
-					// Neutral
-					if (ini.getMode() == 0) {
-						feedback.setMode(0);
-					}
 				}
-
+				// KeyCode Listener for mini game maze
 				if (mazeOn == true) {
 					if (e.getCode() == KeyCode.LEFT) {
 						maze.moveLeft();
@@ -228,6 +228,7 @@ public class GameViewManager {
 						maze.moveUp();
 					}
 				}
+				// KeyCode Listener for mini game zahlen merken
 				if (zahlenMerkenOn == true) {
 					// write into textfield
 					if (e.getCode() == KeyCode.DIGIT0 || e.getCode() == KeyCode.NUMPAD0) {
@@ -261,11 +262,13 @@ public class GameViewManager {
 						zahlenMerken.writeNumber(9);
 					}
 				}
+				// KeyCode Listener for mini game reaction time
 				if (reaktionstestOn == true) {
 					if (e.getCode() == KeyCode.ENTER) {
 						reaktionstest.react();
 					}
 				}
+				// KeyCode Listener for mini game jump&duck
 				if (jumpGameOn == true) {
 					if (e.getCode() == KeyCode.UP) {
 						jumpGame.jump();
@@ -274,6 +277,7 @@ public class GameViewManager {
 						jumpGame.duck();
 					}
 				}
+				// KeyCode Listener for mini game catch the ball
 				if (ballcatchOn == true) {
 					if (e.getCode() == KeyCode.RIGHT) {
 						ballcatch.moveRect();
@@ -282,6 +286,7 @@ public class GameViewManager {
 						ballcatch.moveLeft();
 					}
 				}
+				// KeyCode Listener for mini game pong
 				if (pongOn == true) {
 					if (e.getCode() == KeyCode.LEFT) {
 						pong.movePlayerLeft();
@@ -362,6 +367,7 @@ public class GameViewManager {
 		createPlayer();
 		createGameElements();
 
+		startTimer();
 		createGameLoop();
 
 		gameStage.setTitle("Biofeedback Anwendung");
@@ -378,106 +384,118 @@ public class GameViewManager {
 				checkIfElemetsAreUnderShip();
 				collision();
 				moveShip();
-				updateScoreLabel();
-				updateHeartLabel();
 				moveScoreDecrease();
 				checkTime();
-				save();
-				checkHR();
 			}
 		};
 		gameTimer.start();
 	}
 
+	// starts the timer for methods that are called every second
+	public void startTimer() {
+		Timeline timl_1s = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent te) {
+				tl_time++;
+				updateScoreLabel();
+				updateHeartLabel();
+				//save();
+				//checkHR();
+
+			}
+		}));
+		timl_1s.setCycleCount(Timeline.INDEFINITE);
+		timl_1s.play();
+	}
+
+	// checks the Heart Rate and changes the feedback based on it
 	public void checkHR() {
-		if (sc.getTime() % 1 == 0) {
-			if (ini.getHRSUSage() == 1) {
-				if (sensor.getHeartR(sp) > ini.getGrenze()) {
-					if (stressLevel != "gestresst") {
-						// Mitwirkend
-						if (ini.getMode() == 2) {
-							// rotes Bild
-							feedback.setMode(2);
-						}
-						// Entgegenwirkend
-						if (ini.getMode() == 1) {
-							// grünes Bild
-							feedback.setMode(1);
-						}
-						// Neutral
-						if (ini.getMode() == 0) {
-							feedback.setMode(0);
-						}
-						// Stresslevel ändern
-						stressLevel = "gestresst";
+		if (ini.getHRSUSage() == 1) {
+			if (sensor.getHeartR(sp) > ini.getGrenze()) {
+				if (stressLevel != "gestresst") {
+					// Mitwirkend
+					if (ini.getMode() == 2) {
+						// rotes Bild
+						feedback.setMode(2);
 					}
-				} else if (sensor.getHeartR(sp) <= Integer.parseInt(ini.getRP()) - 10) {
-					if (stressLevel != "entspannt") {
-						// Mitwirkend
-						if (ini.getMode() == 2) {
-							// grünes Bild
-							feedback.setMode(1);
-						}
-						// Entgegenwirkend
-						if (ini.getMode() == 1) {
-							// rotes Bild
-							feedback.setMode(2);
-						}
-						// Neutral
-						if (ini.getMode() == 0) {
-							// graues Bild
-							feedback.setMode(0);
-						}
-						stressLevel = "entspannt";
+					// Entgegenwirkend
+					if (ini.getMode() == 1) {
+						// grünes Bild
+						feedback.setMode(1);
 					}
-				} else {
-					if (stressLevel != "normal") {
+					// Neutral
+					if (ini.getMode() == 0) {
 						feedback.setMode(0);
 					}
-					stressLevel = "normal";
+					// Stresslevel ändern
+					stressLevel = "gestresst";
 				}
-			}
-		}
-	}
-
-	public void save() {
-		if (sc.getTime() == timecounter) {
-			ID = ini.getID();
-			
-			time = sc.getTime();
-			spiel = currentGame;
-			int p = ini.getPort();
-			if (ini.getHRSUSage() == 1) {
-				heartrate = sensor.getHR(p);
+			} else if (sensor.getHeartR(sp) <= Integer.parseInt(ini.getRP()) - 10) {
+				if (stressLevel != "entspannt") {
+					// Mitwirkend
+					if (ini.getMode() == 2) {
+						// grünes Bild
+						feedback.setMode(1);
+					}
+					// Entgegenwirkend
+					if (ini.getMode() == 1) {
+						// rotes Bild
+						feedback.setMode(2);
+					}
+					// Neutral
+					if (ini.getMode() == 0) {
+						// graues Bild
+						feedback.setMode(0);
+					}
+					stressLevel = "entspannt";
+				}
 			} else {
-				heartrate = sensor.getHeartRate();
+				if (stressLevel != "normal") {
+					feedback.setMode(0);
+				}
+				stressLevel = "normal";
 			}
-			currentScore = sc.score;
-			mode = ini.getMode();
-			currentMode = " " + mode;
-			currentStressLevel = stressLevel;
-			alter = ini.getAlter();
-			gewicht = ini.getGewicht();
-			sportlichkeit = ini.getSportlichkeit();
-			sysTime = getSysTime();
-
-			try {
-				database.saveDataInTable(ID, sysTime, alter, gewicht, sportlichkeit, time, heartrate, currentScore, currentMode, currentStressLevel, currentGame);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			timecounter++;
 		}
 	}
 
+	// saves all important data in the database
+	public void save() {
+		ID = ini.getID();
+		time = sc.getTime();
+		spiel = currentGame;
+		if (ini.getHRSUSage() == 1) {
+			heartrate = sensor.getHeartR(sp);
+		} else {
+			heartrate = sensor.getHeartRate();
+		}
+		currentScore = sc.score;
+		mode = ini.getMode();
+		currentMode = " " + mode;
+		currentStressLevel = stressLevel;
+		alter = ini.getAlter();
+		gewicht = ini.getGewicht();
+		sportlichkeit = ini.getSportlichkeit();
+		sysTime = getSysTime();
+
+		try {
+			database.saveDataInTable(ID, sysTime, alter, gewicht, sportlichkeit, time, heartrate, currentScore,
+					currentMode, currentStressLevel, currentGame);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// checks time and enables mini games based on it
 	public void checkTime() {
+		// mini game maze is shown
 		if (sc.getTime() == ini.getMinigameTime(1)) {
 			maze = new MazeFX(minispielPane);
 			maze.start();
 			mazeOn = true;
 			currentGame = "maze";
 		}
+		// mini game zahlen merken is shown
 		if (sc.getTime() == ini.getMinigameTime(2)) {
 			maze.stop();
 			sc.score += maze.getPoints();
@@ -487,6 +505,7 @@ public class GameViewManager {
 			zahlenMerkenOn = true;
 			currentGame = "ZahlenMerken";
 		}
+		// mini game reaction time is shown
 		if (sc.getTime() == ini.getMinigameTime(3)) {
 			zahlenMerken.stop();
 			zahlenMerkenOn = false;
@@ -495,6 +514,7 @@ public class GameViewManager {
 			reaktionstestOn = true;
 			currentGame = "Reaktionszeit";
 		}
+		// mini game jump&duck is shown
 		if (sc.getTime() == ini.getMinigameTime(4)) {
 			reaktionstest.stop();
 			sc.score = sc.score + reaktionstest.getPoints();
@@ -504,6 +524,7 @@ public class GameViewManager {
 			jumpGameOn = true;
 			currentGame = "Jump&Duck";
 		}
+		// mini game catch the ball is shown
 		if (sc.getTime() == ini.getMinigameTime(5)) {
 			jumpGame.stop();
 			jumpGameOn = false;
@@ -513,6 +534,7 @@ public class GameViewManager {
 			ballcatchOn = true;
 			currentGame = "CatchTheBall";
 		}
+		// mini game pong is shown
 		if (sc.getTime() == ini.getMinigameTime(6)) {
 			ballcatch.stop();
 			ballcatchOn = false;
@@ -522,6 +544,7 @@ public class GameViewManager {
 			pongOn = true;
 			currentGame = "Pong";
 		}
+		// mini game pong is closed (only if necessary)
 		if (sc.getTime() == ini.getMinigameTime(6) + 60) {
 			pong.stop();
 			pongOn = false;
@@ -547,12 +570,6 @@ public class GameViewManager {
 		heartLabel.setLayoutX(RIGHT_PANE_WIDTH / 2 - heartLabel.IMG_WIDTH / 2);
 		heartLabel.setLayoutY(RIGHT_PANE_HEIGHT - 180);
 		rightPane.getChildren().add(heartLabel);
-		/*
-		 * maze = new MazeFX(minispielPane); maze.start(); mazeOn = true;
-		 */
-		// zahlenMerken = new ZahlenMerken(minispielPane);
-		// zahlenMerken.start();
-		// minispielPane.getChildren().add(scoreLabel);
 
 		// jeweils max 3 meteors generaten
 		brownMeteors = new ImageView[3];
@@ -632,11 +649,6 @@ public class GameViewManager {
 		player.setLayoutY(GAME_HEIGHT - 90);
 		// player.setFocusTraversable(true);
 		gamePane.getChildren().add(player);
-
-		// ImageView player2 = new ImageView("view/resources/playerShip1_orange.png");
-		// player2.setLayoutX(0);
-		// player2.setLayoutY(GAME_HEIGHT - 90);
-		// rightPane.getChildren().add(player2);
 	}
 
 	private void moveShip() {
@@ -851,11 +863,13 @@ public class GameViewManager {
 		}
 	}
 
+	// method to update the score label
 	private void updateScoreLabel() {
 		String textToSet = "Score: ";
 		scoreLabel.setText(textToSet + sc.score);
 	}
 
+	// method to update the heart label
 	public void updateHeartLabel() {
 		if (ini.getHRSUSage() == 1) {
 			String textForHL = " ";
@@ -867,7 +881,8 @@ public class GameViewManager {
 			heartLabel.setText(textHL);
 		}
 	}
-	
+
+	// method to get the system time and date (for saving)
 	public String getSysTime() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
@@ -910,21 +925,9 @@ public class GameViewManager {
 			for (int i = 0; i < brownMeteors.length; i++) {
 				greyMeteors[i].setImage(newMeteor2);
 			}
-			/*
-			 * bsp=new Text("  !!!HINWEIS!!!:   \nDies ist ein Beispiel"); bsp.setFont(new
-			 * Font(40)); bsp.setLayoutX(0); bsp.setLayoutY(0);
-			 * gamePane.getChildren().add(bsp);
-			 */
 		}
 
 	}
-
-	// moves text example
-	/*
-	 * private void moveText(){ if(bsp.getLayoutX()<=WINDOW_WIDTH) {
-	 * bsp.setLayoutX(bsp.getLayoutX()+5); bsp.setLayoutY(bsp.getLayoutX()+5);
-	 * bsp.setRotate(bsp.getRotate()-1); } }
-	 */
 
 	public void changeText(int m) {
 		if (m == 0) {
@@ -942,18 +945,18 @@ public class GameViewManager {
 			scoreLabel.setEffect(blur);
 		}
 	}
-	
+
 	private void showScoreDecrease(double x) {
-		if(feedback.getmode()==1) {
+		if (feedback.getmode() == 1) {
 			return;
 		}
-		for(int i=0; i<3; i++) {
-			if(scoreDecrease[i]==null) {
-				scoreDecrease[i]=new Text(""+(-3 * sc.collisionCounter));
+		for (int i = 0; i < 3; i++) {
+			if (scoreDecrease[i] == null) {
+				scoreDecrease[i] = new Text("" + (-3 * sc.collisionCounter));
 				scoreDecrease[i].setFont(new Font(10));
 				scoreDecrease[i].setLayoutX(x);
-				scoreDecrease[i].setLayoutY(WINDOW_HEIGHT-150);
-				if(feedback.getmode()==2) {
+				scoreDecrease[i].setLayoutY(WINDOW_HEIGHT - 150);
+				if (feedback.getmode() == 2) {
 					scoreDecrease[i].setFill(Color.RED);
 				}
 				scoreDecrease[i].setScaleX(3);
@@ -963,40 +966,40 @@ public class GameViewManager {
 			}
 		}
 		gamePane.getChildren().remove(scoreDecrease[0]);
-		scoreDecrease[0]=null;
-		scoreDecrease[0]=new Text(""+(-3 * sc.collisionCounter));
+		scoreDecrease[0] = null;
+		scoreDecrease[0] = new Text("" + (-3 * sc.collisionCounter));
 		scoreDecrease[0].setScaleX(3);
 		scoreDecrease[0].setScaleY(3);
-		if(feedback.getmode()==2) {
+		if (feedback.getmode() == 2) {
 			scoreDecrease[0].setFill(Color.RED);
 		}
 		gamePane.getChildren().add(scoreDecrease[0]);
 		scoreDecrease[0].setLayoutX(x);
-		scoreDecrease[0].setLayoutY(WINDOW_HEIGHT-150);
+		scoreDecrease[0].setLayoutY(WINDOW_HEIGHT - 150);
 		scoreDecrease[0].setStyle(LASER_IMG);
 		scoreDecrease[0].setFill(Color.RED);
 	}
-	
+
 	private void moveScoreDecrease() {
-		if(feedback.getmode()==2) {
-			for(int i=0; i<3; i++) {
-				if(scoreDecrease[i]!=null) {
-					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX()+0.3);
-					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY()+0.3);
-					if(scoreDecrease[i].getScaleX()>20) {
+		if (feedback.getmode() == 2) {
+			for (int i = 0; i < 3; i++) {
+				if (scoreDecrease[i] != null) {
+					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX() + 0.3);
+					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY() + 0.3);
+					if (scoreDecrease[i].getScaleX() > 20) {
 						gamePane.getChildren().remove(scoreDecrease[i]);
-						scoreDecrease[i]=null;
+						scoreDecrease[i] = null;
 					}
 				}
 			}
-		}else if(feedback.getmode()==0) {
-			for(int i=0; i<3; i++) {
-				if(scoreDecrease[i]!=null) {
-					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX()+0.02);
-					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY()+0.02);
-					if(scoreDecrease[i].getScaleX()>5) {
+		} else if (feedback.getmode() == 0) {
+			for (int i = 0; i < 3; i++) {
+				if (scoreDecrease[i] != null) {
+					scoreDecrease[i].setScaleX(scoreDecrease[i].getScaleX() + 0.02);
+					scoreDecrease[i].setScaleY(scoreDecrease[i].getScaleY() + 0.02);
+					if (scoreDecrease[i].getScaleX() > 5) {
 						gamePane.getChildren().remove(scoreDecrease[i]);
-						scoreDecrease[i]=null;
+						scoreDecrease[i] = null;
 					}
 				}
 			}

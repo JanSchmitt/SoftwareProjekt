@@ -24,7 +24,7 @@ import view.Testing;
 import org.ini4j.Wini;
 
 public class frage extends Application implements EventHandler<ActionEvent> {
-	// FX Bestandteile
+	// FX Parts
 	CheckBox box1,box3;
 	Button spielstart, weiter1;
 	Scene scene2, scene5;
@@ -35,7 +35,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	GridPane layout3,layout1,layout2,layout4,layout5;
 	Initialization ini = new Initialization();
 	
-	//Variablen
+	//Variables
 	int Alter, Gewicht, sportlichkeit;
 	String Name, Sportlich;
 	int hfmax;
@@ -45,11 +45,12 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	int Ruhezustand = 72;
 	Testing test;
 	
-	
+	// main method
 	public void main(String[] args) {
 		launch(args);
 	}
 
+	// starts the window in which operator can ask and collect information about the player
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
@@ -90,6 +91,8 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		window.show();
 	}
 
+	// handles input
+	// can only continue if every needed value is collected and every data necessary has been calculated and saved
 	@Override
 	public void handle(ActionEvent event) {
 		if(event.getSource()== weiter1) {
@@ -116,19 +119,13 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 			}
 		}else if(event.getSource()== spielstart) {
 			System.out.println("Testphase wird jetzt gestartet");
-			/*window.close();
-			Game game=new Game();
-			try {				
-				game.start(window);
-			}catch(Exception e) {
-				e.printStackTrace();
-			}*/
 			test = new Testing();
 			test.createHRSTest(window, hfmax);
 		}		
 	}
 	
-
+	
+	// sets up scene in which all collected stats will be shown
 	private void setScene5() {
 		// Ausgabe der Werte in Szene 5
 				spielstart = new Button("Hier Test starten");
@@ -160,7 +157,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	
 	
 	
-	
+	// checks selected checkbox input
 	private int handleOptions(CheckBox b) {
 		if(b.isSelected() == true) {
 			return 1;
@@ -169,6 +166,7 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		}
 	}
 	
+	// checks if given input is actually of type integer
 	private boolean isInt(String message) {
 		try {
 			Integer.parseInt(message);
@@ -180,17 +178,10 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 	}
 	
 	
+
 	
-	/*private boolean isString(String message) {
-			String regex = "^[a-z A-Z]+$";
-			if(message.matches(regex)== true) {
-				
-				return true;
-			}else {
-				System.out.println("Keine oder falsche Eingabe");
-				return false;
-			}
-	}*/
+	// calculates important values and sets boarders for biofeedback
+	// also saves values to config
 	private void berechne(int s, int a, int g) {
 		hfmax = 214 - (int)(0.5*a) - (int)(0.11*g);
 		System.out.println("Ihre Maximalherzfrequenz liegt bei " + hfmax);
@@ -211,23 +202,4 @@ public class frage extends Application implements EventHandler<ActionEvent> {
 		ini.updateSportlichkeit(Sportlich);
 	}
 	
-	/*public int getHFMax() {
-		return hfmax;
-	}
-	
-	public int getStresszustand() {
-		return Stresszustand;
-	}
-	
-	public int getAlter() {
-		return Alter;
-	}
-	
-	public int getGewicht() {
-		return Gewicht;
-	}
-	
-	public String getSportlichkeit() {
-		return Sportlich;
-	}*/
 }

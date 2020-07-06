@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public class MazeFX {
 
+	//matrix for easy mode of the maze
 	int[][] mazeArray = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 			{ 2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1 },
@@ -37,6 +38,7 @@ public class MazeFX {
 			{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3 },
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
+	//matrix for hard mode of the maze
 	int[][] mazeArraySchwer = {
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 					1, 1, 1, 1, 1 },
@@ -119,33 +121,35 @@ public class MazeFX {
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 					1, 1, 1, 1, 1 } };
 
-	boolean leicht = true;
-	int lenght;
-	int startX = 0;
-	int startY = 0;
-	int endX = 0;
-	int endY = 0;
-	int locX = startX;
-	int locY = startY;
+	//variables
+	public boolean leicht = true;
+	public int lenght;
+	public int startX = 0;
+	public int startY = 0;
+	public int endX = 0;
+	public int endY = 0;
+	public int locX = startX;
+	public int locY = startY;
+	public double time;
+	public int points = -1000;
 	Scene scene, scene2;
 	Stage s;
 	GridPane g;
 	Circle cp = new Circle(4.0, Color.RED);
 	Timer timer;
 	TimerTask task;
-	double time;
-	int points = -1000;
 	private AnchorPane minispielPane;
-
+	
+	//constructor for mazes
 	public MazeFX(AnchorPane mP) {
 		this.minispielPane = mP;
 	}
 
+	//start method for mazes
 	public void start() {
 		startTimer();
-		// s = primaryScene;
 		g = new GridPane();
-
+		//easy mode: creation of maze
 		if (leicht == true) {
 			for (int i = 0; i < 20; i++) {
 				for (int j = 0; j < 20; j++) {
@@ -169,6 +173,7 @@ public class MazeFX {
 				}
 			}
 		}
+		//hard mode: creation of maze
 		if (leicht == false) {
 			for (int i = 0; i < 40; i++) {
 				for (int j = 0; j < 40; j++) {
@@ -270,42 +275,84 @@ public class MazeFX {
 		});
 	}
 
+	//stops the maze if necessary
 	public void stop() {
 		minispielPane.getChildren().remove(0);
 	}
 
+	//function to move the player to the left
 	public void moveLeft() {
-		if (mazeArraySchwer[locY][locX - 1] == 0) {
-			g.getChildren().remove(cp);
-			locX = locX - 1;
-			paintNewScene();
+		if (leicht == true) {
+			if (mazeArray[locY][locX - 1] == 0) {
+				g.getChildren().remove(cp);
+				locX = locX - 1;
+				paintNewScene();
+			}
+		}
+		if (leicht == false) {
+			if (mazeArraySchwer[locY][locX - 1] == 0) {
+				g.getChildren().remove(cp);
+				locX = locX - 1;
+				paintNewScene();
+			}
 		}
 	}
 
+	//function to move the player to the right
 	public void moveRight() {
-		if (mazeArraySchwer[locY][locX + 1] == 0 || mazeArraySchwer[locY][locX + 1] == 3) {
-			g.getChildren().remove(cp);
-			locX = locX + 1;
-			paintNewScene();
+		if (leicht == true) {
+			if (mazeArray[locY][locX + 1] == 0 || mazeArray[locY][locX + 1] == 3) {
+				g.getChildren().remove(cp);
+				locX = locX + 1;
+				paintNewScene();
+			}
 		}
+		if (leicht == false) {
+			if (mazeArraySchwer[locY][locX + 1] == 0 || mazeArraySchwer[locY][locX + 1] == 3) {
+				g.getChildren().remove(cp);
+				locX = locX + 1;
+				paintNewScene();
+			}
+		}
+
 	}
 
+	//function to move the player to the up
 	public void moveUp() {
-		if (mazeArraySchwer[locY - 1][locX] == 0) {
-			g.getChildren().remove(cp);
-			locY = locY - 1;
-			paintNewScene();
+		if (leicht == true) {
+			if (mazeArray[locY - 1][locX] == 0) {
+				g.getChildren().remove(cp);
+				locY = locY - 1;
+				paintNewScene();
+			}
+		}
+		if (leicht == false) {
+			if (mazeArraySchwer[locY - 1][locX] == 0) {
+				g.getChildren().remove(cp);
+				locY = locY - 1;
+				paintNewScene();
+			}
 		}
 	}
 
+	//function to move the player to the down
 	public void moveDown() {
-		if (mazeArraySchwer[locY + 1][locX] == 0) {
-			g.getChildren().remove(cp);
-			locY = locY + 1;
-			paintNewScene();
+		if (leicht == true) {
+			if (mazeArray[locY + 1][locX] == 0) {
+				g.getChildren().remove(cp);
+				locY = locY + 1;
+				paintNewScene();
+			}
+		} else if (leicht == false) {
+			if (mazeArraySchwer[locY + 1][locX] == 0) {
+				g.getChildren().remove(cp);
+				locY = locY + 1;
+				paintNewScene();
+			}
 		}
 	}
 
+	//starts the timer to calculate the points 
 	public void startTimer() {
 		timer = new Timer();
 		time = 0.0000;
@@ -318,14 +365,13 @@ public class MazeFX {
 		timer.scheduleAtFixedRate(task, 100, 100);
 	}
 
+	//paints the new scene after player was moved
 	public void paintNewScene() {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
 		scene = new Scene(g, 400, 400);
-		// s.setTitle("The Maze");
 		s.setScene(scene);
-		//s.setScene(scene);
 		minispielPane.getChildren().add(g);
 		if (leicht == true) {
 			if (mazeArray[locY][locX] == 3) {
@@ -339,24 +385,27 @@ public class MazeFX {
 				timer.cancel();
 				task.cancel();
 				System.out.println(time);
-				if(time <= 50) {
+				if (time <= 50) {
 					points = 600;
-				} else if (time > 50){
+				} else if (time > 50) {
 					points = 100;
 				}
 				s.close();
 			}
 		}
 	}
-	
+
+	//returns the given points for the maze solve
 	public int getPoints() {
 		return points;
 	}
 
+	//adds the player to the gridpane
 	public void addPlayer() {
 		g.add(cp, locX, locY);
 	}
 
+	//creates a wall for the maze
 	public Rectangle createWall() {
 		Rectangle rw = new Rectangle();
 		rw.setFill(Color.BLACK);
@@ -370,6 +419,7 @@ public class MazeFX {
 		return rw;
 	}
 
+	//creates the starting point in the maze
 	public Rectangle createStart() {
 		Rectangle rsf = new Rectangle();
 		rsf.setFill(Color.GREEN);
@@ -383,6 +433,7 @@ public class MazeFX {
 		return rsf;
 	}
 
+	//creates the finish in the maze
 	public Rectangle createFinish() {
 		Rectangle rf = new Rectangle();
 		rf.setFill(Color.BLUE);
@@ -396,6 +447,7 @@ public class MazeFX {
 		return rf;
 	}
 
+	//creates a path block in the maze
 	public Rectangle createPath() {
 		Rectangle rp = new Rectangle();
 		rp.setFill(Color.WHITE);
@@ -409,6 +461,7 @@ public class MazeFX {
 		return rp;
 	}
 
+	//test function for the testing area
 	public void test() {
 		startTimer();
 		g = new GridPane();
@@ -442,9 +495,9 @@ public class MazeFX {
 		g.getChildren().addAll();
 		scene = new Scene(g, 400, 400);
 		minispielPane.getChildren().add(g);
-		//window.setScene(scene);
 	}
 
+	//moves player to the left in the test area
 	public void moveLeftTest(Stage window) {
 		if (mazeArray[locY][locX - 1] == 0) {
 			g.getChildren().remove(cp);
@@ -453,6 +506,7 @@ public class MazeFX {
 		}
 	}
 
+	//moves player to the right in the test area
 	public void moveRightTest(Stage window) {
 		if (mazeArray[locY][locX + 1] == 0 || mazeArray[locY][locX + 1] == 3) {
 			g.getChildren().remove(cp);
@@ -461,6 +515,7 @@ public class MazeFX {
 		}
 	}
 
+	//moves player up in the test area
 	public void moveUpTest(Stage window) {
 		if (mazeArray[locY - 1][locX] == 0) {
 			g.getChildren().remove(cp);
@@ -469,6 +524,7 @@ public class MazeFX {
 		}
 	}
 
+	//moves player down in the test area
 	public void moveDownTest(Stage window) {
 		if (mazeArray[locY + 1][locX] == 0) {
 			g.getChildren().remove(cp);
@@ -477,11 +533,11 @@ public class MazeFX {
 		}
 	}
 
+	//paints new scene in test area after player was moved
 	public void paintNewTestScene(Stage window) {
 		addPlayer();
 		g.setGridLinesVisible(true);
-		g.getChildren().addAll();	
-		// s.setTitle("The Maze");
+		g.getChildren().addAll();
 		minispielPane.getChildren().add(g);
 		scene = new Scene(g, 400, 400);
 		window.setScene(scene);

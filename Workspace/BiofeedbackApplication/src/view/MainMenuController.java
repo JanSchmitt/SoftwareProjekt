@@ -21,19 +21,11 @@ public class MainMenuController {
 	//Change scene when method is called
 	public void StartButtonPushed(ActionEvent event) throws Exception {
 		System.out.println("Pressed");
-		//Parent gameViewParent = FXMLLoader.load(getClass().getResource("/view/GameView.fxml"));
-		//Scene gameScene = new Scene(gameViewParent); 
 		
 		//get Stage information
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow(); //tableViewParent dont know what content is in getSource, casting to Node makes us able to get scene
-		//window.setScene(gameScene);
 		GameViewManager gameManager = new GameViewManager();
 		gameManager.createNewGame(window);
-		
-		
-		//window.setScene(gameScene);
-		//window.setResizable(false);
-		//window.show();
 		
 	}
 

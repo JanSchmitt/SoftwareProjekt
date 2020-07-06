@@ -41,8 +41,8 @@ public class PongGame {
 	// constructor that recieves a stage
 	public PongGame(AnchorPane mp) {
 		this.minispielPane = mp;
-		scene = new Scene(minispielPane, SCENE_WIDTH, SCENE_HEIGHT);
-		stage.setScene(scene);
+		/*scene = new Scene(minispielPane, SCENE_WIDTH, SCENE_HEIGHT);
+		stage.setScene(scene);*/
 	}
 
 	// starts the game
@@ -67,9 +67,9 @@ public class PongGame {
 		ball.setFitWidth(BALL_SIZE);
 		ball.setLayoutX(0);
 		ball.setLayoutY(0);
-		layout.getChildren().addAll(player, ball);
+		minispielPane.getChildren().addAll(player, ball);
 		createGameLoop();
-		stage.show();
+		//stage.show();
 	}
 
 	public void movePlayerLeft() {
@@ -130,26 +130,28 @@ public class PongGame {
 		if (ball.getLayoutY() >= SCENE_HEIGHT) {
 			counter += 1;
 			if (counter == 5) {
-				 b.stop();
+				 //b.stop();
 				 System.out.println("Score: "+score);
-				 stage.close();
+				 //stage.close();
+				 stop();
 			} else {
 				score = score - 200;
-				layout.getChildren().remove(ball);
+				minispielPane.getChildren().remove(ball);
 				ball = new ImageView("minispiele/resources/ball0.png");
 				ball.setFitHeight(BALL_SIZE);
 				ball.setFitWidth(BALL_SIZE);
 				ball.setLayoutX(0);
 				ball.setLayoutY(0);
-				layout.getChildren().addAll(ball);
+				minispielPane.getChildren().addAll(ball);
 			}
 		}
 	}
 
 	public void stop() {
 		b.stop();
+		gameTimer.stop();
 		minispielPane.getChildren().remove(0);
-		stage.close();
+		//stage.close();
 	}
 
 	public int getPoints() {
@@ -175,19 +177,19 @@ public class PongGame {
 				}
 			}
 		});		
-		player=new ImageView("resources/player0.png");
+		player=new ImageView("minispiele/resources/player0.png");
 		player.setFitHeight(PLAYER_HEIGHT);
 		player.setFitWidth(PLAYER_WIDTH);
 		player.setLayoutX(SCENE_WIDTH/2-PLAYER_WIDTH/2);
 		player.setLayoutY(SCENE_HEIGHT-PLAYER_HEIGHT);
-		ball=new ImageView("resources/ball0.png");
+		ball=new ImageView("minispiele/resources/ball0.png");
 		ball.setFitHeight(BALL_SIZE);
 		ball.setFitWidth(BALL_SIZE);
 		ball.setLayoutX(0);
 		ball.setLayoutY(0);
-		layout.getChildren().addAll(player, ball);
+		minispielPane.getChildren().addAll(player, ball);
 		createTestGameLoop();
-		stage.show();
+		//stage.show();
 	}
 	
 	private void createTestGameLoop() {
@@ -220,8 +222,9 @@ public class PongGame {
 				b.moveUp();
 				score++;
 			}else {
-				b.stop();
-				stage.close();
+				stop();
+				//b.stop();
+				//stage.close();
 			}
 		}
 		if(ball.getLayoutY()>=SCENE_HEIGHT) {
@@ -229,8 +232,9 @@ public class PongGame {
 				ball.setLayoutX(0);
 				ball.setLayoutY(0);
 			}else {
-				b.stop();
-				stage.close();
+				stop();
+				//b.stop();
+				//stage.close();
 			}
 			
 		}

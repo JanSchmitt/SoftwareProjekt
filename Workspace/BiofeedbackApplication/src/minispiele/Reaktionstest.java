@@ -22,7 +22,8 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Reaktionstest /* extends Application */ {
+public class Reaktionstest {
+	// components for FX
 	Stage win;
 	Scene s, end, scenePoints;
 	Timeline timeline;
@@ -33,6 +34,8 @@ public class Reaktionstest /* extends Application */ {
 	Timer ttest;
 	Timer ptest;
 	TimerTask task, tttest, pptest;
+	
+	// variables
 	int i = 0;
 	int testpoints = 0, endpoints;
 	int testtime = 5, time;
@@ -40,50 +43,53 @@ public class Reaktionstest /* extends Application */ {
 	File Beep = new File("Beep.wav");
 	int k1, k2, k3;
 	boolean ended = false;
-
 	
 	private AnchorPane minispielPane;
 	
+	// constructor for class Reaktionstest used in the actual application
+	// needs anchorpane to set placement in application
 	public Reaktionstest(AnchorPane mP){
 		this.minispielPane = mP;
 	}
 	
+	// constructor for Reaktionstest test version before the actual game starts
 	public Reaktionstest() {
 		System.out.println("Konstruktor für Test");
 	}
 	
 	
-	/*
-	 * public static void main(String[] args) { launch(args); }
-	 */
 
-	// @Override
+	// method to start reaktion time game 
 	public void start() {
-		// Werte aus Config file einsetzen für k1, k2, k3
-		k1 = 5;
-		k2 = 5;
-		k3 = 5;
-
-		// win = reactio;
+		// time when scene changes
+		k1 = 12;
+		k2 = 15;
+		k3 = 22;
 		newScene();
 	}
 	
+	// stops Reaktionstest
 	public void stop() {
 		minispielPane.getChildren().remove(0);
 	}
 	
+	
+	// test function is used for Reaktionstest test version
 	public void test(HBox h, Scene test, Stage win) {
 		Rectangle r = new Rectangle(400,400);
 		r.setFill(Color.ORANGE);
 		h.getChildren().addAll(r);
-		ttest = new Timer();
-		ptest = new Timer();
+		ttest = new Timer();	// Timer used for the time-to-change
+		ptest = new Timer();	// Timer used for the points
+		// timertask for points; every millisecond passed a point is subtracted
 		pptest = new TimerTask() {
 			@Override
 			public void run() {
 				testpoints = testpoints -1;
 			}			
 		};
+		// timertask for time-to-change; every millisecond  time variable is reduced; when reaching 0 the scene 
+		// switches (and the point timer starts)
 		tttest = new TimerTask() {
 			@Override
 			public void run() {
@@ -97,26 +103,10 @@ public class Reaktionstest /* extends Application */ {
 		};
 		win.setScene(test);
 		ttest.scheduleAtFixedRate(tttest, 1000, 1000);
-		/*test.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent arg0) {
-				if(arg0.getCode() == KeyCode.ENTER) {
-					pptest.cancel();
-					tttest.cancel();
-					endpoints = testpoints;
-					ended = true;
-					h.getChildren().remove(r);
-					labelPunkte = new Label("Punkte: " + endpoints);
-					h.getChildren().add(labelPunkte);
-					scenePoints = new Scene(h, 400, 400);
-					win.setScene(scenePoints);
-				}
-				
-			}
-		});*/
 	}
 	
+	// when key is pressed during test run the testreact stops the timer and timertasks 
+	// final points  and time-to-reaction are calculated
 	public void testReact() {
 		pptest.cancel();
 		endpoints = testpoints;
@@ -124,14 +114,18 @@ public class Reaktionstest /* extends Application */ {
 		time = 1000 - endpoints;
 	}
 	
+	/*// ??????????????
 	public boolean isEnded() {
 		return ended;
-	}
+	}*/
 	
+	// returns the value of endpoints of test run
 	public int getPoints() {
 		return endpoints;
 	}
 
+	// sets up timer for points being reduced 
+	// has to be called in every reaction stage
 	public void point() {
 		System.out.println("Da");
 		timer1 = new Timer();
@@ -145,6 +139,8 @@ public class Reaktionstest /* extends Application */ {
 		timer1.scheduleAtFixedRate(task, 1, 1);
 	}
 
+	// is called when the scene switches to a new stage
+	// different values of k set the time-to-change to a different value
 	public void time(int k) {
 		timeline = new Timeline(new KeyFrame(Duration.seconds(k), new EventHandler<ActionEvent>() {
 			@Override
@@ -157,6 +153,7 @@ public class Reaktionstest /* extends Application */ {
 		timeline.play();
 	}
 
+	// saves points gained during the application run
 	public void react() {
 		System.out.println("HAllo");
 		task.cancel();
@@ -168,7 +165,9 @@ public class Reaktionstest /* extends Application */ {
 			V3 = points;
 		}
 	}
-
+	
+	// this function is used to set the scenes for the different reacting stages
+	// all scenes use a different trigger and a different layout
 	public void newScene() {
 		if (i == 0) {
 			win.setTitle("Reaktionstest");
@@ -216,6 +215,8 @@ public class Reaktionstest /* extends Application */ {
 		}
 	}
 
+	
+	// playMusic plays auditive  signal to  react
 	public static void playMusic(File sound) {
 		try {
 			Clip clip = AudioSystem.getClip();

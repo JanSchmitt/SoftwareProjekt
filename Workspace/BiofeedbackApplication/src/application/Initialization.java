@@ -7,6 +7,7 @@ import org.ini4j.*;
 
 public class Initialization {
 
+	//Variablen
 	String ms1;
 	String ms2;
 	String ms3;
@@ -51,7 +52,7 @@ public class Initialization {
 			ini.put("OpSettings", "minispiel2", "zahlenMerken");
 			ini.put("OpSettings", "minispiel3", "reaktion");
 			ini.put("OpSettings", "minispiel4", "jump");
-			ini.put("OpSettings", "minispiel5", "koerbe");
+			ini.put("OpSettings", "minispiel5", "catch");
 			ini.put("OpSettings", "minispiel6", "pong");
 			ini.put("OpSettings", "msZeit1", "40");
 			ini.put("OpSettings", "msZeit2", "140");
@@ -88,6 +89,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the mode saved in the init file
 	public int getMode() {
 		try {
 			Wini ini = new Wini(new File("src/application/settings.ini"));
@@ -108,6 +110,7 @@ public class Initialization {
 		return mode;
 	}
 
+	//returns the current played game saved in the init file
 	public String getGame(int zahl) {
 		String game = "Hauptspiel";
 		try {
@@ -142,6 +145,7 @@ public class Initialization {
 		return game;
 	}
 	
+	//returns the time when the minigames will start, which are set in the init file
 	public int getMinigameTime(int zahl) {
 		int time = 0;
 		try {
@@ -177,6 +181,7 @@ public class Initialization {
 		return time;
 	}
 	
+	//returns the ID of the current player which is set in the init file
 	public int getID() {
 		Wini iniID;
 		try {
@@ -189,6 +194,7 @@ public class Initialization {
 		return ID;
 	}
 	
+	//updates the variable Ruhepuls in the init file (when it's checked on set up)
 	public void updateRuhepuls(int rp) {
 		Wini iniRP;
 		try {
@@ -200,6 +206,7 @@ public class Initialization {
 		}
 	}
 	
+	//updates the used Port for the whole Game when it's first declared by user input 
 	public void updatePort(int p) {
 		Wini iniPort;
 		try {
@@ -211,6 +218,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the used Port for later usage
 	public int getPort() {
 		Wini iniP;
 		String port = "0";
@@ -224,6 +232,7 @@ public class Initialization {
 		return p;
 	}
 	
+	//returns the variable Ruhepuls from the init file
 	public String getRP() {
 		Wini iniPuls;
 		String puls = "82";
@@ -236,6 +245,7 @@ public class Initialization {
 		return puls;
 	}
 	
+	//updates the border after it was calculated
 	public void updateGrenze(int grenze) {
 		Wini iniPort;
 		try {
@@ -247,6 +257,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the variable grenze from the init file
 	public int getGrenze() {
 		Wini iniG;
 		String grenzeS = "130";
@@ -260,6 +271,7 @@ public class Initialization {
 		return grenzeI;
 	}
 	
+	//updates whether the heart rate sensor is in usage or not
 	public void updateHRSUSage(int i) {
 		Wini iniPort;
 		try {
@@ -271,6 +283,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns whether the heart rate sensor is in usage or not
 	public int getHRSUSage() {
 		Wini iniPort;
 		String hrsu = " ";
@@ -285,6 +298,7 @@ public class Initialization {
 		return hrsUsage;
 	}
 	
+	//updates the age of the user in the init file
 	public void updateAlter(int alter) {
 		Wini iniS;
 		try {
@@ -296,6 +310,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the age from the init file
 	public int getAlter() {
 		Wini iniS;
 		String alterS = "130";
@@ -309,6 +324,7 @@ public class Initialization {
 		return alterI;
 	}
 	
+	//updates the weight of the user in the init file
 	public void updateGewicht(int gewicht) {
 		Wini iniS;
 		try {
@@ -320,6 +336,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the weight of the user from the init file
 	public int getGewicht() {
 		Wini iniS;
 		String gewichtS = "130";
@@ -333,6 +350,7 @@ public class Initialization {
 		return gewichtI;
 	}
 	
+	//updates the fitness level of the user in the init file
 	public void updateSportlichkeit(String sportlich) {
 		Wini iniS;
 		try {
@@ -344,6 +362,7 @@ public class Initialization {
 		}
 	}
 	
+	//returns the fitness level from the init file
 	public String getSportlichkeit() {
 		Wini iniS;
 		String sportlichS = "";

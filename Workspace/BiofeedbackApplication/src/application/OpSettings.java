@@ -65,13 +65,6 @@ public class OpSettings extends Application {
 			Label idLabel = new Label("ID: ");
 			GridPane.setConstraints(idLabel, 0, 3);
 
-			// Label pointRangeLabel=new Label("Punktebereich:");
-			// GridPane.setConstraints(pointRangeLabel,0,3);
-
-			// TextField pointRangeIn =new TextField();
-			// pointRangeIn.setText(iniPointRange);
-			// GridPane.setConstraints(pointRangeIn,1,3);
-
 			TextField idField = new TextField();
 			idField.setText(iniID);
 			GridPane.setConstraints(idField, 1, 3);
@@ -81,7 +74,7 @@ public class OpSettings extends Application {
 				getGamemode(gamemodeDD);
 				getDifficulty(difficultyDD);
 
-				if (getTime(timeIn) && getID(idField)/* &&getPointRange(pointRangeIn) */) {
+				if (getTime(timeIn) && getID(idField)) {
 					ini.write(this);
 					primaryStage.close();
 					frage questions = new frage();
@@ -144,16 +137,6 @@ public class OpSettings extends Application {
 			return false;
 		}
 	}
-
-	// method to get selected point range from textfield
-	/*
-	 * public boolean getPointRange(TextField tf) { try {
-	 * pointRange=Integer.parseInt(tf.getText());
-	 * System.out.println("Punktebereich: "+pointRange); return true;
-	 * }catch(NumberFormatException e) {
-	 * System.out.println("Falsche Eingabe! Bitte eine Nummer eingeben"); return
-	 * false; } }
-	 */
 
 	// method to convert difficulty from chiocebox into number
 	public void getDifficulty(ChoiceBox<String> cb) {
