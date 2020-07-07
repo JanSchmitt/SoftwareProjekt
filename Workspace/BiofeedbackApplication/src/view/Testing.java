@@ -66,7 +66,7 @@ public class Testing {
 	
 	// creates a test for the heart rate sensor
 	public void createHRSTest(Stage window, int hfmax) {
-		db = new Data();
+		//db = new Data();
 		boxHRS = new VBox(20);
 		
 		// option to start the test
@@ -77,6 +77,7 @@ public class Testing {
 			public void handle(ActionEvent ae) {
 				chosenP = hrs.selectPort();
 				ini.updatePort(chosenP);
+				ini.updateHRSUSage(1);
 				sp = hrs.usePort(ini.getPort());
 				t = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 
@@ -103,11 +104,12 @@ public class Testing {
 				t.play();
 
 				//database table is created
+				/*
 				try {
 					db.createTableForTest(ini.getID()); // DB
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}*/
 
 			}
 		});
@@ -121,14 +123,17 @@ public class Testing {
 				// TODO Auto-generated method stub
 				result = hrs.getHeartRate();
 				ini.updateRuhepuls(result);
+				ini.updateHRSUSage(0);
 
 				// database table is created
+				/*
 				try {
 					db.createTableForTest(ini.getID());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				*/
 
 				setResultScene(result, window);
 			}
@@ -212,15 +217,19 @@ public class Testing {
 			public void handle(KeyEvent argm) {
 				if (argm.getCode() == KeyCode.LEFT || argm.getCode() == KeyCode.KP_LEFT) {
 					mazeTest.moveLeftTest(window);
+					window.setScene(sceneMinispiele);
 				}
 				if (argm.getCode() == KeyCode.RIGHT || argm.getCode() == KeyCode.KP_RIGHT) {
 					mazeTest.moveRightTest(window);
+					window.setScene(sceneMinispiele);
 				}
 				if (argm.getCode() == KeyCode.UP || argm.getCode() == KeyCode.KP_UP) {
 					mazeTest.moveUpTest(window);
+					window.setScene(sceneMinispiele);
 				}
 				if (argm.getCode() == KeyCode.DOWN || argm.getCode() == KeyCode.KP_DOWN) {
 					mazeTest.moveDownTest(window);
+					window.setScene(sceneMinispiele);
 				}
 			}
 
@@ -406,7 +415,7 @@ public class Testing {
 		minispielPane = new AnchorPane();
 		pong = new PongGame(minispielPane);
 		pong.testRun();
-		sceneMinispiele = new Scene(minispielPane, 500, 700);
+		sceneMinispiele = new Scene(minispielPane, 700, 700);
 		window.setScene(sceneMinispiele);
 
 		// KeyCode Listener for the pong test
@@ -422,7 +431,7 @@ public class Testing {
 				}
 				// KeyCode Listener for exiting the mini game
 				if(argj.getCode() == KeyCode.ENTER) {
-					sceneAfterTests(window);
+					zwischenScene5(window);
 				}
 			}
 
@@ -438,7 +447,7 @@ public class Testing {
 
 			@Override
 			public void handle(ActionEvent aeMST) {
-				createPongTest(window);
+				createCatchTest(window);
 			}
 		});
 		boxMinispiele.getChildren().addAll(labelText, buttonMinispieleWeiter);
@@ -451,8 +460,8 @@ public class Testing {
 	public void createCatchTest(Stage window) {
 		minispielPane = new AnchorPane();
 		catchBall = new CatchTheBall(minispielPane);
-		//catchBall.test();
-		sceneMinispiele = new Scene(minispielPane, 500, 700);
+		catchBall.testRun();
+		sceneMinispiele = new Scene(minispielPane, 500, 500);
 		window.setScene(sceneMinispiele);
 
 		// KeyCode Listener for the catch test
@@ -461,10 +470,10 @@ public class Testing {
 			@Override
 			public void handle(KeyEvent argj) {
 				if (argj.getCode() == KeyCode.LEFT || argj.getCode() == KeyCode.KP_LEFT) {
-					pong.movePlayerLeft();
+					catchBall.moveRectLeft();
 				}
 				if (argj.getCode() == KeyCode.RIGHT || argj.getCode() == KeyCode.KP_RIGHT) {
-					pong.movePlayerRight();
+					catchBall.moveRectRight();
 				}
 				// KeyCode Listener for exiting the catch test
 				if(argj.getCode() == KeyCode.ENTER) {

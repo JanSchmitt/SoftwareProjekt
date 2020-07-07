@@ -182,36 +182,52 @@ public class GameViewManager {
 						}
 
 					}
-				} 
-				if (e.getCode() == KeyCode.J) {
+				} else if (e.getCode() == KeyCode.U) {
 					// Entspannt
 					stressLevel = "entspannt";
+					System.out.println("U");
 					// Mitwirkend
-					if (ini.getMode() == 2) {
+					
+					if (ini.getMode().equals("2")) {
 						// grünes Bild
+						System.out.println("CHANGE 2");
 						feedback.setMode(1);
-					}
+						
+						
+					}else
 					// Entgegenwirkend
-					if (ini.getMode() == 1) {
+					if (ini.getMode().equals("1")) {
 						// rotes Bild
+						System.out.println("CHANGE 1");
 						feedback.setMode(2);
+						
 					}
-				} else if (e.getCode() == KeyCode.K) {
+				} else if (e.getCode() == KeyCode.I) {
 					// Normal
 					stressLevel = "normal";
+					
+					String modus  = ini.getMode();
+					System.out.println(modus);
 					feedback.setMode(0);
-				} else if (e.getCode() == KeyCode.L) {
+					System.out.println("CHANGE 0");
+					
+				} else if (e.getCode() == KeyCode.O) {
 					// Gestresst
 					stressLevel = "gestresst";
+					System.out.println("O");
 					// Mitwirkend
-					if (ini.getMode() == 2) {
+					if (ini.getMode().equals("2")) {
 						// rotes Bild
+						System.out.println("CHANGE 2");
 						feedback.setMode(2);
-					}
+						
+					}else
 					// Entgegenwirkend
-					if (ini.getMode() == 1) {
+					if (ini.getMode().equals("1")) {
 						// grünes Bild
+						System.out.println("CHANGE 1");
 						feedback.setMode(1);
+						
 					}
 				}
 				// KeyCode Listener for mini game maze
@@ -403,7 +419,7 @@ public class GameViewManager {
 				updateScoreLabel();
 				updateHeartLabel();
 				//save();
-				//checkHR();
+				checkHR();
 
 			}
 		}));
@@ -417,17 +433,17 @@ public class GameViewManager {
 			if (sensor.getHeartR(sp) > ini.getGrenze()) {
 				if (stressLevel != "gestresst") {
 					// Mitwirkend
-					if (ini.getMode() == 2) {
+					if (ini.getMode().equals("2")) {
 						// rotes Bild
 						feedback.setMode(2);
 					}
 					// Entgegenwirkend
-					if (ini.getMode() == 1) {
+					if (ini.getMode().equals("1")) {
 						// grünes Bild
 						feedback.setMode(1);
 					}
 					// Neutral
-					if (ini.getMode() == 0) {
+					if (ini.getMode().equals("0")) {
 						feedback.setMode(0);
 					}
 					// Stresslevel ändern
@@ -436,17 +452,17 @@ public class GameViewManager {
 			} else if (sensor.getHeartR(sp) <= Integer.parseInt(ini.getRP()) - 10) {
 				if (stressLevel != "entspannt") {
 					// Mitwirkend
-					if (ini.getMode() == 2) {
+					if (ini.getMode().equals("2")) {
 						// grünes Bild
 						feedback.setMode(1);
 					}
 					// Entgegenwirkend
-					if (ini.getMode() == 1) {
+					if (ini.getMode().equals("1")) {
 						// rotes Bild
 						feedback.setMode(2);
 					}
 					// Neutral
-					if (ini.getMode() == 0) {
+					if (ini.getMode().equals("0")) {
 						// graues Bild
 						feedback.setMode(0);
 					}
@@ -472,7 +488,8 @@ public class GameViewManager {
 			heartrate = sensor.getHeartRate();
 		}
 		currentScore = sc.score;
-		mode = ini.getMode();
+		int modus = Integer.parseInt(ini.getMode());
+		mode = modus;
 		currentMode = " " + mode;
 		currentStressLevel = stressLevel;
 		alter = ini.getAlter();

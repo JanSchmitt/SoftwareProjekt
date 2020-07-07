@@ -73,7 +73,9 @@ public class Port {
 	public int getHeartR(SerialPort sp) {
 		data = new Scanner(sp.getInputStream());
 		sp.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, 0, 0);
-		curr = data.nextInt();
+		if(data.hasNextInt()) {
+			curr = data.nextInt();
+		}
 		data.close();
 		return curr;
 	}

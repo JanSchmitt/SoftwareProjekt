@@ -90,10 +90,12 @@ public class Initialization {
 	}
 	
 	//returns the mode saved in the init file
-	public int getMode() {
+	public String getMode() {
+		Wini ini;
+		String modus = "";
 		try {
-			Wini ini = new Wini(new File("src/application/settings.ini"));
-			if(ini.get("OpSettings", "gamemode") == "0") {
+			 ini = new Wini(new File("src/application/settings.ini"));
+			/*if(ini.get("OpSettings", "gamemode") == "0") {
 				mode = 0;
 			}
 			if(ini.get("OpSettings", "gamemode") == "1") {
@@ -101,13 +103,13 @@ public class Initialization {
 			}
 			if(ini.get("OpSettings", "gamemode") == "2") {
 				mode = 2;
-			}
-			
+			}*/
+			 modus =  ini.get("OpSettings", "gamemode");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return mode;
+		return modus;
 	}
 
 	//returns the current played game saved in the init file
@@ -373,5 +375,15 @@ public class Initialization {
 			e.printStackTrace();
 		}
 		return sportlichS;
+	}
+	
+	public void updateGamemode(int gamemode) {
+		try {
+			Wini iniG = new Wini(new File("src/application/settings.ini"));
+			iniG.put("OpSettings" , "gamemode", gamemode);
+			iniG.store();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

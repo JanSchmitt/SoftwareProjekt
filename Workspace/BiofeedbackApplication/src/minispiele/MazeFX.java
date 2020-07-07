@@ -277,7 +277,7 @@ public class MazeFX {
 
 	//stops the maze if necessary
 	public void stop() {
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 	}
 
 	//function to move the player to the left
@@ -370,9 +370,9 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		scene = new Scene(g, 400, 400);
+		/*scene = new Scene(g, 400, 400);
 		s.setScene(scene);
-		minispielPane.getChildren().add(g);
+		minispielPane.getChildren().add(g);*/
 		if (leicht == true) {
 			if (mazeArray[locY][locX] == 3) {
 				timer.cancel();
@@ -508,7 +508,12 @@ public class MazeFX {
 
 	//moves player to the right in the test area
 	public void moveRightTest(Stage window) {
-		if (mazeArray[locY][locX + 1] == 0 || mazeArray[locY][locX + 1] == 3) {
+		if (mazeArray[locY][locX + 1] == 0 ) {
+			g.getChildren().remove(cp);
+			locX = locX + 1;
+			paintNewTestScene(window);
+		}
+		if(mazeArray[locY][locX + 1] == 3) {
 			g.getChildren().remove(cp);
 			locX = locX + 1;
 			paintNewTestScene(window);
@@ -538,13 +543,14 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		minispielPane.getChildren().add(g);
-		scene = new Scene(g, 400, 400);
+		/*minispielPane.getChildren().add(g);
+		scene = new Scene(g, 400, 400);*/
 		window.setScene(scene);
 		if (mazeArray[locY][locX] == 3) {
 			timer.cancel();
 			task.cancel();
 			System.out.println(time);
+			//stop();
 		}
 	}
 }
