@@ -615,7 +615,7 @@ public class ZahlenMerken {
 		r.setFill(Color.LAWNGREEN);
 		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 		minispielPane.getChildren().add(box2);
 
 		//timeline during wait time 
