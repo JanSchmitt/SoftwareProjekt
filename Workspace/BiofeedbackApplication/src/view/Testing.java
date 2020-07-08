@@ -396,7 +396,7 @@ public class Testing {
 	// sets the scene after the jump&duck test
 	public void zwischenScene4(Stage window) {
 		boxMinispiele = new VBox(20);
-		labelText = new Label("Nächster Test: Jump&Duck");
+		labelText = new Label("Nächster Test: Pong Game");
 		buttonMinispieleWeiter = new Button("Weiter zum nächsten Test");
 		buttonMinispieleWeiter.setOnAction(new EventHandler<ActionEvent>() {
 

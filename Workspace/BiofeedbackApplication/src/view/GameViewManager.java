@@ -297,10 +297,10 @@ public class GameViewManager {
 				// KeyCode Listener for mini game catch the ball
 				if (ballcatchOn == true) {
 					if (e.getCode() == KeyCode.RIGHT) {
-						ballcatch.moveRect();
+						ballcatch.moveRectRight();
 					}
 					if (e.getCode() == KeyCode.LEFT) {
-						ballcatch.moveLeft();
+						ballcatch.moveRectLeft();
 					}
 				}
 				// KeyCode Listener for mini game pong
@@ -403,7 +403,6 @@ public class GameViewManager {
 				collision();
 				moveShip();
 				moveScoreDecrease();
-				checkTime();
 			}
 		};
 		gameTimer.start(); //starts the animation timer
@@ -419,7 +418,8 @@ public class GameViewManager {
 				updateScoreLabel();
 				updateHeartLabel();
 				//save();
-				checkHR();
+				//checkHR();
+				checkTime();
 
 			}
 		}));
@@ -504,6 +504,15 @@ public class GameViewManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public void checkTimeTest() {
+		if (sc.getTime() == 10) {
+			jumpGame = new JumpGame(minispielPane);
+			jumpGame.run();
+			jumpGameOn = true;
+			currentGame = "Jump&Duck";
+		}
+	}
 
 	// checks time and enables mini games based on it
 	public void checkTime() {
@@ -520,7 +529,7 @@ public class GameViewManager {
 			sc.score += maze.getPoints();
 			mazeOn = false;
 			zahlenMerken = new ZahlenMerken(minispielPane);
-			zahlenMerken.start();
+			zahlenMerken.start(feedback.getML());
 			zahlenMerkenOn = true;
 			currentGame = "ZahlenMerken";
 		}
@@ -529,7 +538,7 @@ public class GameViewManager {
 			zahlenMerken.stop();
 			zahlenMerkenOn = false;
 			reaktionstest = new Reaktionstest(minispielPane);
-			reaktionstest.start();
+			reaktionstest.start(feedback.getML());
 			reaktionstestOn = true;
 			currentGame = "Reaktionszeit";
 		}

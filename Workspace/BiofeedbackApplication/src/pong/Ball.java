@@ -3,7 +3,7 @@ package pong;
 public class Ball {
 	
 	//Movement properties
-	private static final int SPEED=5;
+	private static final int SPEED=3;
 	private int vX=SPEED;
 	private int vY=SPEED;
 	

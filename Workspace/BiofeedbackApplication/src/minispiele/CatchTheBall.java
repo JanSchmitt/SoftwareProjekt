@@ -35,7 +35,7 @@ public class CatchTheBall {
 	private boolean isRigtKeyPressed;
 
 	private static final int WIDTH = 400;
-	private static final int HEIGHT = 400;
+	private static final int HEIGHT = 430;
 
 	private boolean catchOn = false;
 
@@ -132,13 +132,13 @@ public class CatchTheBall {
 
 	public void moveRectLeft() {
 		if (rect.getLayoutX() > 0) {
-			rect.setLayoutX(rect.getLayoutX() - 2);
+			rect.setLayoutX(rect.getLayoutX() - 25);
 		}
 	}
 
 	public void moveRectRight() {
 		if (rect.getLayoutX() < WIDTH - BALL_SIZE * 2) {
-			rect.setLayoutX(rect.getLayoutX() + 2);
+			rect.setLayoutX(rect.getLayoutX() + 25);
 		}
 	}
 
@@ -183,8 +183,10 @@ public class CatchTheBall {
 				collision();
 				
 				if(test) {
-					if(testhit >= 3) gameTimer.stop();
+					if(testhit >= 3) 
+						gameTimer.stop();
 					// Hier soll die Testfunktion verlassen werden
+					test = false;
 				}
 			}
 		};

@@ -75,4 +75,16 @@ public class FeedbackManager {
 	public boolean getChanging() {
 		return changing;
 	}
+	
+	public void stopMusic() {
+		music.stop();
+	}
+	
+	public void playMusic() {
+		music.play();
+	}
+	
+	public MusicLoader getML() {
+		return music;
+	}
 }

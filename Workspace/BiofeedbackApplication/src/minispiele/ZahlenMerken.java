@@ -22,6 +22,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sound.MusicLoader;
+import view.FeedbackManager;
 
 public class ZahlenMerken {
 
@@ -56,6 +58,7 @@ public class ZahlenMerken {
 	File sound4 = new File("4005.wav");
 	File sound5 = new File("2508.wav");
 
+	MusicLoader m;
 	private AnchorPane minispielPane;
 
 	//constructor for mini game
@@ -87,8 +90,8 @@ public class ZahlenMerken {
 	}
 
 	//method to start the mini game
-	public void start() {
-
+	public void start(MusicLoader music) {
+		m = music;
 		box1 = new VBox(20);
 		label1 = new Label("Neue Zahl: ");
 		label1.setTextFill(Color.web("1968EB"));
@@ -115,7 +118,7 @@ public class ZahlenMerken {
 
 	//method to stop the mini game if necessary
 	public void stop() {
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 	}
 
 	//starts the timer to wait before automatically changing scenes
@@ -145,7 +148,7 @@ public class ZahlenMerken {
 		r.setFill(Color.LAWNGREEN);
 		minispielPane.styleProperty().set("-fx-background-image: url(minispiele/resources/1.jpg)");
 		box2.getChildren().addAll(labelWait, r);
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 		minispielPane.getChildren().add(box2);
 
 		//timeline to wait 
@@ -222,7 +225,7 @@ public class ZahlenMerken {
 		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box4.getChildren().addAll(labelWait, text, label3, label4, r);
 
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 		minispielPane.getChildren().add(box4);
 
 		//timeline for automatic change during last scene
@@ -275,7 +278,7 @@ public class ZahlenMerken {
 		minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 		box5.getChildren().addAll(labelEnd, r);
 
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 		minispielPane.getChildren().add(box5);
 
 		tlEnd = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
@@ -362,22 +365,28 @@ public class ZahlenMerken {
 				zahl = zahl5;
 				vorherigeZahl = zahl4;
 			}
-
+			
 			label1 = new Label("Neue Zahl: ");
 			label1.setTextFill(Color.web("1968EB"));
 			label1.setFont(new Font("Cambria", 40));
 			if (zahl == zahl2) {
-				playMusic(sound2);
+				m.load("src/sound/resources/7209.wav");
+				m.play();
+				//playMusic(sound2);
 				label2 = new Label("Gut zuhören");
 				label2.setFont(new Font("Cambria", 40));
 			}
 			if (zahl == zahl4) {
-				playMusic(sound4);
+				m.load("src/sound/resources/4005.wav");
+				m.play();
+				//playMusic(sound4);
 				label2 = new Label("Gut zuhören");
 				label2.setFont(new Font("Cambria", 40));
 			}
 			if (zahl == zahl5) {
-				playMusic(sound5);
+				m.load("src/sound/resources/2508.wav");
+				m.play();
+				//playMusic(sound5);
 				label2 = new Label("Gut zuhören");
 				label2.setFont(new Font("Cambria", 40));
 			}
@@ -385,7 +394,7 @@ public class ZahlenMerken {
 				label2 = new Label("      " + zahl);
 				label2.setFont(new Font("Cambria", 40));
 			}
-
+			
 			label5 = new Label("Geben Sie hier die vorherige Zahl ein: ");
 			label5.setTextFill(Color.web("1968EB"));
 			label5.setFont(new Font("Cambria", 25));
@@ -410,7 +419,7 @@ public class ZahlenMerken {
 			minispielPane.styleProperty().set("-fx-background-image:url(minispiele/resources/1.jpg)");
 			box3.getChildren().addAll(label1, label2, label5, text, label3, label4, r);
 
-			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().clear();
 			minispielPane.getChildren().add(box3);
 
 			startWaitTime();

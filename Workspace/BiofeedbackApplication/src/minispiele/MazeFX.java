@@ -131,7 +131,7 @@ public class MazeFX {
 	public int locX = startX;
 	public int locY = startY;
 	public double time;
-	public int points = -1000;
+	public int points = -500;
 	Scene scene, scene2;
 	Stage s;
 	GridPane g;
@@ -378,6 +378,11 @@ public class MazeFX {
 				timer.cancel();
 				task.cancel();
 				System.out.println(time);
+				if (time <= 50) {
+					points = 1000;
+				} else if (time > 50) {
+					points = 300;
+				}
 				s.close();
 			}
 		} else if (leicht == false) {

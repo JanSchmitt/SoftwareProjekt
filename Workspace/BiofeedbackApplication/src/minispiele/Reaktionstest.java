@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sound.MusicLoader;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.util.Timer;
@@ -44,6 +46,7 @@ public class Reaktionstest {
 	int k1, k2, k3;
 	boolean ended = false;
 	
+	MusicLoader m;
 	private AnchorPane minispielPane;
 	
 	// constructor for class Reaktionstest used in the actual application
@@ -60,8 +63,9 @@ public class Reaktionstest {
 	
 
 	// method to start reaktion time game 
-	public void start() {
+	public void start(MusicLoader music) {
 		// time when scene changes
+		m = music;
 		k1 = 12;
 		k2 = 15;
 		k3 = 22;
@@ -70,7 +74,7 @@ public class Reaktionstest {
 	
 	// stops Reaktionstest
 	public void stop() {
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 	}
 	
 	
@@ -155,7 +159,6 @@ public class Reaktionstest {
 
 	// saves points gained during the application run
 	public void react() {
-		System.out.println("HAllo");
 		task.cancel();
 		if (i == 1) {
 			V1 = points;
@@ -169,30 +172,33 @@ public class Reaktionstest {
 	// this function is used to set the scenes for the different reacting stages
 	// all scenes use a different trigger and a different layout
 	public void newScene() {
+		m.load("src/sound/resources/Beep.wav");
 		if (i == 0) {
-			win.setTitle("Reaktionstest");
+			//win.setTitle("Reaktionstest");
 			b = new BorderPane();
 			c = new Rectangle(400, 400);
 			c.setStroke(Color.BLACK);
 			c.setFill(Color.ORANGE);
 			b.setCenter(c);
 			s = new Scene(b, 400, 400);
-			react();
+			//react();
 			minispielPane.getChildren().add(b);
 			time(k1);
 		} else if (i == 1) {
 			c.setFill(Color.GREEN);
-			win.setScene(s);
+			//win.setScene(s);
 			System.out.println("Hier");
 			point();
 			time(k2);
 		} else if (i == 2) {
-			playMusic(Beep);
+			m.play();
+			//playMusic(Beep);
 			point();
 			time(k3);
 		} else if (i == 3) {
 			c.setFill(Color.BLUE);
-			playMusic(Beep);
+			m.play();
+			//playMusic(Beep);
 			point();
 			time(5);
 			System.out.println("Wir sind hier");
@@ -208,7 +214,7 @@ public class Reaktionstest {
 			v.getChildren().addAll(l1, l1a, l2, l2a, l3, l3a);
 			time(10);
 			end = new Scene(v, 400, 400);
-			minispielPane.getChildren().remove(0);
+			minispielPane.getChildren().clear();
 			minispielPane.getChildren().add(v);
 		} else if (i == 5) {
 			minispielPane.getChildren().clear();
