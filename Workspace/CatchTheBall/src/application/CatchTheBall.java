@@ -84,8 +84,7 @@ public class CatchTheBall extends Application {
 	//Funktion für testRun 
 	public void testRun() {
 		start();
-		test = true;
-		
+		test = true;	
 	}
 ////////////////////////////////////////////////////////////////////////////////////
 	

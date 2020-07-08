@@ -33,7 +33,7 @@ public class Data {
 	public void createTableForTest(int ID) throws Exception {
 		String id = String.valueOf(ID);
 		tableCount = "TEST" + id;
-		stmt.executeUpdate("CREATE TABLE "+tableCount+"(id integer, sysTime char, Alter integer, gewicht integer, sport char,  times integer, heartRate integer, score integer,  mode char, stress char, game char)");
+		stmt.executeUpdate("CREATE TABLE "+tableCount+"(id integer, sysTime char, age integer, gewicht integer, sport char,  times integer, heartRate integer, score integer,  mode char, stress char, game char)");
 	}
 	
 	//method to save stats in the table

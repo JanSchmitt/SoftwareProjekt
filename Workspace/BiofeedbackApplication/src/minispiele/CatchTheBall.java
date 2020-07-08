@@ -41,6 +41,10 @@ public class CatchTheBall {
 	
 	private boolean catchOn = false;
 	
+	//var für testfkt
+	private boolean test = false;
+	private int testhit = 0;
+		
 	public AnimationTimer gameTimer;
 	
 	public int score;
@@ -52,9 +56,9 @@ public class CatchTheBall {
 	}
 	
 	public void start() {
-		scene = new Scene(minispielPane, WIDTH, HEIGHT);
-		window.setScene(scene);
-		window.show();
+		//scene = new Scene(minispielPane, WIDTH, HEIGHT);
+		//window.setScene(scene);
+		//window.show();
 		
 		startGame();
 	}
@@ -64,11 +68,12 @@ public class CatchTheBall {
 		createBackground();
 		addRect();
 		addBall();
-		createKeyListener();
+		//createKeyListener();
 		createGameLoop();
 		
 	}
-	private void createKeyListener() {
+	
+	/*private void createKeyListener() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -93,7 +98,7 @@ public class CatchTheBall {
 				}
 			}
 		});
-	}
+	}*/
 	
 	public void moveRight() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -178,6 +183,11 @@ public class CatchTheBall {
 				moveRect();
 				checkIfBehind();
 				collision();
+				
+				if(test) {
+					if(testhit >= 3) gameTimer.stop();
+					// Hier soll die Testfunktion verlassen werden
+				}
 			}
 		};
 		gameTimer.start();	
@@ -187,15 +197,27 @@ public class CatchTheBall {
 		//nach links
 		if(isLeftKeyPressed && !isRigtKeyPressed) {
 			if(rect.getLayoutX() > 0) {
-				rect.setLayoutX(rect.getLayoutX() -2);
+				rect.setLayoutX(rect.getLayoutX() -4);
 			}
 		}
 		
 		//nach rechts
 		if(isRigtKeyPressed && !isLeftKeyPressed) {
 			if(rect.getLayoutX() < WIDTH - BALL_SIZE *2) {
-				rect.setLayoutX(rect.getLayoutX() +2);
+				rect.setLayoutX(rect.getLayoutX() +4);
 			}
+		}
+	}
+	
+	public void moveRectRight() {
+		if(rect.getLayoutX() < WIDTH - BALL_SIZE *2) {
+			rect.setLayoutX(rect.getLayoutX() +8);
+		}
+	}
+	
+	public void moveRectLeft() {
+		if(rect.getLayoutX() < WIDTH - BALL_SIZE *2) {
+			rect.setLayoutX(rect.getLayoutX() -8);
 		}
 	}
 	
@@ -251,10 +273,18 @@ public class CatchTheBall {
 		if(ball1.getBoundsInParent().intersects(rect.getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 			setNewElementPosition(ball1);
 			score += 50;
+			
+			if(test) {
+				testhit++;
+			}
 		}
 		if(ball2.getBoundsInParent().intersects(rect.getBoundsInParent())) {	// bounds of a node in it's parent coordinates
 			setNewElementPosition(ball2);
 			score += 50;
+			
+			if(test) {
+				testhit++;
+			}
 		}
 	}
 	
@@ -264,6 +294,12 @@ public class CatchTheBall {
 	
 	public int getPoints() {
 		return score;
+	}
+	
+	//Funktion für testRun 
+	public void testRun() {
+		test = true;	
+		start();	
 	}
 }
 

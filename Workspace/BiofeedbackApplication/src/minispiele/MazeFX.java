@@ -370,9 +370,9 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		scene = new Scene(g, 400, 400);
-		s.setScene(scene);
-		minispielPane.getChildren().add(g);
+		//scene = new Scene(g, 400, 400);
+		//s.setScene(scene);
+		//minispielPane.getChildren().add(g);
 		if (leicht == true) {
 			if (mazeArray[locY][locX] == 3) {
 				timer.cancel();
@@ -538,8 +538,8 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
-		minispielPane.getChildren().add(g);
-		scene = new Scene(g, 400, 400);
+		//minispielPane.getChildren().add(g);
+		//scene = new Scene(g, 400, 400);
 		window.setScene(scene);
 		if (mazeArray[locY][locX] == 3) {
 			timer.cancel();

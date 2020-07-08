@@ -182,7 +182,7 @@ public class GameViewManager {
 
 					}
 				} 
-				if (e.getCode() == KeyCode.J) {
+				if (e.getCode() == KeyCode.MINUS) {
 					// Entspannt
 					stressLevel = "entspannt";
 					// Mitwirkend
@@ -195,11 +195,11 @@ public class GameViewManager {
 						// rotes Bild
 						feedback.setMode(2);
 					}
-				} else if (e.getCode() == KeyCode.K) {
+				} else if (e.getCode() == KeyCode.N) {
 					// Normal
 					stressLevel = "normal";
 					feedback.setMode(0);
-				} else if (e.getCode() == KeyCode.L) {
+				} else if (e.getCode() == KeyCode.PLUS) {
 					// Gestresst
 					stressLevel = "gestresst";
 					// Mitwirkend

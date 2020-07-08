@@ -44,8 +44,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	
 	//starts game
 	public void run() {
-		scene.setOnKeyPressed(this);
-		stage.show();
+		//scene.setOnKeyPressed(this);
+		//stage.show();
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);
@@ -133,12 +133,13 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		if(obstacle[9].getLayoutX()<=0) {
 			//stage.close();
 			stop();
-			gameTimer.stop();
+			//gameTimer.stop();
 		}
 	}
 	
 	public void stop() {
 		minispielPane.getChildren().remove(0);
+		gameTimer.stop();
 	}
 	
 	//method to repeat steps during game
