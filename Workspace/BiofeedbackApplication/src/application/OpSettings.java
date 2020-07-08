@@ -112,6 +112,7 @@ public class OpSettings extends Application {
 			gamemode = 2; // break;
 		}
 		System.out.println("Spielmodus: " + gamemode);
+		ini.updateGamemode(gamemode);
 	}
 
 	// method to get selected time from textfield

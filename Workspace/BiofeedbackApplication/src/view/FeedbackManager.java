@@ -5,7 +5,7 @@ import sound.MusicLoader;
 public class FeedbackManager {
 	private GameViewManager game;
 	private MusicLoader music;
-	private int mode=0;
+	int mode;
 	boolean changing=false;
 	
 	//constructor with GameViewManager input
@@ -13,13 +13,12 @@ public class FeedbackManager {
 		game=g;
 		music=new MusicLoader();
 		music.load("src/sound/resources/funk warte.wav");
-		music.play();		
-		
+		music.play();			
 	}
 	
 	//sets mode from outside
 	public void setMode(int m) {
-		if(mode==m) {
+		/*if(mode == m) {
 			return;
 		}else if(m==0||m==1||m==2) {
 			changing=true;
@@ -36,7 +35,35 @@ public class FeedbackManager {
 			game.changeText(mode);
 			game.createBackground();
 			changing=false;
-		}		
+		}	*/	
+		if ( m == 0) {
+			changing=true;
+			mode = 0;
+			music.load("src/sound/resources/funk warte.wav");
+			music.play();
+			game.changeColors(0);
+			game.changeText(0);
+			game.createBackground();
+			changing=false;
+		} else if ( m == 1) {
+			changing=true;
+			mode = 1;
+			music.load("src/sound/resources/Quiet Place.wav");
+			music.play();
+			game.changeColors(1);
+			game.changeText(1);
+			game.createBackground();
+			changing=false;
+		} else if ( m == 2) {
+			changing=true;
+			mode = 2;
+			music.load("src/sound/resources/rage.wav");
+			music.play();
+			game.changeColors(2);
+			game.changeText(2);
+			game.createBackground();
+			changing=false;
+		}
 	}
 	
 	//returns mode
@@ -47,5 +74,17 @@ public class FeedbackManager {
 	//answers if mode is currently changing
 	public boolean getChanging() {
 		return changing;
+	}
+	
+	public void stopMusic() {
+		music.stop();
+	}
+	
+	public void playMusic() {
+		music.play();
+	}
+	
+	public MusicLoader getML() {
+		return music;
 	}
 }

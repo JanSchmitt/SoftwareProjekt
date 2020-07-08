@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 
 public class JumpGame implements EventHandler<KeyEvent>{
 	//static values
-	private static final int SCENE_WIDTH = 1000;
-	private static final int SCENE_HEIGHT = 300;
+	private static final int SCENE_WIDTH = 400;
+	private static final int SCENE_HEIGHT = 400;
 	private static final int PLAYER_SIZE = 100;
 	private static final int OBSTACLE_SIZE = 100;
 	private static final int PLAYER_HEIGHT = 50;
@@ -26,7 +26,7 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	
 	private Stage stage;
 	private AnchorPane layout=new AnchorPane();
-	private Scene scene=new Scene(layout,SCENE_WIDTH,SCENE_HEIGHT);	
+	private Scene scene;
 	private Player p=new Player();
 	private ImageView player;
 	private Obstacle[] o=new Obstacle[OBSTACLES_AMOUNT];
@@ -45,7 +45,11 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	//starts game
 	public void run() {
 		//scene.setOnKeyPressed(this);
+<<<<<<< HEAD
 		//stage.show();
+=======
+		//stage.show();	
+>>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);

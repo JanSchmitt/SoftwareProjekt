@@ -173,6 +173,7 @@ public class PongGame{
 			stage.close();
 		}
 	}
+	
 	private void testCollision() {
 		if(ball.getLayoutX()+BALL_SIZE>=SCENE_WIDTH-b.getSpeed()) {
 			b.moveLeft();

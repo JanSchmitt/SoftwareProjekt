@@ -72,8 +72,10 @@ public class Port {
 	// Serial port communication requires jSerialComm jar
 	public int getHeartR(SerialPort sp) {
 		data = new Scanner(sp.getInputStream());
-		sp.setComPortTimeouts(SerialPort.TIMEOUT_NONBLOCKING, 0, 0);
-		curr = data.nextInt();
+		//sp.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
+		if(data.hasNextInt()) {
+			curr = data.nextInt();
+		}
 		data.close();
 		return curr;
 	}

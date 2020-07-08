@@ -131,7 +131,7 @@ public class MazeFX {
 	public int locX = startX;
 	public int locY = startY;
 	public double time;
-	public int points = -1000;
+	public int points = -500;
 	Scene scene, scene2;
 	Stage s;
 	GridPane g;
@@ -277,7 +277,7 @@ public class MazeFX {
 
 	//stops the maze if necessary
 	public void stop() {
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 	}
 
 	//function to move the player to the left
@@ -370,14 +370,25 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
+<<<<<<< HEAD
 		//scene = new Scene(g, 400, 400);
 		//s.setScene(scene);
 		//minispielPane.getChildren().add(g);
+=======
+		/*scene = new Scene(g, 400, 400);
+		s.setScene(scene);
+		minispielPane.getChildren().add(g);*/
+>>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 		if (leicht == true) {
 			if (mazeArray[locY][locX] == 3) {
 				timer.cancel();
 				task.cancel();
 				System.out.println(time);
+				if (time <= 50) {
+					points = 1000;
+				} else if (time > 50) {
+					points = 300;
+				}
 				s.close();
 			}
 		} else if (leicht == false) {
@@ -508,7 +519,12 @@ public class MazeFX {
 
 	//moves player to the right in the test area
 	public void moveRightTest(Stage window) {
-		if (mazeArray[locY][locX + 1] == 0 || mazeArray[locY][locX + 1] == 3) {
+		if (mazeArray[locY][locX + 1] == 0 ) {
+			g.getChildren().remove(cp);
+			locX = locX + 1;
+			paintNewTestScene(window);
+		}
+		if(mazeArray[locY][locX + 1] == 3) {
 			g.getChildren().remove(cp);
 			locX = locX + 1;
 			paintNewTestScene(window);
@@ -538,13 +554,19 @@ public class MazeFX {
 		addPlayer();
 		g.setGridLinesVisible(true);
 		g.getChildren().addAll();
+<<<<<<< HEAD
 		//minispielPane.getChildren().add(g);
 		//scene = new Scene(g, 400, 400);
+=======
+		/*minispielPane.getChildren().add(g);
+		scene = new Scene(g, 400, 400);*/
+>>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 		window.setScene(scene);
 		if (mazeArray[locY][locX] == 3) {
 			timer.cancel();
 			task.cancel();
 			System.out.println(time);
+			//stop();
 		}
 	}
 }

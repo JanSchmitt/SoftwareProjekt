@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 
 public class PongGame {
 	// static variables to define size
-	private static final int SCENE_WIDTH = 700;
-	private static final int SCENE_HEIGHT = 500;
-	private static final int PLAYER_WIDTH = 150;
+	private static final int SCENE_WIDTH = 400;
+	private static final int SCENE_HEIGHT = 430;
+	private static final int PLAYER_WIDTH = 100;
 	private static final int PLAYER_HEIGHT = 20;
 	private static final int BALL_SIZE = 50;
 
@@ -129,20 +129,20 @@ public class PongGame {
 		}
 		if (ball.getLayoutY() >= SCENE_HEIGHT) {
 			counter += 1;
-			if (counter == 5) {
+			if (counter == 10) {
 				 //b.stop();
 				 System.out.println("Score: "+score);
 				 //stage.close();
 				 stop();
 			} else {
 				score = score - 200;
-				minispielPane.getChildren().remove(ball);
+				/*minispielPane.getChildren().remove(ball);
 				ball = new ImageView("minispiele/resources/ball0.png");
 				ball.setFitHeight(BALL_SIZE);
-				ball.setFitWidth(BALL_SIZE);
+				ball.setFitWidth(BALL_SIZE);*/
 				ball.setLayoutX(0);
 				ball.setLayoutY(0);
-				minispielPane.getChildren().addAll(ball);
+				//minispielPane.getChildren().addAll(ball);
 			}
 		}
 	}
@@ -150,7 +150,7 @@ public class PongGame {
 	public void stop() {
 		b.stop();
 		gameTimer.stop();
-		minispielPane.getChildren().remove(0);
+		minispielPane.getChildren().clear();
 		//stage.close();
 	}
 

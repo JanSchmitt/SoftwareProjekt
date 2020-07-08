@@ -66,7 +66,7 @@ public class Testing {
 	
 	// creates a test for the heart rate sensor
 	public void createHRSTest(Stage window, int hfmax) {
-		db = new Data();
+		//db = new Data();
 		boxHRS = new VBox(20);
 		
 		// option to start the test
@@ -104,11 +104,12 @@ public class Testing {
 				t.play();
 
 				//database table is created
+				/*
 				try {
 					db.createTableForTest(ini.getID()); // DB
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}*/
 
 			}
 		});
@@ -125,12 +126,14 @@ public class Testing {
 				ini.updateHRSUSage(0);
 
 				// database table is created
+				/*
 				try {
 					db.createTableForTest(ini.getID());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				*/
 
 				setResultScene(result, window);
 			}
@@ -394,7 +397,7 @@ public class Testing {
 	// sets the scene after the jump&duck test
 	public void zwischenScene4(Stage window) {
 		boxMinispiele = new VBox(20);
-		labelText = new Label("Nächster Test: Jump&Duck");
+		labelText = new Label("Nächster Test: Pong Game");
 		buttonMinispieleWeiter = new Button("Weiter zum nächsten Test");
 		buttonMinispieleWeiter.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -429,7 +432,10 @@ public class Testing {
 				}
 				// KeyCode Listener for exiting the mini game
 				if(argj.getCode() == KeyCode.ENTER) {
+<<<<<<< HEAD
 					pong.stop();
+=======
+>>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 					zwischenScene5(window);
 				}
 			}
