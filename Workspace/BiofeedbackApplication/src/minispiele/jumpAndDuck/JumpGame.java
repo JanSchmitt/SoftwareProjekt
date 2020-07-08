@@ -23,7 +23,7 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	private static final int LOW_OBSTACLE_HEIGHT = 30;
 	private static final int OBSTACLES_AMOUNT = 45;	
 	
-	
+	//variables
 	private Stage stage;
 	private AnchorPane layout=new AnchorPane();
 	private Scene scene;
@@ -31,10 +31,10 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	private ImageView player;
 	private Obstacle[] o=new Obstacle[OBSTACLES_AMOUNT];
 	private ImageView[] obstacle=new ImageView[OBSTACLES_AMOUNT];
+		//order of obstacles (0: gap, 1: low, 2: high)
 	private int[] obstaclesOrder = {0,1,0,0,1,0,2,1,0,2,1,1,0,0,1,2,2,2,1,2,1,2,1,2,2,2,1,1,1,0,0,1,1,1,1,2,1,2,1,2,0,0,0,0,3};
 	private AnimationTimer gameTimer;
 	private int score;
-	
 	private AnchorPane minispielPane;
 
 	//constructor that recieves stage
@@ -42,11 +42,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		this.minispielPane = mP;	
 	}
 	
-	//starts game
+	//starts game and initializes variables
 	public void run() {
-		//scene.setOnKeyPressed(this);
-		//stage.show();
-		//stage.show();	
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);
@@ -66,9 +63,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		createGameLoop();
 	}
 	
+	//starts game in test mode and initializes variables
 	public void testRun() {
-		//scene.setOnKeyPressed(this);
-		//stage.show();
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);
@@ -87,6 +83,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		minispielPane.getChildren().add(player);
 		createTestGameLoop();
 	}
+	
+	//defines operations to repeat during run
 	private void createTestGameLoop() {
 		gameTimer=new AnimationTimer() {
 			@Override
@@ -99,10 +97,14 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		};
 		gameTimer.start();		
 	}
+	
+	//method to move obstacles in gui, used during test run
 	public void moveTestObstacles() {
 		for(int i=0; i<10; i++) {
+			//moves only obstacles that are not defined as a gap
 			if(obstaclesOrder[i]!=0) {
 				obstacle[i].setLayoutX(obstacle[i].getLayoutX()-6);
+				//rotates low and high obstacles in different directions
 				if(obstaclesOrder[i]==1) {
 					obstacle[i].setRotate(obstacle[i].getRotate()-4);
 				}else {
@@ -111,15 +113,19 @@ public class JumpGame implements EventHandler<KeyEvent>{
 			}
 		}
 	}
+	
+	//method to monitor and count passing obstacles, used during test run
 	public void testPass() {
 		for(int i=0; i<10;i++) {
 			if(obstaclesOrder[i]!=0) {
+				//checks if obstacle passed player without getting hit
 				if(((o[i].height==1&&p.isJumping)||(o[i].height==2&&p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
 					o[i].passed=true;
 					System.out.println("obstacle passed!");
 					score=score+10;
 					System.out.println("score: "+score);
 				}
+				//checks if obstacle passed player and got hit
 				if(((o[i].height==1&&!p.isJumping)||(o[i].height==2&&!p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
 					o[i].passed=true;
 					o[i].hit=true;
@@ -127,17 +133,15 @@ public class JumpGame implements EventHandler<KeyEvent>{
 					System.out.println("obstacle hit!");
 					score=score-5;
 					System.out.println("score: "+score);					
-				}
-			
+				}			
 			}
 		}
-		if(obstacle[9].getLayoutX()<=0) {
-			//stage.close();
-			stop();
-			//gameTimer.stop();
+		if(obstacle[9].getLayoutX()<=0) {			
+			stop();			
 		}
 	}
 	
+	//stops game
 	public void stop() {
 		minispielPane.getChildren().remove(0);
 		gameTimer.stop();
@@ -157,7 +161,7 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		gameTimer.start();		
 	}
 	
-	//method to move player figure in gui
+	//method to move player figure in gui depending on current status
 	public void movePlayer() {
 		if(p.isJumping) {
 			Image img=new Image("minispiele/resources/jumping0.png");
@@ -187,14 +191,17 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	//method to move obstacles in gui
 	public void moveObstacles() {
 		for(int i=0; i<OBSTACLES_AMOUNT; i++) {
+			//moves only obstacles that are not defined as a gap
 			if(obstaclesOrder[i]!=0) {
 				obstacle[i].setLayoutX(obstacle[i].getLayoutX()-6);
+				//rotates low and high obstacles in different directions
 				if(obstaclesOrder[i]==1) {
 					obstacle[i].setRotate(obstacle[i].getRotate()-4);
 				}else {
 					obstacle[i].setRotate(obstacle[i].getRotate()+3);
 				}
 			}
+			//last obstacle (3) indicates stop
 			if(obstaclesOrder[i] == 3) {
 				minispielPane.getChildren().clear();
 			}
@@ -205,12 +212,14 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	public void pass() {
 		for(int i=0; i<OBSTACLES_AMOUNT;i++) {
 			if(obstaclesOrder[i]!=0) {
+				//checks if obstacle passed player without getting hit
 				if(((o[i].height==1&&p.isJumping)||(o[i].height==2&&p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
 					o[i].passed=true;
 					System.out.println("obstacle passed!");
 					score=score+50;
 					System.out.println("score: "+score);
 				}
+				//checks if obstacle passed player and got hit
 				if(((o[i].height==1&&!p.isJumping)||(o[i].height==2&&!p.isDucked))&&Math.abs(player.getLayoutX()-obstacle[i].getLayoutX())<=3&&!o[i].passed) {
 					o[i].passed=true;
 					o[i].hit=true;
@@ -223,13 +232,16 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		}
 	}
 	
+	//calls jump method in Player
 	public void jump() {
 		p.jump();
 	}
 	
+	//calls duck method in Player
 	public void duck() {
 		p.duck();
 	}
+	
 	//converts KeyEvent into player movement
 	@Override
 	public void handle(KeyEvent e){
@@ -241,6 +253,7 @@ public class JumpGame implements EventHandler<KeyEvent>{
 		}
 	}
 	
+	//returns score
 	public int getPoints() {
 		return score;
 	}

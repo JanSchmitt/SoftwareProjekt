@@ -961,6 +961,7 @@ public class GameViewManager {
 
 	}
 
+	//changes score display
 	public void changeText(int m) {
 		if (m == 0) {
 			scoreLabel.setFont(new Font(20));
@@ -977,7 +978,8 @@ public class GameViewManager {
 			scoreLabel.setEffect(blur);
 		}
 	}
-
+	
+	//shows score decrease if player is hit
 	private void showScoreDecrease(double x) {
 		if (feedback.getmode() == 1) {
 			return;
@@ -1011,7 +1013,8 @@ public class GameViewManager {
 		scoreDecrease[0].setStyle(LASER_IMG);
 		scoreDecrease[0].setFill(Color.RED);
 	}
-
+	
+	//moves score decrease display depending on current gamemode 
 	private void moveScoreDecrease() {
 		if (feedback.getmode() == 2) {
 			for (int i = 0; i < 3; i++) {

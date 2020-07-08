@@ -39,6 +39,8 @@ public class Player {
 				}, 300);
 		}
 	}
+	
+	//switches player figure  
 	public void runAnimation(){
 		if(!isDucked&&!isJumping) {
 			if(running==0) {

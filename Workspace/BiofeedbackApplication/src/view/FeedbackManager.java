@@ -76,14 +76,17 @@ public class FeedbackManager {
 		return changing;
 	}
 	
+	//calls stop method in MusicLoader
 	public void stopMusic() {
 		music.stop();
 	}
 	
+	//calls play method in MusicPlayer
 	public void playMusic() {
 		music.play();
 	}
 	
+	//returns variable music
 	public MusicLoader getML() {
 		return music;
 	}

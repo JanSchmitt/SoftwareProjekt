@@ -45,7 +45,7 @@ public class PongGame {
 		stage.setScene(scene);*/
 	}
 
-	// starts the game
+	// starts the game and initializes variables
 	public void run() {
 		/*
 		 * scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -72,10 +72,12 @@ public class PongGame {
 		//stage.show();
 	}
 
+	//calls moveLeft method in Player
 	public void movePlayerLeft() {
 		p.moveLeft();
 	}
-
+	
+	//calls moveRight method 
 	public void movePlayerRight() {
 		p.moveRight();
 	}
@@ -110,15 +112,19 @@ public class PongGame {
 
 	// checks collision of ball with edge or player
 	private void collision() {
+		//ball hits right edge
 		if (ball.getLayoutX() + BALL_SIZE >= SCENE_WIDTH - b.getSpeed()) {
 			b.moveLeft();
 		}
+		//ball hits left edge
 		if (ball.getLayoutX() <= 0 + b.getSpeed()) {
 			b.moveRight();
 		}
+		//ball hits upper edge
 		if (ball.getLayoutY() <= 0 + b.getSpeed()) {
 			b.moveDown();
 		}
+		//ball hits player
 		if (ball.getLayoutY() + BALL_SIZE - SCENE_HEIGHT + PLAYER_HEIGHT <= b.getSpeed()
 				&& ball.getLayoutY() + BALL_SIZE - SCENE_HEIGHT + PLAYER_HEIGHT >= 0
 				&& ball.getLayoutX() + BALL_SIZE > player.getLayoutX()
@@ -127,6 +133,7 @@ public class PongGame {
 			score = score + 50;
 
 		}
+		//ball falls out of the window 
 		if (ball.getLayoutY() >= SCENE_HEIGHT) {
 			counter += 1;
 			if (counter == 10) {
@@ -147,6 +154,7 @@ public class PongGame {
 		}
 	}
 
+	//stops game
 	public void stop() {
 		b.stop();
 		gameTimer.stop();
@@ -154,11 +162,14 @@ public class PongGame {
 		//stage.close();
 	}
 
+	//returns score
 	public int getPoints() {
 		return score;
 	}
 	
+	// starts the game in test mode and initializes variables
 	public void testRun() {
+		//handles keyboard input
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
@@ -192,6 +203,7 @@ public class PongGame {
 		//stage.show();
 	}
 	
+	// controls repeating actions during test mode
 	private void createTestGameLoop() {
 		gameTimer=new AnimationTimer() {
 			@Override
@@ -204,16 +216,21 @@ public class PongGame {
 		gameTimer.start();	
 	}
 	
+	// checks collision of ball with edge or player during test mode, ends test at score 3
 	private void testCollision() {
+		//ball hits right edge
 		if(ball.getLayoutX()+BALL_SIZE>=SCENE_WIDTH-b.getSpeed()) {
 			b.moveLeft();
 		}
+		//ball hits left edge
 		if(ball.getLayoutX()<=0+b.getSpeed()) {
 			b.moveRight();
 		}
+		//ball hits upper edge
 		if(ball.getLayoutY()<=0+b.getSpeed()) {
 			b.moveDown();
 		}
+		//ball hits player
 		if(ball.getLayoutY()+BALL_SIZE-SCENE_HEIGHT+PLAYER_HEIGHT<=b.getSpeed()
 		&&ball.getLayoutY()+BALL_SIZE-SCENE_HEIGHT+PLAYER_HEIGHT>=0
 		&&ball.getLayoutX()+BALL_SIZE>player.getLayoutX()
@@ -227,7 +244,9 @@ public class PongGame {
 				//stage.close();
 			}
 		}
+		//ball falls out of the window 
 		if(ball.getLayoutY()>=SCENE_HEIGHT) {
+			//respawns ball if score is lower than 3
 			if(score<3){
 				ball.setLayoutX(0);
 				ball.setLayoutY(0);

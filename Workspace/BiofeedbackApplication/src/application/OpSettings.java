@@ -11,12 +11,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 public class OpSettings extends Application {
+	//entered or generated values
 	String id;
 	int pointRange;
 	int difficulty;
 	int gamemode;
 	int time;
 
+	//values from previous run
 	String iniID;
 	String iniPointRange;
 	String iniDifficulty;
@@ -38,7 +40,7 @@ public class OpSettings extends Application {
 			grid.setVgap(20);
 			grid.setHgap(10);
 
-			// control elements
+			// create control elements
 			Label gmLabel = new Label("Spielmodus:");
 			GridPane.setConstraints(gmLabel, 0, 0);
 
@@ -70,6 +72,7 @@ public class OpSettings extends Application {
 			GridPane.setConstraints(idField, 1, 3);
 
 			Button applyButton = new Button("Übernehmen");
+			//save values when pressing button
 			applyButton.setOnAction(e -> {
 				getGamemode(gamemodeDD);
 				getDifficulty(difficultyDD);
@@ -105,11 +108,11 @@ public class OpSettings extends Application {
 	private void getGamemode(ChoiceBox<String> cb) {
 		switch (cb.getValue()) {
 		case "Entgegenwirken":
-			gamemode = 1; // break;
+			gamemode = 1; 
 		case "Neutral":
-			gamemode = 0; // break;
+			gamemode = 0; 
 		case "Verstärkend":
-			gamemode = 2; // break;
+			gamemode = 2; 
 		}
 		System.out.println("Spielmodus: " + gamemode);
 		ini.updateGamemode(gamemode);
