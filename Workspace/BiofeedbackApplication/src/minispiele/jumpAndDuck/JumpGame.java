@@ -45,11 +45,8 @@ public class JumpGame implements EventHandler<KeyEvent>{
 	//starts game
 	public void run() {
 		//scene.setOnKeyPressed(this);
-<<<<<<< HEAD
 		//stage.show();
-=======
 		//stage.show();	
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 		player=new ImageView();
 		player.setFitHeight(PLAYER_SIZE);
 		player.setFitWidth(PLAYER_SIZE);

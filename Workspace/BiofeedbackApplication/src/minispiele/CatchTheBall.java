@@ -38,20 +38,12 @@ public class CatchTheBall {
 	private static final int HEIGHT = 430;
 
 	private boolean catchOn = false;
-<<<<<<< HEAD
-	
-	//var für testfkt
+
+	// var für testfkt
 	private boolean test = false;
 	private int testhit = 0;
-		
-=======
 
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 	public AnimationTimer gameTimer;
-	
-	//var für testfkt
-		private boolean test = false;
-		private int testhit = 0;
 
 	public int score;
 	Random RAND;
@@ -62,19 +54,15 @@ public class CatchTheBall {
 	}
 
 	public void start() {
-<<<<<<< HEAD
-		//scene = new Scene(minispielPane, WIDTH, HEIGHT);
-		//window.setScene(scene);
-		//window.show();
-		
-=======
+		// scene = new Scene(minispielPane, WIDTH, HEIGHT);
+		// window.setScene(scene);
+		// window.show();
+
 		/*
-		 * scene = new Scene(minispielPane, WIDTH, HEIGHT); 
-		 * window.setScene(scene);
+		 * scene = new Scene(minispielPane, WIDTH, HEIGHT); window.setScene(scene);
 		 * window.show();
 		 */
 
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 		startGame();
 	}
 
@@ -82,44 +70,28 @@ public class CatchTheBall {
 		createBackground();
 		addRect();
 		addBall();
-<<<<<<< HEAD
-		//createKeyListener();
-		createGameLoop();
-		
-	}
-	
-	/*private void createKeyListener() {
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent e) {
-				if(e.getCode() == KeyCode.LEFT) {
-					isLeftKeyPressed = true;
-				}
-				if(e.getCode() == KeyCode.RIGHT) {
-					isRigtKeyPressed = true;
-				}
-			}
-		});
-		
-		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent e) {
-				if(e.getCode() == KeyCode.LEFT) {
-					isLeftKeyPressed = false;
-				}else if(e.getCode() == KeyCode.RIGHT) {
-					isRigtKeyPressed = false;
-				}
-			}
-		});
-	}*/
-	
-=======
 		// createKeyListener();
 		createGameLoop();
 
 	}
+
+	/*
+	 * private void createKeyListener() { scene.setOnKeyPressed(new
+	 * EventHandler<KeyEvent>() {
+	 * 
+	 * @Override public void handle(KeyEvent e) { if(e.getCode() == KeyCode.LEFT) {
+	 * isLeftKeyPressed = true; } if(e.getCode() == KeyCode.RIGHT) {
+	 * isRigtKeyPressed = true; } } });
+	 * 
+	 * scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	 * 
+	 * @Override public void handle(KeyEvent e) { if(e.getCode() == KeyCode.LEFT) {
+	 * isLeftKeyPressed = false; }else if(e.getCode() == KeyCode.RIGHT) {
+	 * isRigtKeyPressed = false; } } }); }
+	 */
+
+	// createKeyListener();
+
 	/*
 	 * private void createKeyListener() { // key event handler for the left and
 	 * right key scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -135,7 +107,6 @@ public class CatchTheBall {
 	 * isRigtKeyPressed = false; } } }); }
 	 */
 
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 	public void moveRight() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -233,15 +204,12 @@ public class CatchTheBall {
 				collision();
 				
 				if(test) {
-<<<<<<< HEAD
 					if(testhit >= 3) gameTimer.stop();
 					// Hier soll die Testfunktion verlassen werden
-=======
 					if(testhit >= 3) 
 						gameTimer.stop();
 					// Hier soll die Testfunktion verlassen werden
 					test = false;
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 				}
 			}
 		};
@@ -251,7 +219,6 @@ public class CatchTheBall {
 	}
 
 	public void moveRect() {
-<<<<<<< HEAD
 		//nach links
 		if(isLeftKeyPressed && !isRigtKeyPressed) {
 			if(rect.getLayoutX() > 0) {
@@ -266,36 +233,8 @@ public class CatchTheBall {
 			}
 		}
 	}
-	
-	public void moveRectRight() {
-		if(rect.getLayoutX() < WIDTH - BALL_SIZE *2) {
-			rect.setLayoutX(rect.getLayoutX() +8);
-		}
-	}
-	
-	public void moveRectLeft() {
-		if(rect.getLayoutX() < WIDTH - BALL_SIZE *2) {
-			rect.setLayoutX(rect.getLayoutX() -8);
-		}
-	}
-	
-=======
-		// to the left
-		if (isLeftKeyPressed && !isRigtKeyPressed) {
-			if (rect.getLayoutX() > 0) {
-				rect.setLayoutX(rect.getLayoutX() - 2);
-			}
-		}
 
-		// to the right
-		if (isRigtKeyPressed && !isLeftKeyPressed) {
-			if (rect.getLayoutX() < WIDTH - BALL_SIZE * 2) {
-				rect.setLayoutX(rect.getLayoutX() + 2);
-			}
-		}
-	}
 
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 	public void moveBall() {
 		ball1.setLayoutY(ball1.getLayoutY() + 2.2);
 
@@ -354,8 +293,8 @@ public class CatchTheBall {
 																				// coordinates for ball1 and rect
 			setNewElementPosition(ball1);
 			score += 50;
-			
-			if(test) {
+
+			if (test) {
 				testhit++;
 			}
 		}
@@ -363,8 +302,8 @@ public class CatchTheBall {
 																				// coordinates for ball2 and rect
 			setNewElementPosition(ball2);
 			score += 50;
-			
-			if(test) {
+
+			if (test) {
 				testhit++;
 			}
 		}
@@ -377,17 +316,10 @@ public class CatchTheBall {
 	public int getPoints() {
 		return score;
 	}
-	
-	//Funktion für testRun 
-<<<<<<< HEAD
+
+	// Funktion für testRun
 	public void testRun() {
-		test = true;	
-		start();	
+		test = true;
+		start();
 	}
-=======
-		public void testRun() {
-			start();
-			test = true;		
-		}
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 }

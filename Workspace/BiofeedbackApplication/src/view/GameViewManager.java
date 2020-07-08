@@ -94,6 +94,7 @@ public class GameViewManager {
 	int gewicht;
 	String sportlichkeit;
 	String sysTime;
+	String id = "";
 	
 	// heart rate sensors
 	public int heartrate;
@@ -182,12 +183,8 @@ public class GameViewManager {
 						}
 
 					}
-<<<<<<< HEAD
 				} 
-				if (e.getCode() == KeyCode.MINUS) {
-=======
-				} else if (e.getCode() == KeyCode.U) {
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
+				if (e.getCode() == KeyCode.U) {
 					// Entspannt
 					stressLevel = "entspannt";
 					System.out.println("U");
@@ -207,24 +204,15 @@ public class GameViewManager {
 						feedback.setMode(2);
 						
 					}
-<<<<<<< HEAD
-				} else if (e.getCode() == KeyCode.N) {
-=======
 				} else if (e.getCode() == KeyCode.I) {
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 					// Normal
 					stressLevel = "normal";
 					
 					String modus  = ini.getMode();
 					System.out.println(modus);
 					feedback.setMode(0);
-<<<<<<< HEAD
-				} else if (e.getCode() == KeyCode.PLUS) {
-=======
-					System.out.println("CHANGE 0");
 					
 				} else if (e.getCode() == KeyCode.O) {
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 					// Gestresst
 					stressLevel = "gestresst";
 					System.out.println("O");
@@ -430,7 +418,7 @@ public class GameViewManager {
 				tl_time++;
 				updateScoreLabel();
 				updateHeartLabel();
-				//save();
+				save();
 				//checkHR();
 				checkTime();
 
@@ -492,7 +480,8 @@ public class GameViewManager {
 
 	// saves all important data in the database
 	public void save() {
-		ID = ini.getID();
+		id = ini.getID();
+		ID = Integer.parseInt(id);
 		time = sc.getTime();
 		spiel = currentGame;
 		if (ini.getHRSUSage() == 1) {

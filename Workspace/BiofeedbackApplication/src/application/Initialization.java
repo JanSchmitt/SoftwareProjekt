@@ -184,7 +184,7 @@ public class Initialization {
 	}
 	
 	//returns the ID of the current player which is set in the init file
-	public int getID() {
+	public String getID() {
 		Wini iniID;
 		try {
 			iniID = new Wini(new File("src/application/settings.ini"));
@@ -193,7 +193,7 @@ public class Initialization {
 			e.printStackTrace();
 		}
 		ID = Integer.parseInt(id);
-		return ID;
+		return id;
 	}
 	
 	//updates the variable Ruhepuls in the init file (when it's checked on set up)

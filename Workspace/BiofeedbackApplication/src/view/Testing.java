@@ -43,7 +43,7 @@ public class Testing {
 	Button buttonStartTestHRS, buttonWeiter, buttonMinispieleWeiter, buttonNext, buttonOhneTest;
 	Stage window;
 	Timeline t;
-	
+
 	// used classes for the tests
 	Port hrs = new Port();
 	Data db;
@@ -55,20 +55,20 @@ public class Testing {
 	PongGame pong;
 	CatchTheBall catchBall;
 	SerialPort sp;
-	
+
 	// variables
 	int result, points, time, resultTest;
 	int i = 0, curr, sum = 0, chosenP;
-	
+
 	AnchorPane minispielPane;
 
 	// TESTING AREA
-	
+
 	// creates a test for the heart rate sensor
 	public void createHRSTest(Stage window, int hfmax) {
-		//db = new Data();
+		// db = new Data();
 		boxHRS = new VBox(20);
-		
+
 		// option to start the test
 		buttonStartTestHRS = new Button("Drücken um Test des HRS zu starten");
 		buttonStartTestHRS.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,13 +103,12 @@ public class Testing {
 				t.setCycleCount(Timeline.INDEFINITE);
 				t.play();
 
-				//database table is created
-				/*
+				// database table is created
 				try {
 					db.createTableForTest(ini.getID()); // DB
 				} catch (Exception e) {
 					e.printStackTrace();
-				}*/
+				}
 
 			}
 		});
@@ -126,14 +125,13 @@ public class Testing {
 				ini.updateHRSUSage(0);
 
 				// database table is created
-				/*
+
 				try {
 					db.createTableForTest(ini.getID());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				*/
 
 				setResultScene(result, window);
 			}
@@ -197,8 +195,8 @@ public class Testing {
 		mazeTest.test();
 		buttonMinispieleWeiter = new Button("Weiter zum nächsten Test");
 		buttonMinispieleWeiter.setFocusTraversable(false);
-		
-		//exit maze test with button press
+
+		// exit maze test with button press
 		buttonMinispieleWeiter.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -209,8 +207,8 @@ public class Testing {
 		minispielPane.getChildren().addAll(buttonMinispieleWeiter);
 		sceneMinispiele = new Scene(minispielPane, 400, 400);
 		window.setScene(sceneMinispiele);
-		
-		//KeyCode Listener for maze movement
+
+		// KeyCode Listener for maze movement
 		sceneMinispiele.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
@@ -254,13 +252,13 @@ public class Testing {
 		window.setScene(sceneZwischen);
 	}
 
- 	// creates the scene for the reaction time test
+	// creates the scene for the reaction time test
 	public void createReaktionsTest(Stage window) {
 		h = new HBox();
 		sceneRTT = new Scene(h, 400, 400);
 		rtt = new Reaktionstest();
 		rtt.test(h, sceneRTT, window);
-		
+
 		// press ENTER key when reacting
 		sceneRTT.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -346,7 +344,7 @@ public class Testing {
 		window.setScene(sceneMinispiele);
 		window.show();
 	}
-	
+
 	// sets the scene after the zahlen merken test
 	public void zwischenScene3(Stage window) {
 		boxMinispiele = new VBox(20);
@@ -363,7 +361,7 @@ public class Testing {
 		sceneZwischen = new Scene(boxMinispiele, 400, 400);
 		window.setScene(sceneZwischen);
 	}
-	
+
 	// creates the scene for the jump&duck test
 	public void createJumpTest(Stage window) {
 		minispielPane = new AnchorPane();
@@ -383,9 +381,9 @@ public class Testing {
 				if (argj.getCode() == KeyCode.DOWN || argj.getCode() == KeyCode.KP_DOWN) {
 					jump.duck();
 				}
-				
-				//KeyCode Listener for exiting the mini game test
-				if(argj.getCode() == KeyCode.ENTER) {
+
+				// KeyCode Listener for exiting the mini game test
+				if (argj.getCode() == KeyCode.ENTER) {
 					jump.stop();
 					zwischenScene4(window);
 				}
@@ -393,7 +391,7 @@ public class Testing {
 
 		});
 	}
-	
+
 	// sets the scene after the jump&duck test
 	public void zwischenScene4(Stage window) {
 		boxMinispiele = new VBox(20);
@@ -410,7 +408,7 @@ public class Testing {
 		sceneZwischen = new Scene(boxMinispiele, 400, 400);
 		window.setScene(sceneZwischen);
 	}
-	
+
 	// creates the scene for the pong test
 	public void createPongTest(Stage window) {
 		minispielPane = new AnchorPane();
@@ -431,18 +429,15 @@ public class Testing {
 					pong.movePlayerRight();
 				}
 				// KeyCode Listener for exiting the mini game
-				if(argj.getCode() == KeyCode.ENTER) {
-<<<<<<< HEAD
+				if (argj.getCode() == KeyCode.ENTER) {
 					pong.stop();
-=======
->>>>>>> f3ba6cdd40030ec46c7078945dd2f39d0cc95866
 					zwischenScene5(window);
 				}
 			}
 
 		});
 	}
-	
+
 	// sets the scene after the pong test
 	public void zwischenScene5(Stage window) {
 		boxMinispiele = new VBox(20);
@@ -460,8 +455,8 @@ public class Testing {
 		window.setScene(sceneZwischen);
 		// window.show();
 	}
-	
-	//creates the scene for the catch mini game test
+
+	// creates the scene for the catch mini game test
 	public void createCatchTest(Stage window) {
 		minispielPane = new AnchorPane();
 		catchBall = new CatchTheBall(minispielPane);
@@ -481,7 +476,7 @@ public class Testing {
 					catchBall.moveRectRight();
 				}
 				// KeyCode Listener for exiting the catch test
-				if(argj.getCode() == KeyCode.ENTER) {
+				if (argj.getCode() == KeyCode.ENTER) {
 					catchBall.stop();
 					sceneAfterTests(window);
 				}
@@ -489,7 +484,7 @@ public class Testing {
 
 		});
 	}
-	
+
 	// sets the scene after the catch test (after all tests are done)
 	public void sceneAfterTests(Stage window) {
 		v = new VBox(20);
@@ -501,7 +496,7 @@ public class Testing {
 			@Override
 			public void handle(ActionEvent aeRTT) {
 				window.close();
-				//new main game is created 
+				// new main game is created
 				Game game = new Game();
 				try {
 					game.start(window);

@@ -30,17 +30,17 @@ public class Data {
 	}
 	
 	//method to create a table in the database for one player, name is based on the ID of the player
-	public void createTableForTest(int ID) throws Exception {
-		String id = String.valueOf(ID);
-		tableCount = "TEST" + id;
+	public void createTableForTest(String ID) throws Exception {
+		//String id = String.valueOf(ID);
+		tableCount = "TEST" + ID;
 		stmt.executeUpdate("CREATE TABLE "+tableCount+"(id integer, sysTime char, age integer, gewicht integer, sport char,  times integer, heartRate integer, score integer,  mode char, stress char, game char)");
 	}
 	
 	//method to save stats in the table
-	public void saveDataInTable(int ID, String systime, int alter, int gewicht, String sport, int timestamp, int hr, int score, String modus, String stresslevel, String game) throws SQLException {
+	public void saveDataInTable(int ID, String systime, int age, int gewicht, String sport, int timestamp, int hr, int score, String modus, String stresslevel, String game) throws SQLException {
 		String id = String.valueOf(ID);
 		tableCount = "TEST" + id;
-		stmt.executeUpdate("INSERT INTO "+tableCount+" VALUES ("+ID+", "+systime+", "+alter+", "+gewicht+", "+sport+", "+timestamp+", "+hr+", "+score+", "+modus+", "+stresslevel+", "+game+")");
+		stmt.executeUpdate("INSERT INTO "+tableCount+" VALUES ("+ID+", "+systime+", "+age+", "+gewicht+", "+sport+", "+timestamp+", "+hr+", "+score+", "+modus+", "+stresslevel+", "+game+")");
 	}
 
 }
